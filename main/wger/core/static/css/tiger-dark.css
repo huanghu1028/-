@@ -37,6 +37,18 @@ body::before {
     z-index: -1;
 }
 
+/* Dynamic starfield (H0rn0chse/NightSky, MIT), fixed below the tiger watermark */
+#tigerNightSky {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: -2;
+}
+
 /* ---------- left sidebar layout ---------- */
 
 .app-sidebar {
