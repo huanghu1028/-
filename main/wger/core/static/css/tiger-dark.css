@@ -49,6 +49,35 @@ body::before {
     z-index: -2;
 }
 
+/* ---------- round 3: deep-space background layers ----------
+   Layer order (back to front): nebula gradient (-4) < ember particles (-3)
+   < starfield (-2) < tiger watermark (-1) < page content.
+   Both stay very dark / low-opacity so the black base and text legibility win. */
+
+.tiger-nebula {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 0.55;
+    z-index: -4;
+}
+
+.tiger-embers {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    opacity: 0.5;
+    z-index: -3;
+}
+
+.tiger-embers canvas {
+    display: block;
+}
+
 /* $light was remapped to a dark surface color for the black theme, which made
    the .text-light utility near-black and invisible on black backgrounds
    (footer links, brand line, attribution). Keep it readable site-wide. */
@@ -311,6 +340,20 @@ img[src*="screens-"] {
     --bs-btn-active-bg: #242424;
     --bs-btn-active-border-color: #777;
     --bs-btn-active-color: #fff;
+}
+
+/* compiled bootstrap defines "light" as #0d0d0d, i.e. black-on-black here */
+.btn-outline-light {
+    --bs-btn-color: #e6e6e6;
+    --bs-btn-border-color: #4a4a4a;
+    --bs-btn-hover-bg: #2a2a2a;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-border-color: #666;
+    --bs-btn-active-bg: #333;
+    --bs-btn-active-border-color: #777;
+    --bs-btn-active-color: #fff;
+    --bs-btn-disabled-color: #888;
+    --bs-btn-disabled-border-color: #333;
 }
 
 .btn-light {
@@ -1156,4 +1199,16 @@ html {
 .ai-send-btn {
     flex-shrink: 0;
     height: 38px;
+}
+
+/* key settings is the primary entry point: accent outline so it is findable */
+#ai-key-toggle {
+    --bs-btn-color: var(--tiger-accent);
+    --bs-btn-border-color: rgba(255, 159, 67, 0.6);
+    --bs-btn-hover-bg: rgba(255, 159, 67, 0.12);
+    --bs-btn-hover-color: #ffb86b;
+    --bs-btn-hover-border-color: var(--tiger-accent);
+    --bs-btn-active-bg: rgba(255, 159, 67, 0.2);
+    --bs-btn-active-color: #ffc98a;
+    --bs-btn-active-border-color: var(--tiger-accent);
 }
