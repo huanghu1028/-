@@ -8,6 +8,10 @@ from .settings_global import *
 
 DEBUG = True
 
+# Default UI language: Simplified Chinese, so visitors land on Chinese pages
+# regardless of browser Accept-Language fallback order.
+LANGUAGE_CODE = 'zh-hans'
+
 # List of administrators
 ADMINS = ['"Your name" <your_email@example.com>']
 MANAGERS = ADMINS

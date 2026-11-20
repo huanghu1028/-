@@ -24,6 +24,7 @@ from django.views.generic import (
 
 # wger
 from wger.core.views import (
+    ai_assistant,
     languages,
     license,
     misc,
@@ -172,12 +173,22 @@ patterns_weight_units = [
     ),
 ]
 
+# sub patterns for the DeepSeek AI fitness assistant
+patterns_ai_assistant = [
+    path('', ai_assistant.chat, name='chat'),
+    path('api/', ai_assistant.chat_api, name='api'),
+]
+
 #
 # Actual patterns
 #
 urlpatterns = [
     # The landing page
     path('', misc.index, name='index'),
+    path(
+        'ai-assistant/',
+        include((patterns_ai_assistant, 'ai_assistant'), namespace='ai_assistant'),
+    ),
     path('dashboard', ReactView.as_view(login_required=True), name='dashboard'),
     path(
         'imprint',

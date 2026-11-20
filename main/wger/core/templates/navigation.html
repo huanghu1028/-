@@ -117,6 +117,16 @@
                 </a>
             </li>
 
+            <li class="sidebar-heading">AI 助手</li>
+            <li class="nav-item">
+                <a class="nav-link {% if '/ai-assistant/' in request.path %}active{% endif %}"
+                   {% if '/ai-assistant/' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'core:ai_assistant:chat' %}" rel="nofollow">
+                    {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'robot' %} me-2"></span>{% endif %}
+                    AI 健身助手
+                </a>
+            </li>
+
             <li class="sidebar-heading">{% translate "Body weight" %}</li>
             <li class="nav-item">
                 <a class="nav-link {% if '/weight/' in request.path %}active{% endif %}"

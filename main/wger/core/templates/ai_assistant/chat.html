@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras %}
+
+{% block title %}AI 健身助手{% endblock %}
+
+{% block options %}
+    <button type="button" class="btn btn-outline-light" id="ai-key-toggle">
+        <span class="{% fa_class 'key' %} me-1"></span>密钥设置
+    </button>
+    <button type="button" class="btn btn-outline-light" id="ai-new-chat">
+        <span class="{% fa_class 'rotate-left' %} me-1"></span>新对话
+    </button>
+{% endblock %}
+
+{% block content %}
+    <p class="text-secondary">
+        由 DeepSeek 大模型驱动的减脂教练：训练安排、饮食搭配、热量与营养问题，都可以直接问。
+        回答逐字实时生成，可随时停止。使用你自己的 DeepSeek API key 即可开始。
+    </p>
+
+    <div id="ai-key-banner" class="alert alert-warning {% if ai_configured %}d-none{% endif %}" role="alert">
+        <span class="{% fa_class 'key' %} me-1"></span>
+        还没有可用的 API key：点击右上角「密钥设置」填入你自己的 DeepSeek 密钥
+        （在 <a href="https://platform.deepseek.com/api_keys" target="_blank"
+                rel="noopener noreferrer">DeepSeek 开放平台</a> 免费创建），
+        密钥只保存在你的浏览器里。
+    </div>
+
+    {# ---------- personal key panel (bring your own key) ---------- #}
+    <div id="ai-key-panel" class="card mb-3 d-none">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'key' %}"></span>
+            <strong>DeepSeek API key</strong>
+            <span class="badge text-bg-secondary ms-auto" id="ai-key-status">未设置</span>
+        </div>
+        <div class="card-body">
+            <div class="input-group mb-2">
+                <input type="password" class="form-control" id="ai-key-input"
+                       placeholder="sk-..." autocomplete="off" spellcheck="false">
+                <button type="button" class="btn btn-primary" id="ai-key-save">保存</button>
+                <button type="button" class="btn btn-outline-danger" id="ai-key-clear">清除</button>
+            </div>
+            <p class="small text-secondary mb-0">
+                密钥仅保存在本浏览器的 localStorage，不会上传保存到网站服务器；每次对话时临时发送给本站代理转发给
+                DeepSeek。请使用你自己的密钥，勿与他人共用。在
+                <a href="https://platform.deepseek.com/api_keys" target="_blank"
+                   rel="noopener noreferrer">platform.deepseek.com/api_keys</a> 创建。
+            </p>
+        </div>
+    </div>
+
+    <div class="card ai-chat-card mb-3">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'robot' %}"></span>
+            <strong>AI 健身助手</strong>
+            <span class="badge text-bg-secondary ms-auto">{{ ai_model }}</span>
+        </div>
+        <div class="card-body p-0">
+            <div id="ai-messages" class="ai-messages" aria-live="polite">
+                <div id="ai-empty" class="ai-empty text-center">
+                    <span class="{% fa_class 'robot' %} fa-2x d-block mb-2 text-secondary"></span>
+                    <p class="mb-1 fw-bold text-white">你好，我是你的 AI 减脂教练</p>
+                    <p class="text-secondary small mb-3">试试这些问题，或直接输入你的情况：</p>
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <button type="button" class="btn btn-sm btn-outline-secondary ai-chip"
+                                data-question="帮我制定一周的减脂训练计划，我每周能练 4 天">
+                            一周减脂训练计划
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary ai-chip"
+                                data-question="减脂期晚餐怎么吃不容易胖？给几个具体搭配">
+                            减脂晚餐怎么吃
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary ai-chip"
+                                data-question="减脂期每天应该吃多少蛋白质？按体重怎么算？">
+                            每天该吃多少蛋白质
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary ai-chip"
+                                data-question="有氧和力量训练怎么搭配，减脂效果更好？">
+                            有氧与力量怎么搭配
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer ai-input-footer">
+            <form id="ai-input-form" autocomplete="off">
+                <div class="d-flex gap-2 align-items-end">
+                    <textarea id="ai-input" class="form-control" rows="1"
+                              placeholder="输入你的问题，Enter 发送，Shift+Enter 换行"></textarea>
+                    <button type="submit" class="btn btn-primary ai-send-btn" id="ai-send">
+                        <span class="{% fa_class 'paper-plane' %}"></span>
+                        <span class="d-none d-sm-inline ms-1">发送</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger ai-send-btn d-none" id="ai-stop">
+                        <span class="{% fa_class 'stop' %}"></span>
+                        <span class="d-none d-sm-inline ms-1">停止</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <p class="small text-secondary">
+        内容由 DeepSeek 大模型生成，仅供参考，不构成医疗建议；如有疾病、用药或特殊身体情况，请咨询医生。
+    </p>
+
+    <div id="ai-chat-config" class="d-none"
+         data-api-url="{% url 'core:ai_assistant:api' %}"
+         data-csrf="{{ csrf_token }}"
+         data-configured="{{ ai_configured|yesno:'1,0' }}"></div>
+    <script src="{% static 'js/tiger-ai-chat.js' %}" defer></script>
+{% endblock %}
+
+{% block sidebar %}
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'lightbulb' %}"></span>
+            <strong>能帮你做什么</strong>
+        </div>
+        <div class="card-body">
+            <ul class="list-unstyled mb-0 small">
+                <li class="d-flex gap-2 mb-2">
+                    <span class="{% fa_class 'dumbbell' %} mt-1 text-secondary"></span>
+                    <span>制定与调整减脂训练计划，安排有氧与力量</span>
+                </li>
+                <li class="d-flex gap-2 mb-2">
+                    <span class="{% fa_class 'utensils' %} mt-1 text-secondary"></span>
+                    <span>搭配三餐与加餐，估算热量与三大营养素</span>
+                </li>
+                <li class="d-flex gap-2 mb-2">
+                    <span class="{% fa_class 'fire' %} mt-1 text-secondary"></span>
+                    <span>解读热量缺口、平台期与体重波动</span>
+                </li>
+                <li class="d-flex gap-2">
+                    <span class="{% fa_class 'circle-question' %} mt-1 text-secondary"></span>
+                    <span>解答动作要领与常见减脂误区</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'shield-halved' %}"></span>
+            <strong>隐私说明</strong>
+        </div>
+        <div class="card-body small text-secondary">
+            对话内容会发送到 DeepSeek 官方 API 生成回答。你的 API key 只保存在本浏览器里，网站服务器不保存；
+            对话时临时经本站代理转发。请不要在对话中发送身份证号、住址等敏感个人信息。
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body small">
+            <span class="{% fa_class 'link' %} me-1 text-secondary"></span>
+            配合使用效果更好：
+            <a href="{% url 'nutrition:food_ai:scan' %}">拍照识餐</a> 记录饮食，
+            <a href="{% url 'nutrition:calories:view' %}">每日热量计算器</a> 设定目标，
+            助手会参考你的热量目标给出建议。
+        </div>
+    </div>
+{% endblock %}

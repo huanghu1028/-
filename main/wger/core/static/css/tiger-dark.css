@@ -986,3 +986,156 @@ html {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ---------- AI 健身助手（DeepSeek 聊天） ---------- */
+
+.ai-messages {
+    height: 58vh;
+    min-height: 320px;
+    overflow-y: auto;
+    padding: 1rem;
+    scrollbar-color: #333 #0d0d0d;
+    scrollbar-width: thin;
+}
+
+.ai-empty {
+    padding: 2.5rem 1rem;
+}
+
+.ai-chip {
+    border-radius: 999px;
+    border-color: #333;
+    color: #cfcfcf;
+}
+
+.ai-chip:hover,
+.ai-chip:focus-visible {
+    border-color: var(--tiger-accent);
+    color: var(--tiger-accent);
+    background: rgba(255, 159, 67, 0.08);
+}
+
+.ai-msg {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+}
+
+.ai-msg-user {
+    justify-content: flex-end;
+}
+
+.ai-avatar {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    background: #1c1c1c;
+    border: 1px solid #2c2c2c;
+    color: #9a9a9a;
+}
+
+.ai-msg-assistant .ai-avatar {
+    color: var(--tiger-accent);
+}
+
+.ai-bubble {
+    max-width: 85%;
+    padding: 0.55rem 0.85rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.ai-msg-user .ai-bubble {
+    background: rgba(255, 159, 67, 0.14);
+    border: 1px solid var(--tiger-accent-soft);
+    color: #f2f2f2;
+    border-bottom-right-radius: 4px;
+    white-space: pre-wrap;
+}
+
+.ai-msg-assistant .ai-bubble {
+    background: #141414;
+    border: 1px solid #262626;
+    color: #e6e6e6;
+    border-bottom-left-radius: 4px;
+}
+
+.ai-bubble p {
+    margin-bottom: 0.45rem;
+}
+
+.ai-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+.ai-bubble ul,
+.ai-bubble ol {
+    padding-left: 1.25rem;
+    margin-bottom: 0.45rem;
+}
+
+.ai-bubble li {
+    margin-bottom: 0.2rem;
+}
+
+.ai-bubble code {
+    background: #222;
+    color: var(--tiger-accent);
+    padding: 0.1rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.ai-md-heading {
+    font-weight: 700;
+    color: #fff;
+}
+
+.ai-error {
+    color: #ff7b72;
+}
+
+/* 流式生成中的光标 */
+.ai-typing::after {
+    content: "\25CD";
+    margin-left: 2px;
+    color: var(--tiger-accent);
+    animation: ai-blink 1s steps(1) infinite;
+}
+
+@keyframes ai-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.ai-input-footer {
+    background: #0d0d0d;
+    border-top: 1px solid #222;
+}
+
+#ai-input {
+    resize: none;
+    max-height: 160px;
+    background: #101010;
+    border-color: #333;
+    color: #e6e6e6;
+}
+
+#ai-input:focus {
+    border-color: var(--tiger-accent-soft);
+    box-shadow: 0 0 0 0.2rem rgba(255, 159, 67, 0.12);
+}
+
+.ai-send-btn {
+    flex-shrink: 0;
+    height: 38px;
+}

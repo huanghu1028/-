@@ -5,6 +5,18 @@
 
 ## New features
 
+### AI fitness assistant (AI 健身助手)
+A chat assistant powered by the DeepSeek API (`deepseek-flash`, thinking mode
+off for fast replies) answers fat-loss, training and nutrition questions in
+Chinese at `/ai-assistant/`, reachable from the sidebar. Bring-your-own-key:
+each user pastes their own DeepSeek API key into the page's key panel; it is
+kept only in that browser's localStorage and sent per request via the
+`X-DeepSeek-Key` header to a Django proxy that relays the streaming SSE
+response, so the server never stores personal keys. A server-wide
+`DEEPSEEK_API_KEY` (env var or the gitignored `settings/local_dev_extra.py`)
+acts as a shared fallback. The user's daily calorie goal is passed as personal
+context; without any key the page guides the user to set one.
+
 ### Landing page visual polish (tiger-减脂)
 The black/starfield/tiger landing page gains an additive layer of motion and
 depth without changing its structure: scroll-reveal on the hero, feature

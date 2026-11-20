@@ -752,6 +752,16 @@ TURNSTILE_SITE_KEY = ''
 TURNSTILE_SECRET_KEY = ''
 
 #
+# DeepSeek AI fitness assistant (chat page at /ai-assistant/)
+# Create a key at https://platform.deepseek.com/api_keys, then set the
+# DEEPSEEK_API_KEY environment variable or override it in settings/*_extra.py
+# (gitignored). Without a key the assistant page shows a setup notice.
+#
+DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', '')
+DEEPSEEK_BASE_URL = os.environ.get('DEEPSEEK_BASE_URL', 'https://api.deepseek.com')
+DEEPSEEK_MODEL = os.environ.get('DEEPSEEK_MODEL', 'deepseek-flash')
+
+#
 # Storage options
 #
 STORAGES = {
