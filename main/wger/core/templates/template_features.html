@@ -43,6 +43,7 @@
     <script src="{% static 'node/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/language.js' %}"></script>
     <script src="{% static 'js/forms.js' %}"></script>
+    <script src="{% static 'js/tiger-ui.js' %}" defer></script>
 
     <title>tiger-减脂 - {% translate "Features" %}</title>
 </head>
@@ -67,5 +68,9 @@
         {% block template %}{% endblock %}
     </div>
 </div>
+
+<button type="button" id="tigerBackTop" class="tiger-back-top" aria-label="回到顶部" title="回到顶部">
+    <span class="{% fa_class 'arrow-up' %}" aria-hidden="true"></span>
+</button>
 </body>
 </html>

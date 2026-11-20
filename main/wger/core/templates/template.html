@@ -51,6 +51,7 @@
     <script src="{% static 'js/nutrition.js' %}"></script>
     <script src="{% static 'js/language.js' %}"></script>
     <script src="{% static 'js/forms.js' %}"></script>
+    <script src="{% static 'js/tiger-ui.js' %}" defer></script>
     <script>window.WGER_I18N_PATHS = {% react_translation_paths %};</script>
     <script src="{% static 'node/@wger-project/react-components/build/main.js' %}" type="module" defer="defer"></script>
 
@@ -216,6 +217,10 @@
 </footer>
 </div><!-- /.app-content -->
 </div><!-- /.app-shell -->
+
+<button type="button" id="tigerBackTop" class="tiger-back-top" aria-label="回到顶部" title="回到顶部">
+    <span class="{% fa_class 'arrow-up' %}" aria-hidden="true"></span>
+</button>
 
 {% block extra_body %}{% endblock %}
 
