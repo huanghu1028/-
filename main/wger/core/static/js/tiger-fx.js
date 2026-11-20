@@ -73,5 +73,39 @@
                 scale: 1.02
             });
         }
+
+        /* ---------- 4. hero typewriter (rotating slogans) ---------- */
+        var typedEl = document.getElementById('tigerTyped');
+        if (typedEl && window.Typewriter && !reduceMotion) {
+            typedEl.textContent = '';
+            var tw = new window.Typewriter(typedEl, {
+                loop: true,
+                delay: 80,
+                deleteSpeed: 40,
+                cursor: '▍'
+            });
+            tw.typeString('记录每一次训练').pauseFor(1600).deleteAll()
+                .typeString('吃对每一餐').pauseFor(1600).deleteAll()
+                .typeString('看见每一点进步').pauseFor(1600).deleteAll()
+                .typeString('坚持，就是改变').pauseFor(1600).deleteAll()
+                .start();
+        }
+
+        /* ---------- 5. parallax depth (pointer devices only) ---------- */
+        var rellaxEls = document.querySelectorAll('[data-rellax-speed]');
+        if (rellaxEls.length && window.Rellax && !reduceMotion && !('ontouchstart' in window)) {
+            new window.Rellax('[data-rellax-speed]', {
+                center: true,
+                round: true,
+                vertical: true,
+                horizontal: false
+            });
+        }
+
+        /* ---------- 6. material ripple on buttons ---------- */
+        if (window.Waves && !reduceMotion) {
+            window.Waves.attach('.btn', 'waves-light');
+            window.Waves.init();
+        }
     });
 })();

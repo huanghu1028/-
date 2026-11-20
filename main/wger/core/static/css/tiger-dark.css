@@ -973,6 +973,24 @@ html {
     will-change: transform;
 }
 
+/* ---------- round 2: typewriter, parallax, ripple ---------- */
+
+/* rotating hero slogan; reserve line height so typing doesn't shift layout */
+.tiger-typed-line {
+    color: var(--tiger-accent);
+    min-height: 1.6em;
+    letter-spacing: 0.04em;
+}
+
+.tiger-typed-line .Typewriter__cursor {
+    color: var(--tiger-accent);
+    font-weight: 400;
+}
+
+[data-rellax-speed] {
+    will-change: transform;
+}
+
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;

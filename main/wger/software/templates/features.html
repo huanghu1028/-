@@ -31,7 +31,8 @@
             <!-- hero section -->
             <section
                 class="row px-3 mb-5 d-flex align-items-center justify-content-center gap-2 flex-row-reverse">
-                <div class="col-lg-7 col-sm-6 col-12 d-flex px-5 flex-column align-items-center">
+                <div class="col-lg-7 col-sm-6 col-12 d-flex px-5 flex-column align-items-center"
+                     data-rellax-speed="-1.5">
                     <div class="tiger-hero-wrap">
                         <img src="{% static 'images/tiger/tiger-hero.png' %}"
                              alt="tiger-减脂 卡通老虎健身形象"
@@ -44,6 +45,9 @@
                     <h1 class="font-bebas-neue display-3 uppercase header-hero-glow">
                         {% translate "Track your <br> way to your <br> ideal body" %}
                     </h1>
+                    <p class="tiger-typed-line font-bebas-neue fs-4 mb-2" aria-live="off">
+                        <span id="tigerTyped">记录每一次训练</span>
+                    </p>
                     <p>
                         {% translate "Join wger, the community-driven <b>free and open-source fitness tracker</b>" %}
                     </p>
