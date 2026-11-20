@@ -1,3 +1,44 @@
+# tiger-减脂（比赛定制版 · 基于 wger）
+
+免费开源的网页版减脂健身伙伴：训练计划、饮食记录、体重与进步追踪、拍照识餐、
+AI 健身助手。中文界面优先，黑色深空主题。上游项目为
+[wger](https://github.com/wger-project/wger)（AGPL-3.0）。
+
+## 快速开始（fresh clone 复现演示环境）
+
+仓库不含媒体文件与数据库（均被 gitignore），用一键脚本还原：
+
+```bash
+git clone git@github.com:huanghu1028/-.git tiger-jianzhi
+cd tiger-jianzhi/main
+uv sync                                        # 或: python -m venv .venv && .venv/Scripts/pip install -e .
+.venv/Scripts/python bootstrap_demo.py         # Linux/macOS: .venv/bin/python bootstrap_demo.py
+.venv/Scripts/python manage.py runserver 127.0.0.1:8000 --settings=settings.local_dev
+```
+
+打开 <http://127.0.0.1:8000/zh-hans/>，演示账号 `admin / wger2026`
+（登录页提供"一键填充"）。
+
+`bootstrap_demo.py` 幂等：migrate → 同步动作数据 → 官方动作图片 →
+free-exercise-db 补图 → 演示账号；已有数据默认跳过，`--force` 重跑、
+`--skip-images` 跳过图片、`--dataset-path` 指定已有的 free-exercise-db 克隆。
+
+AI 助手密钥：复制 `settings/local_dev_extra.py.example` 为
+`settings/local_dev_extra.py` 并填入自己的 DeepSeek key（该文件已 gitignore）；
+用户也可在页面粘贴自己的 key，仅存于其浏览器。
+
+## 部署清单（需要在线访问时）
+
+- 改用读取环境变量的 `settings.main`：`DEBUG=False`、`SECRET_KEY`、
+  `ALLOWED_HOSTS`、`SITE_URL`；本地演示才用 `settings.local_dev`（DEBUG=True）。
+- `manage.py collectstatic --noinput`，静态与 media 交给 nginx/CDN 并加
+  `Cache-Control` 长缓存（runserver 直出静态仅适合本地）。
+- 进程用 `gunicorn wger.wsgi:application` 或 `extras/docker` 下的 compose；
+  生产数据库建议 PostgreSQL，sqlite 仅本地演示。
+- 上线后修改演示账号密码，按需关闭注册（`ALLOW_REGISTRATION` 等设置）。
+
+---
+
 # wger
 
 <p align="center">

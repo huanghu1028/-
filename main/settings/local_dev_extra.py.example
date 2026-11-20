@@ -1,0 +1,5 @@
+# 复制本文件为同目录下的 local_dev_extra.py（已被 gitignore，不会进仓库），
+# 填入你自己的 DeepSeek API key，作为 AI 健身助手的服务端共享兜底密钥。
+# 用户也可以直接在 /ai-assistant/ 页面粘贴自己的 key（仅存于其浏览器 localStorage）。
+# 切勿把真实密钥提交进版本库。
+DEEPSEEK_API_KEY = 'sk-REPLACE_WITH_YOUR_OWN_KEY'

@@ -28,6 +28,19 @@
                         <div class="card-body p-4">
                             <h2 class="mb-1">{% translate "Login" %}</h2>
 
+                            <div class="border rounded p-2 mb-3 small d-flex flex-wrap align-items-center gap-2"
+                                 style="border-color: #3d4763 !important; background: rgba(255, 159, 67, 0.08);">
+                                <span class="text-light">
+                                    演示账号（本地演示用）：<code>admin</code> / <code>wger2026</code>
+                                </span>
+                                <button type="button"
+                                        id="tigerDemoFill"
+                                        class="btn btn-sm ms-auto"
+                                        style="color: #ffb86b; border-color: rgba(255, 159, 67, 0.6);">
+                                    一键填充
+                                </button>
+                            </div>
+
                             <form method="post" class="wger-form" novalidate>
                                 {% csrf_token %}
                                 {% if redirect_field_value %}
@@ -140,4 +153,22 @@
     {% if PASSKEY_LOGIN_ENABLED %}
         {% include "mfa/webauthn/snippets/login_script.html" %}
     {% endif %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var btn = document.getElementById('tigerDemoFill');
+            if (!btn) return;
+            btn.addEventListener('click', function () {
+                var login = document.querySelector('form.wger-form input[name="login"]');
+                var password = document.querySelector('form.wger-form input[name="password"]');
+                if (login) {
+                    login.value = 'admin';
+                    login.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+                if (password) {
+                    password.value = 'wger2026';
+                    password.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            });
+        });
+    </script>
 {% endblock %}
