@@ -49,6 +49,13 @@ body::before {
     z-index: -2;
 }
 
+/* $light was remapped to a dark surface color for the black theme, which made
+   the .text-light utility near-black and invisible on black backgrounds
+   (footer links, brand line, attribution). Keep it readable site-wide. */
+.text-light {
+    color: #e6e6e6 !important;
+}
+
 /* ---------- left sidebar layout ---------- */
 
 .app-sidebar {
