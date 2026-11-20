@@ -1,0 +1,10 @@
+# 运行时产物与依赖（不入库）
+main/.venv/
+main/node_modules/
+main/db/
+main/media/
+main/static/
+main/.git-upstream/
+__pycache__/
+*.pyc
+main/wger/core/static/bootstrap-compiled.css.map
