@@ -93,3 +93,10 @@ venv-wger
 
 # macOS
 .DS_Store
+
+# Committed React translation overrides that shadow the gitignored node_modules
+# build files (see STATICFILES_DIRS in settings_global.py). Re-include the whole
+# tree, including its build/ directories which the broad "build/" rule excludes.
+!react_overrides/
+!react_overrides/**/build/
+!react_overrides/**

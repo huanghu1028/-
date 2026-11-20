@@ -64,6 +64,11 @@ patterns_routine = [
         name='overview',
     ),
     path(
+        'analytics',
+        ReactView.as_view(login_required=True),
+        name='analytics',
+    ),
+    path(
         'add',
         ReactView.as_view(login_required=True),
         name='add',

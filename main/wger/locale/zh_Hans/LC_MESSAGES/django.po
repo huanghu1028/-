@@ -69,7 +69,7 @@ msgstr "注册"
 
 #: core/forms.py:148
 msgid "Not set"
-msgstr ""
+msgstr "未设置"
 
 #: core/forms.py:152 core/forms.py:270 gym/views/export.py:62
 #: gym/views/gym.py:227
@@ -94,7 +94,7 @@ msgstr "时区"
 msgid ""
 "Used to decide which day a workout counts for. The mobile app reports it "
 "automatically."
-msgstr ""
+msgstr "用于决定训练计入哪一天。移动应用会自动报告。"
 
 #: core/forms.py:211
 msgid "Personal data"
@@ -473,7 +473,7 @@ msgstr "你收到这封邮件，是因为用户 %(user_display)s 使用你的邮
 #: core/templates/account/email/email_confirmation_message.txt:14
 #, python-format
 msgid "To confirm this is correct, go to %(activate_url)s"
-msgstr ""
+msgstr "请前往 %(activate_url)s 确认此邮箱正确"
 
 #: core/templates/account/email_change.html:4
 #: core/templates/user/preferences.html:26
@@ -494,7 +494,7 @@ msgstr "当前邮箱"
 #: core/templates/account/email_change.html:30
 #, python-format
 msgid "Pending confirmation: <strong>%(email)s</strong>"
-msgstr ""
+msgstr "待确认：<strong>%(email)s</strong>"
 
 #: core/templates/account/email_change.html:38
 msgid "Resend confirmation email"
@@ -547,11 +547,11 @@ msgstr "密码重置"
 msgid ""
 "Forgotten your password? Enter your email address below, and we'll send you "
 "an email allowing you to reset it."
-msgstr ""
+msgstr "忘记密码？请在下方输入您的邮箱地址，我们会向您发送一封可重置密码的邮件。"
 
 #: core/templates/account/password_reset_from_key.html:4
 msgid "Bad Token"
-msgstr ""
+msgstr "令牌无效"
 
 #: core/templates/account/password_reset_from_key.html:4
 #: core/templates/account/password_reset_from_key.html:19
@@ -564,7 +564,7 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
 "reset</a>."
-msgstr ""
+msgstr "密码重置链接无效，可能已被使用。请重新申请<a href=\"%(passwd_reset_url)s\">密码重置</a>。"
 
 #: core/templates/account/password_reset_from_key_done.html:4
 msgid "Password reset complete"
@@ -619,12 +619,12 @@ msgstr "授权"
 #: core/templates/idp/oidc/authorization_form.html:24
 #, python-format
 msgid "%(client_name)s wants to access your %(site_name)s account."
-msgstr ""
+msgstr "%(client_name)s 请求访问您的 %(site_name)s 账号。"
 
 #: core/templates/idp/oidc/authorization_form.html:42
 #: exercises/templates/history/overview.html:213
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: core/templates/language/overview.html:4 core/templates/navigation.html:345
 msgid "Languages"
@@ -872,7 +872,7 @@ msgstr "服务条款"
 
 #: core/templates/template.html:184 software/templates/features.html:598
 msgid "Browser language"
-msgstr ""
+msgstr "浏览器语言"
 
 #: core/templates/template_features.html:46 software/templates/features.html:9
 msgid "Features"
@@ -880,24 +880,24 @@ msgstr "特色"
 
 #: core/templates/user/api_key.html:4
 msgid "API access"
-msgstr ""
+msgstr "API 访问"
 
 #: core/templates/user/api_key.html:9
 msgid ""
 "Theare are two ways to authenticate against the API: JWT is the preferred "
 "mechanism for client applications, the static API key is intended for "
 "personal scripts or one-off integrations."
-msgstr ""
+msgstr "API 有两种认证方式：客户端应用推荐使用 JWT，静态 API 密钥适用于个人脚本或一次性集成。"
 
 #: core/templates/user/api_key.html:16
 msgid "Long-lived refresh tokens"
-msgstr ""
+msgstr "长效刷新令牌"
 
 #: core/templates/user/api_key.html:19
 msgid ""
 "Refresh tokens let scripts and CLI tools talk to the wger API using the JWT "
 "flow without logging in interactively each time."
-msgstr ""
+msgstr "刷新令牌可让脚本和命令行工具通过 JWT 流程访问 wger API，无需每次交互式登录。"
 
 #: core/templates/user/api_key.html:35
 msgid "Generate a new refresh token"
@@ -905,13 +905,13 @@ msgstr "生成新的刷新令牌"
 
 #: core/templates/user/api_key.html:41
 msgid "Copy this token now."
-msgstr ""
+msgstr "请立即复制此令牌。"
 
 #: core/templates/user/api_key.html:42
 msgid ""
 "It is shown only once. If you lose it, generate a new one and revoke the old"
 " session below."
-msgstr ""
+msgstr "令牌仅显示一次。如果丢失，请生成新令牌并在下方撤销旧会话。"
 
 #: core/templates/user/api_key.html:56
 #, python-format
@@ -921,7 +921,7 @@ msgid ""
 msgid_plural ""
 "Refresh tokens expire %(days)s days after they were generated, unless you "
 "revoke them sooner."
-msgstr[0] ""
+msgstr[0] "刷新令牌自生成之日起 %(days)s 天后过期，除非您提前撤销。"
 
 #: core/templates/user/api_key.html:68
 msgid "Created"
@@ -929,15 +929,15 @@ msgstr "已创建"
 
 #: core/templates/user/api_key.html:69
 msgid "Expires"
-msgstr ""
+msgstr "过期时间"
 
 #: core/templates/user/api_key.html:88
 msgid "Revoke"
-msgstr ""
+msgstr "撤销"
 
 #: core/templates/user/api_key.html:106
 msgid "Revoke all refresh tokens"
-msgstr ""
+msgstr "撤销所有刷新令牌"
 
 #: core/templates/user/api_key.html:111
 msgid "JWT sessions"
@@ -945,7 +945,7 @@ msgstr "JWT 会话"
 
 #: core/templates/user/api_key.html:124
 msgid "Revoke all JWT sessions"
-msgstr ""
+msgstr "撤销所有 JWT 会话"
 
 #: core/templates/user/api_key.html:130
 #, python-format
@@ -957,13 +957,13 @@ msgid_plural ""
 "\n"
 "                There are currently <strong>%(counter)s</strong> active JWT sessions\n"
 "            "
-msgstr[0] ""
+msgstr[0] "当前有 <strong>%(counter)s</strong> 个活跃 JWT 会话"
 
 #: core/templates/user/api_key.html:139
 msgid ""
 "Revoking JWT sessions logs out every device that obtained a refresh token "
 "via the JWT login endpoint."
-msgstr ""
+msgstr "撤销 JWT 会话会使所有通过 JWT 登录端点获取刷新令牌的设备退出登录。"
 
 #: core/templates/user/api_key.html:144
 #: core/templates/user/preferences.html:67
@@ -993,11 +993,11 @@ msgid ""
 "            Pass <code>Token %(key)s</code> in the\n"
 "            <code>Authorization</code> header to use it.\n"
 "        "
-msgstr ""
+msgstr "在 <code>Authorization</code> 请求头中传入 <code>Token %(key)s</code> 即可使用。"
 
 #: core/templates/user/api_key.html:197
 msgid "Example with curl:"
-msgstr ""
+msgstr "curl 示例："
 
 #: core/templates/user/api_key.html:211 software/templates/features.html:536
 msgid "Documentation"
@@ -1009,21 +1009,21 @@ msgstr "API 文档"
 
 #: core/templates/user/app_auth_handoff.html:7
 msgid "Return to app"
-msgstr ""
+msgstr "返回应用"
 
 #: core/templates/user/app_auth_handoff.html:14
 msgid "Returning to the wger app…"
-msgstr ""
+msgstr "正在返回 wger 应用…"
 
 #: core/templates/user/app_auth_handoff.html:16
 msgid ""
 "If nothing happens, tap the button below. Make sure the wger app is "
 "installed on this device."
-msgstr ""
+msgstr "如果没有反应，请点击下方按钮。请确保此设备已安装 wger 应用。"
 
 #: core/templates/user/app_auth_handoff.html:23
 msgid "Tap to return to app"
-msgstr ""
+msgstr "点击返回应用"
 
 #: core/templates/user/connected_applications.html:4
 #: core/templates/user/preferences.html:75
@@ -1034,26 +1034,26 @@ msgstr "已关联应用"
 msgid ""
 "These applications can use your account through the API. You gave them "
 "permission when you logged in with your wger account."
-msgstr ""
+msgstr "这些应用可以通过 API 使用您的账号。您在使用 wger 账号登录时授予了它们权限。"
 
 #: core/templates/user/connected_applications.html:25
 #, python-format
 msgid "Access runs out on %(date)s if the application is not used again"
-msgstr ""
+msgstr "如果不再使用该应用，访问权限将于 %(date)s 到期"
 
 #: core/templates/user/connected_applications.html:49
 msgid "Disconnect"
-msgstr ""
+msgstr "断开连接"
 
 #: core/templates/user/connected_applications.html:57
 msgid ""
 "Disconnecting takes the access away immediately. The application can ask for"
 " it again, and you will be shown the same page you saw the first time."
-msgstr ""
+msgstr "断开连接会立即收回访问权限。应用可以再次请求授权，届时您会看到与首次相同的授权页面。"
 
 #: core/templates/user/connected_applications.html:66
 msgid "No application has access to your account."
-msgstr ""
+msgstr "没有应用可以访问您的账号。"
 
 #: core/templates/user/connected_applications.html:78
 msgid "Your account"
@@ -1064,7 +1064,7 @@ msgid ""
 "This list is about other applications using your wger account. To manage the"
 " accounts you use to log in to wger, see connected accounts in your "
 "settings."
-msgstr ""
+msgstr "此列表显示正在使用您 wger 账号的其他应用。要管理用于登录 wger 的账号，请前往设置中的“关联账号”。"
 
 #: core/templates/user/connected_applications.html:89
 msgid "Settings"
@@ -1296,7 +1296,7 @@ msgstr "首选项"
 
 #: core/templates/user/preferences.html:19
 msgid "Account & security"
-msgstr ""
+msgstr "账号与安全"
 
 #: core/templates/user/preferences.html:28
 msgid "Verified email"
@@ -1316,15 +1316,15 @@ msgstr "设置密码"
 
 #: core/templates/user/preferences.html:49
 msgid "Two-factor authentication"
-msgstr ""
+msgstr "两步验证"
 
 #: core/templates/user/preferences.html:51
 msgid "On"
-msgstr ""
+msgstr "开"
 
 #: core/templates/user/preferences.html:53
 msgid "Off"
-msgstr ""
+msgstr "关"
 
 #: core/templates/user/preferences.html:61
 msgid "Connected accounts"
@@ -1332,11 +1332,11 @@ msgstr "已关联账户"
 
 #: core/templates/user/preferences.html:84
 msgid "Danger zone"
-msgstr ""
+msgstr "危险操作区"
 
 #: core/templates/user/preferences.html:89
 msgid "Your account and all training data will be permanently deleted."
-msgstr ""
+msgstr "您的账号及所有训练数据将被永久删除。"
 
 #: core/templatetags/wger_extras.py:105 i18n.tpl:39
 msgid "kg"
@@ -1386,7 +1386,7 @@ msgstr ""
 #: core/views/oidc.py:130
 #, python-brace-format
 msgid "{name} no longer has access"
-msgstr ""
+msgstr "{name} 已无法访问"
 
 #: core/views/user.py:180
 #, python-brace-format
@@ -1427,16 +1427,16 @@ msgstr "API 密钥已删除"
 
 #: core/views/user.py:528
 msgid "All API sessions were revoked"
-msgstr ""
+msgstr "已撤销所有 API 会话"
 
 #: core/views/user.py:544
 msgid "Refresh token was revoked"
-msgstr ""
+msgstr "刷新令牌已撤销"
 
 #: core/views/user.py:552
 #, python-brace-format
 msgid "Revoked {count} refresh token(s)"
-msgstr ""
+msgstr "已撤销 {count} 个刷新令牌"
 
 #: core/views/user.py:707 gym/templates/gym/member_list.html:26
 #: gym/views/gym.py:168
@@ -1498,20 +1498,20 @@ msgstr "最近 30 天的编辑数"
 #: exercises/templates/history/overview.html:49
 #: nutrition/templates/ingredient/overview.html:119
 msgid "Apply"
-msgstr ""
+msgstr "应用"
 
 #: exercises/templates/history/overview.html:50
 #: nutrition/templates/ingredient/overview.html:121
 msgid "Reset"
-msgstr ""
+msgstr "重置"
 
 #: exercises/templates/history/overview.html:88
 msgid "Account younger than 60 days"
-msgstr ""
+msgstr "账号注册未满 60 天"
 
 #: exercises/templates/history/overview.html:89
 msgid "new"
-msgstr ""
+msgstr "新增"
 
 #: exercises/templates/history/overview.html:94
 msgid "created"
@@ -1519,7 +1519,7 @@ msgstr "创建了"
 
 #: exercises/templates/history/overview.html:96
 msgid "edited"
-msgstr ""
+msgstr "已编辑"
 
 #: exercises/templates/history/overview.html:98
 msgid "deleted"
@@ -1527,15 +1527,15 @@ msgstr "删除了"
 
 #: exercises/templates/history/overview.html:100
 msgid "merged"
-msgstr ""
+msgstr "已合并"
 
 #: exercises/templates/history/overview.html:113
 msgid "into"
-msgstr ""
+msgstr "至"
 
 #: exercises/templates/history/overview.html:123
 msgid "media"
-msgstr ""
+msgstr "媒体"
 
 #: exercises/templates/history/overview.html:126
 msgid "translations"
@@ -1559,7 +1559,7 @@ msgstr "要还原此更改吗？"
 
 #: exercises/templates/history/overview.html:206
 msgid "The object will be restored to its previous state."
-msgstr ""
+msgstr "该对象将恢复到之前的状态。"
 
 #: exercises/templates/history/overview.html:220
 msgid "Revert"
@@ -1567,11 +1567,11 @@ msgstr "还原"
 
 #: exercises/templates/history/overview.html:236
 msgid "No changes match the filters."
-msgstr ""
+msgstr "没有符合筛选条件的变更。"
 
 #: exercises/templates/history/overview.html:238
 msgid "Reset filters"
-msgstr ""
+msgstr "重置筛选"
 
 #: exercises/templates/history/overview.html:246
 msgid "History pagination"
@@ -1590,12 +1590,12 @@ msgstr "上一页"
 #: exercises/templates/history/overview.html:266
 #, python-format
 msgid "Page %(current)s of %(total)s"
-msgstr ""
+msgstr "第 %(current)s 页，共 %(total)s 页"
 
 #: exercises/templates/history/overview.html:273
 #: exercises/templates/history/overview.html:282
 msgid "Next"
-msgstr ""
+msgstr "下一页"
 
 #: exercises/templates/history/overview.html:278
 #: exercises/templates/history/overview.html:283
@@ -1635,7 +1635,7 @@ msgstr "类型"
 
 #: exercises/views/history.py:118 exercises/views/history.py:125
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #: exercises/views/history.py:124
 msgid "Action"
@@ -1643,11 +1643,11 @@ msgstr "操作"
 
 #: exercises/views/history.py:131
 msgid "From"
-msgstr ""
+msgstr "起始"
 
 #: exercises/views/history.py:139
 msgid "To"
-msgstr ""
+msgstr "结束"
 
 #: exercises/views/muscles.py:68
 msgid "Add muscle"
@@ -1655,7 +1655,7 @@ msgstr "新增肌肉"
 
 #: gallery/forms.py:35
 msgid "If date is left empty, it will be read from the image instead"
-msgstr ""
+msgstr "如果日期留空，将从图片中读取"
 
 #: gallery/templates/images/overview.html:69
 msgid "Add image"
@@ -2381,7 +2381,7 @@ msgstr "开始时间不能晚于结束时间。"
 #, python-format
 msgid "A session cannot be longer than %(hours)s hour."
 msgid_plural "A session cannot be longer than %(hours)s hours."
-msgstr[0] ""
+msgstr[0] "训练课时长不能超过 %(hours)s 小时。"
 
 #: manager/templates/routines/email_reminder.tpl:3
 #, python-format
@@ -2447,7 +2447,7 @@ msgstr "训练%s"
 #: nutrition/extract_info/off.py:71 nutrition/extract_info/off.py:90
 #: nutrition/tests/test_off.py:311
 msgid "Serving"
-msgstr ""
+msgstr "份量"
 
 #: nutrition/forms.py:77 nutrition/forms.py:226
 msgid "Unit"
@@ -2473,7 +2473,7 @@ msgstr "基础热量外额外的卡路里（若有缺口，则输入负数）"
 
 #: nutrition/forms.py:227
 msgid "grams (g)"
-msgstr ""
+msgstr "克（g）"
 
 #: nutrition/forms.py:237
 msgid "Ingredient"
@@ -2485,11 +2485,11 @@ msgstr "且以英文名字搜索"
 
 #: nutrition/forms.py:257
 msgid "Quantity"
-msgstr ""
+msgstr "数量"
 
 #: nutrition/forms.py:259
 msgid "Enter a quantity and choose grams (g) or one of the serving units."
-msgstr ""
+msgstr "请输入数量并选择克（g）或其他份量单位。"
 
 #: nutrition/models/ingredient.py:478
 msgid "Portion"
@@ -2544,7 +2544,7 @@ msgstr ""
 #: nutrition/templates/ingredient/overview.html:104
 #: nutrition/templates/ingredient/view.html:172
 msgid "Vegan"
-msgstr ""
+msgstr "纯素"
 
 #: nutrition/templates/ingredient/overview.html:34
 #: nutrition/templates/ingredient/overview.html:115
@@ -2581,7 +2581,7 @@ msgstr "搜索"
 
 #: nutrition/templates/ingredient/overview.html:93
 msgid "Filter"
-msgstr ""
+msgstr "筛选"
 
 #: nutrition/templates/ingredient/view.html:77 nutrition/views/plan.py:238
 msgid "Macronutrients"
@@ -3154,11 +3154,11 @@ msgstr "请注意，衍生作品不仅基于以前的作品，而且还包含足
 
 #: utils/oidc_auth.py:44
 msgid "View your training, nutrition and body data"
-msgstr ""
+msgstr "查看您的训练、营养和身体数据"
 
 #: utils/oidc_auth.py:45
 msgid "Add and change your training, nutrition and body data"
-msgstr ""
+msgstr "添加和修改您的训练、营养和身体数据"
 
 #: weight/forms.py:52
 msgid "Input"
@@ -3285,6 +3285,251 @@ msgstr ""
 #: weight/templates/import_csv_preview.html:85
 msgid "Re-Submit"
 msgstr "重新提交"
+
+#: core/templates/user/app_auth_handoff.html
+msgid "Returning to the tiger-减脂 app…"
+msgstr "正在返回 tiger-减脂 应用…"
+
+#: core/templates/user/app_auth_handoff.html
+msgid ""
+"If nothing happens, tap the button below. Make sure the tiger-减脂 app is "
+"installed on this device."
+msgstr "如果没有反应，请点击下方按钮。请确保此设备已安装 tiger-减脂 应用。"
+
+#: core/templates/navigation.html
+msgid "Main navigation"
+msgstr "主导航"
+
+#: core/templates/template_features.html
+msgid "Menu"
+msgstr "菜单"
+
+#: core/templates/forms/password_with_toggle.html
+msgid "Toggle password visibility"
+msgstr "切换密码可见性"
+
+#: core/templates/repetition_unit/list.html
+msgid ""
+"Note that it is not possible to delete the system repetition units as some "
+"of the IDs are had coded in a handful of places."
+msgstr "请注意，系统重复单位无法删除，因为部分 ID 在少数位置被硬编码使用。"
+
+#: software/templates/about_us.html
+msgid ""
+"All types of contributions are encouraged. And if you like the project but "
+"just don’t have time to contribute, that’s fine. There are other easy ways "
+"to support the project and show your appreciation. Whether you're a "
+"developer, a translator, or just passionate about fitness, every bit of "
+"support is appreciated!"
+msgstr ""
+"我们鼓励各种形式的贡献。如果您喜欢这个项目但没时间参与贡献，也没关系，还有其他简单的方式可以支持项目、表达您的认可。无论您是开发者、翻译者，还是单纯热爱健身，每一份支持我们都心怀感激！"
+
+#: software/templates/api.html
+msgid "The API is documented with openAPI:"
+msgstr "API 采用 openAPI 文档："
+
+#: software/templates/api.html
+msgid "Browsable API"
+msgstr "可浏览 API"
+
+#: software/templates/api.html
+msgid "Download openAPI 3 schema file"
+msgstr "下载 openAPI 3 架构文件"
+
+#: software/templates/api.html
+msgid "Generate permanent API KEY"
+msgstr "生成永久 API 密钥"
+
+#: software/templates/api.html
+msgid ""
+"For information on how to authenticate, filter, etc., please consult the "
+"online docs at <a "
+"href=\"https://wger.readthedocs.io/en/latest/\">https://wger.readthedocs.io/en/latest/</a>"
+msgstr ""
+"有关认证、筛选等用法，请参阅在线文档 <a "
+"href=\"https://wger.readthedocs.io/en/latest/\">https://wger.readthedocs.io/en/latest/</a>"
+
+#: software/templates/api.html
+msgid ""
+"Note that the open api documentation is very new and things are bound to "
+"change somewhat. If you plan to use it to generate a client or similar drop "
+"us a line first!"
+msgstr "请注意，open api 文档还很新，内容可能会有变动。如果您打算用它生成客户端或类似用途，请先联系我们！"
+
+#: trophies/templates/trophies/overview.html
+msgid "All trophies currently in the system"
+msgstr "当前系统中的所有奖杯"
+
+#: settings/settings_global.py
+msgid "Bulgarian"
+msgstr "保加利亚语"
+
+#: settings/settings_global.py
+msgid "Catalan"
+msgstr "加泰罗尼亚语"
+
+#: settings/settings_global.py
+msgid "Czech"
+msgstr "捷克语"
+
+#: settings/settings_global.py
+msgid "German"
+msgstr "德语"
+
+#: settings/settings_global.py
+msgid "Greek"
+msgstr "希腊语"
+
+#: settings/settings_global.py
+msgid "English"
+msgstr "英语"
+
+#: settings/settings_global.py
+msgid "Australian English"
+msgstr "澳大利亚英语"
+
+#: settings/settings_global.py
+msgid "British English"
+msgstr "英国英语"
+
+#: settings/settings_global.py
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: settings/settings_global.py
+msgid "Argentinian Spanish"
+msgstr "阿根廷西班牙语"
+
+#: settings/settings_global.py
+msgid "Colombian Spanish"
+msgstr "哥伦比亚西班牙语"
+
+#: settings/settings_global.py
+msgid "Mexican Spanish"
+msgstr "墨西哥西班牙语"
+
+#: settings/settings_global.py
+msgid "Nicaraguan Spanish"
+msgstr "尼加拉瓜西班牙语"
+
+#: settings/settings_global.py
+msgid "Venezuelan Spanish"
+msgstr "委内瑞拉西班牙语"
+
+#: settings/settings_global.py
+msgid "Finnish"
+msgstr "芬兰语"
+
+#: settings/settings_global.py
+msgid "French"
+msgstr "法语"
+
+#: settings/settings_global.py
+msgid "Hebrew"
+msgstr "希伯来语"
+
+#: settings/settings_global.py
+msgid "Croatian"
+msgstr "克罗地亚语"
+
+#: settings/settings_global.py
+msgid "Italian"
+msgstr "意大利语"
+
+#: settings/settings_global.py
+msgid "Korean"
+msgstr "韩语"
+
+#: settings/settings_global.py
+msgid "Macedonian"
+msgstr "马其顿语"
+
+#: settings/settings_global.py
+msgid "Dutch"
+msgstr "荷兰语"
+
+#: settings/settings_global.py
+msgid "Norwegian"
+msgstr "挪威语"
+
+#: settings/settings_global.py
+msgid "Polish"
+msgstr "波兰语"
+
+#: settings/settings_global.py
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#: settings/settings_global.py
+msgid "Brazilian Portuguese"
+msgstr "巴西葡萄牙语"
+
+#: settings/settings_global.py
+msgid "Romanian"
+msgstr "罗马尼亚语"
+
+#: settings/settings_global.py
+msgid "Russian"
+msgstr "俄语"
+
+#: settings/settings_global.py
+msgid "Slovak"
+msgstr "斯洛伐克语"
+
+#: settings/settings_global.py
+msgid "Slovenian"
+msgstr "斯洛文尼亚语"
+
+#: settings/settings_global.py
+msgid "Serbian"
+msgstr "塞尔维亚语"
+
+#: settings/settings_global.py
+msgid "Swedish"
+msgstr "瑞典语"
+
+#: settings/settings_global.py
+msgid "Tamil"
+msgstr "泰米尔语"
+
+#: settings/settings_global.py
+msgid "Thai"
+msgstr "泰语"
+
+#: settings/settings_global.py
+msgid "Turkish"
+msgstr "土耳其语"
+
+#: settings/settings_global.py
+msgid "Ukrainian"
+msgstr "乌克兰语"
+
+#: settings/settings_global.py
+msgid "Chinese simplified"
+msgstr "简体中文"
+
+#: settings/settings_global.py
+msgid "Traditional Chinese"
+msgstr "繁体中文"
+
+#: wger/core/templates/user/api_key.html
+msgid ""
+"Refresh tokens let scripts and CLI tools talk to the tiger-减脂 API using the "
+"JWT flow without logging in interactively each time."
+msgstr "刷新令牌可让脚本和命令行工具通过 JWT 流程访问 tiger-减脂 API，无需每次交互式登录。"
+
+#: wger/core/templates/user/connected_applications.html
+msgid ""
+"These applications can use your account through the API. You gave them "
+"permission when you logged in with your tiger-减脂 account."
+msgstr "这些应用可以通过 API 使用您的账号。您在使用 tiger-减脂 账号登录时授予了它们权限。"
+
+#: wger/core/templates/user/connected_applications.html
+msgid ""
+"This list is about other applications using your wger account. To manage the"
+" accounts you use to log in to tiger-减脂, see connected accounts in your "
+"settings."
+msgstr "此列表显示正在使用您 wger 账号的其他应用。要管理用于登录 tiger-减脂 的账号，请前往设置中的“关联账号”。"
 
 #~ msgid "Password reset successful"
 #~ msgstr "密码重置成功"

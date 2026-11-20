@@ -234,8 +234,13 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
-# Additional places to copy to static files
-STATICFILES_DIRS = (('node', os.path.join(BASE_DIR, '..', 'node_modules')),)
+# Additional places to copy to static files. The react_overrides directory is
+# searched first so committed fixes (e.g. the completed zh_Hans translation)
+# shadow the corresponding files inside the gitignored node_modules.
+STATICFILES_DIRS = (
+    ('node', os.path.join(BASE_DIR.parent, 'react_overrides')),
+    ('node', os.path.join(BASE_DIR, '..', 'node_modules')),
+)
 
 
 #
