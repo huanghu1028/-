@@ -127,6 +127,16 @@
                     }
                 }
             });
+            /* Perf: the gradient is smooth, so paint it at 1/3 resolution and
+               let CSS upscale it. Full-res per-frame radial fills cost ~9x more
+               and dropped the page from 165fps to ~100fps on a 1.5dpr display.
+               Granim resets the canvas on window resize; re-apply after it. */
+            var nebulaScale = function () {
+                nebula.width = Math.max(2, Math.round(nebula.clientWidth / 3));
+                nebula.height = Math.max(2, Math.round(nebula.clientHeight / 3));
+            };
+            nebulaScale();
+            window.addEventListener('resize', nebulaScale);
         }
 
         /* ---------- 8. floating tiger-orange embers (background) ---------- */
@@ -162,7 +172,10 @@
                     },
                     modes: { repulse: { distance: 70, duration: 0.4 } }
                 },
-                retina_detect: true
+                /* Perf: retina_detect multiplies the canvas by devicePixelRatio
+                   (2548x1402 at 1.5dpr) for dots a few px wide; CSS resolution
+                   is visually identical and ~2.2x cheaper per frame. */
+                retina_detect: false
             });
         }
     });
