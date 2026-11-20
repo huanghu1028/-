@@ -1,0 +1,163 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "../vendor/shadcn-tailwind-4.13.0.css";
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+
+/* tiger-减脂 品牌主题：深空底色 + 老虎橙。设计工作台通过 --site-* 变量临时覆盖。 */
+:root {
+  --site-bg: #0b1020;
+  --site-fg: #e8ecf8;
+  --site-accent: #ff9f43;
+  --site-on-accent: #201403;
+  --site-surface: #121a31;
+  --site-muted: #8b93ad;
+  --site-border: #243052;
+  --site-font: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui,
+    -apple-system, "Segoe UI", Roboto, sans-serif;
+  --site-radius: 14px;
+  --site-space: 1;
+  --site-type: 1;
+  --site-motion: 1;
+}
+
+:root {
+  --background: var(--site-bg);
+  --foreground: var(--site-fg);
+  --card: var(--site-surface);
+  --card-foreground: var(--site-fg);
+  --popover: var(--site-surface);
+  --popover-foreground: var(--site-fg);
+  --primary: var(--site-accent);
+  --primary-foreground: var(--site-on-accent);
+  --secondary: var(--site-surface);
+  --secondary-foreground: var(--site-fg);
+  --muted: var(--site-surface);
+  --muted-foreground: var(--site-muted);
+  --accent: color-mix(in oklab, var(--site-surface), var(--site-fg) 9%);
+  --accent-foreground: var(--site-fg);
+  --destructive: #ff6b6b;
+  --border: var(--site-border);
+  --input: var(--site-border);
+  --ring: var(--site-accent);
+  --chart-1: #ff9f43;
+  --chart-2: #2dd4bf;
+  --chart-3: #60a5fa;
+  --chart-4: #f472b6;
+  --chart-5: #a3e635;
+  --radius: var(--site-radius);
+  --sidebar: color-mix(in oklab, var(--site-bg), var(--site-surface) 55%);
+  --sidebar-foreground: var(--site-fg);
+  --sidebar-primary: var(--site-accent);
+  --sidebar-primary-foreground: var(--site-on-accent);
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: var(--site-fg);
+  --sidebar-border: var(--site-border);
+  --sidebar-ring: var(--site-accent);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--site-font);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  --spacing: calc(0.25rem * var(--site-space));
+  --text-xs: calc(.75rem * var(--site-type));
+  --text-sm: calc(.875rem * var(--site-type));
+  --text-base: calc(1rem * var(--site-type));
+  --text-lg: calc(1.125rem * var(--site-type));
+  --text-xl: calc(1.25rem * var(--site-type));
+  --text-2xl: calc(1.5rem * var(--site-type));
+  --text-3xl: calc(1.875rem * var(--site-type));
+  --text-4xl: calc(2.25rem * var(--site-type));
+  --text-5xl: calc(3rem * var(--site-type));
+  --text-6xl: calc(3.75rem * var(--site-type));
+  --text-7xl: calc(4.5rem * var(--site-type));
+  --text-8xl: calc(6rem * var(--site-type));
+  --text-9xl: calc(8rem * var(--site-type));
+  --default-transition-duration: calc(150ms * var(--site-motion));
+}
+
+body {
+  background:
+    radial-gradient(1100px 500px at 85% -10%, color-mix(in oklab, var(--site-accent) 13%, transparent), transparent 60%),
+    radial-gradient(900px 520px at -10% 110%, color-mix(in oklab, #60a5fa 10%, transparent), transparent 60%),
+    var(--background);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--site-font);
+}
+
+@layer base {
+  button, a { transition-duration: calc(150ms * var(--site-motion)); }
+  @media (prefers-reduced-motion: reduce) {
+    button, a { transition-duration: 0ms; }
+    .tiger-rise { animation: none; }
+  }
+}
+
+/* 页面入场动效，跟随 --site-motion 与系统减弱动效设置 */
+@keyframes tiger-rise {
+  from { opacity: 0; transform: translateY(calc(8px * var(--site-motion))); }
+  to { opacity: 1; transform: none; }
+}
+.tiger-rise {
+  animation: tiger-rise calc(260ms * var(--site-motion)) ease-out both;
+}
+
+/* 细滚动条与选区颜色 */
+::selection {
+  background: color-mix(in oklab, var(--site-accent) 40%, transparent);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--site-border) transparent;
+}

@@ -1,0 +1,6 @@
+node_modules/
+dist/
+dev/.local-db.json
+.env*
+*.local
+_qoder/
