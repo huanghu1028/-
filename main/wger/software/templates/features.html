@@ -21,6 +21,88 @@
 {#         #}
 {% block template %}
 
+    {# template_features.html has no head block for extra <link>s, so the FAQ styles (mirrored in css/faq.css) are inlined here. #}
+    <style>
+        /* translucent dark backdrop so the fixed starfield shows through */
+        .faq-section {
+            background-color: rgba(13, 13, 13, 0.6);
+        }
+
+        .faq-section h2 {
+            color: #f5f5f5;
+        }
+
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 800px;
+        }
+
+        .faq-item {
+            background-color: rgba(13, 13, 13, 0.6);
+            border: 1px solid #333;
+            border-radius: 12px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .faq-item:hover {
+            background-color: rgba(26, 26, 26, 0.7);
+            border-color: #444;
+        }
+
+        .faq-item summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 1.25rem;
+            color: #f5f5f5;
+            font-weight: 700;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        /* hide the native disclosure triangle, we draw our own indicator */
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: "+";
+            flex-shrink: 0;
+            font-size: 1.25rem;
+            font-weight: 400;
+            line-height: 1;
+            color: #9a9a9a;
+        }
+
+        .faq-item[open] summary::after {
+            content: "\2212";
+        }
+
+        .faq-item summary:hover {
+            color: #fff;
+        }
+
+        .faq-item summary:focus-visible {
+            outline: 2px solid #8ab4f8;
+            outline-offset: -2px;
+            border-radius: 12px;
+        }
+
+        .faq-item[open] summary {
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .faq-item p {
+            margin: 0;
+            padding: 0.9rem 1.25rem 1rem;
+            color: #e6e6e6;
+            line-height: 1.7;
+        }
+    </style>
+
     <!-- header -->
     <header>
         <div class="container-xl">
@@ -182,6 +264,39 @@
                 </div>
             </section>
         {% endif %}
+
+        <!-- section 4 - FAQ (native details/summary, zero JS) -->
+        <section class="faq-section py-5" aria-labelledby="faq-title">
+            <div class="container-xl px-3">
+                <h2 id="faq-title" class="font-bebas-neue display-4 uppercase mb-4">常见问题</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary>如何开始使用 tiger-减脂？</summary>
+                        <p>注册并登录后，从左侧「训练」入手：在「训练计划」里挑一个适合自己的计划，或到「练习」库浏览动作、组建自己的计划，然后跟着页面指引逐步完成每次训练即可。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>tiger-减脂 是免费的吗？</summary>
+                        <p>是的，完全免费。本站是基于开源项目 wger 定制的免费开源网页版，注册后即可使用训练、营养、体重记录等全部功能，没有付费订阅。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>需要下载 App 吗？</summary>
+                        <p>不需要。tiger-减脂 是网页版应用，电脑或手机浏览器打开本站就能用，无需下载安装任何应用，也不占用手机存储。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>我的数据保存在哪里？</summary>
+                        <p>训练、饮食、体重等记录都保存在本站服务器上，登录同一账号即可随时查看。本站程序开源，你也可以自行部署一套，把数据完全掌握在自己手中。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>新手友好吗？没有健身基础能用吗？</summary>
+                        <p>友好。「练习」库中的动作配有中文说明，训练计划可以循序渐进地安排；建议新手从低强度计划或公共模板开始，先熟悉动作，再逐步增加重量和组数。</p>
+                    </details>
+                    <details class="faq-item">
+                        <summary>饮食怎么记录？</summary>
+                        <p>在「营养」中创建营养计划，按餐次添加食物，系统会自动计算热量、蛋白质等营养值；配合「食谱总览」查询食材，就能把一周的饮食安排清楚。</p>
+                    </details>
+                </div>
+            </div>
+        </section>
 
     </main>
 
