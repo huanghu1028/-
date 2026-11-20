@@ -54,12 +54,6 @@
                     {% translate "Public templates" %}
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'trophies:overview' %}" rel="nofollow">
-                    {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'trophy' %} me-2"></span>{% endif %}
-                    {% translate "Trophies" %}
-                </a>
-            </li>
 
             <li class="sidebar-heading">{% translate "Exercises" %}</li>
             <li class="nav-item">
@@ -117,13 +111,6 @@
 
             {% if user.userprofile.has_exercise_permission or perms.gym.manage_gyms or perms.gym.manage_gym or perms.gym.gym_trainer %}
                 <li class="sidebar-heading">{% translate "Administration" %}</li>
-                {% if perms.core.change_language %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core:language:overview' %}">
-                            <span class="{% fa_class 'globe' %} me-2"></span>{% translate "Languages" %}
-                        </a>
-                    </li>
-                {% endif %}
                 {% if perms.gym.manage_gyms %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'core:user:list' %}">
