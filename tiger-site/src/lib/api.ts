@@ -97,6 +97,21 @@ export type DietEntry = {
 };
 export type ChatMessage = { id: string; role: "user" | "assistant"; content: string; created_at: string };
 
+export type MeasurementCategory = { id: string; name: string; unit: string; created_at: string };
+export type MeasurementEntry = { id: string; category_id: string; entry_date: string; value: string; note: string; created_at: string };
+export type GalleryImage = { id: string; entry_date: string; caption: string; data_url: string; created_at: string };
+export type NutritionItem = { id: string; meal_id: string; food_name: string; grams: string; kcal: string; protein: string; fat: string; carb: string; sort: number };
+export type NutritionMeal = { id: string; plan_id: string; meal: string; name: string; sort: number; items: NutritionItem[] };
+export type NutritionPlan = {
+  id: string; name: string; description: string; kcal_target: number | null; protein_target: number | null;
+  carb_target: number | null; fat_target: number | null; created_at: string; meals: NutritionMeal[];
+};
+export type DayExtra = { day_type: string; rounds: number | null; work_sec: number | null; rest_sec: number | null };
+export type ItemExtra = { set_type: string; superset_group: number | null; rpe: number | null };
+export type PlanMeta = { owner_id: string; plan_id: string; is_template: boolean; is_public: boolean; day_extras: Record<string, DayExtra>; item_extras: Record<string, ItemExtra>; updated_at: string };
+export type Template = { id: string; name: string; goal: string; created_at: string; is_public: boolean; is_mine: boolean };
+export type Preferences = { owner_id?: string; weight_unit: string; timezone: string; dashboard_layout: string[]; updated_at?: string };
+
 export type ProfileInput = {
   display_name: string; gender: string; birth_year: number | null; height_cm: number | null;
   activity: string; kcal_target: number | null; protein_target: number | null;
@@ -139,6 +154,39 @@ export const api = {
   getChat: () => request<ChatMessage[]>("GET", "/api/chat"),
   sendChat: (message: string, apiKey: string) => request<{ reply: string; saved: boolean }>("POST", "/api/chat", { message, apiKey }),
   clearChat: () => request<{ ok: boolean }>("DELETE", "/api/chat"),
+
+  // 测量围度
+  getMeasCategories: () => request<MeasurementCategory[]>("GET", "/api/measurements/categories"),
+  addMeasCategory: (name: string, unit: string) => request<MeasurementCategory>("POST", "/api/measurements/categories", { name, unit }),
+  deleteMeasCategory: (id: string) => request<{ ok: boolean }>("DELETE", `/api/measurements/categories/${id}`),
+  getMeasEntries: (category?: string) => request<MeasurementEntry[]>("GET", category ? `/api/measurements/entries?category=${category}` : "/api/measurements/entries"),
+  addMeasEntry: (e: { category_id: string; entry_date: string; value: number; note: string }) => request<MeasurementEntry>("POST", "/api/measurements/entries", e),
+  deleteMeasEntry: (id: string) => request<{ ok: boolean }>("DELETE", `/api/measurements/entries/${id}`),
+
+  // 画廊
+  getGallery: () => request<GalleryImage[]>("GET", "/api/gallery"),
+  addGallery: (e: { entry_date: string; caption: string; data_url: string }) => request<GalleryImage>("POST", "/api/gallery", e),
+  deleteGallery: (id: string) => request<{ ok: boolean }>("DELETE", `/api/gallery/${id}`),
+
+  // 营养计划
+  getNutritionPlans: () => request<NutritionPlan[]>("GET", "/api/nutrition-plans"),
+  createNutritionPlan: (p: { name: string; description: string; kcal_target: number | null; protein_target: number | null; carb_target: number | null; fat_target: number | null }) => request<NutritionPlan>("POST", "/api/nutrition-plans", p),
+  patchNutritionPlan: (id: string, patch: Partial<{ name: string; description: string; kcal_target: number | null; protein_target: number | null; carb_target: number | null; fat_target: number | null }>) => request<NutritionPlan>("PATCH", `/api/nutrition-plans/${id}`, patch),
+  deleteNutritionPlan: (id: string) => request<{ ok: boolean }>("DELETE", `/api/nutrition-plans/${id}`),
+  addNutritionMeal: (planId: string, m: { meal: string; name: string }) => request<NutritionMeal>("POST", `/api/nutrition-plans/${planId}/meals`, m),
+  patchNutritionMeal: (id: string, patch: { name?: string; meal?: string }) => request<NutritionMeal>("PATCH", `/api/nutrition-meals/${id}`, patch),
+  deleteNutritionMeal: (id: string) => request<{ ok: boolean }>("DELETE", `/api/nutrition-meals/${id}`),
+  addNutritionItem: (mealId: string, it: { food_name: string; grams: number; kcal: number; protein: number; fat: number; carb: number }) => request<NutritionItem>("POST", `/api/nutrition-meals/${mealId}/items`, it),
+  patchNutritionItem: (id: string, patch: Partial<{ food_name: string; grams: number; kcal: number; protein: number; fat: number; carb: number }>) => request<NutritionItem>("PATCH", `/api/nutrition-items/${id}`, patch),
+  deleteNutritionItem: (id: string) => request<{ ok: boolean }>("DELETE", `/api/nutrition-items/${id}`),
+
+  // 模板 / 高级训练法 / 偏好
+  getPlanMeta: (planId: string) => request<{ meta: PlanMeta | null }>("GET", `/api/plans/${planId}/meta`),
+  patchPlanMeta: (planId: string, patch: Partial<{ is_template: boolean; is_public: boolean; day_extras: Record<string, DayExtra>; item_extras: Record<string, ItemExtra> }>) => request<PlanMeta>("PATCH", `/api/plans/${planId}/meta`, patch),
+  getTemplates: () => request<Template[]>("GET", "/api/templates"),
+  copyTemplate: (id: string) => request<Plan>("POST", `/api/templates/${id}/copy`),
+  getPreferences: () => request<{ preferences: Preferences }>("GET", "/api/preferences"),
+  putPreferences: (p: { weight_unit: string; timezone: string; dashboard_layout: string[] }) => request<{ preferences: Preferences }>("PUT", "/api/preferences", p),
 };
 
 // ---------- 小工具 ----------

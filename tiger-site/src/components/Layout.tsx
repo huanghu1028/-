@@ -1,23 +1,48 @@
-// 应用外壳：桌面左侧导航 + 移动端底部标签栏；老虎品牌 + 深色主题。
+// 应用外壳：桌面左侧分组导航 + 移动端底部横滑标签栏；老虎品牌 + 深色主题。
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
-  Dumbbell, LayoutDashboard, CalendarCheck, ClipboardList, Scale, UtensilsCrossed, Bot, LogOut, LogIn, UserPlus,
+  Dumbbell, LayoutDashboard, CalendarCheck, CalendarDays, ClipboardList, LayoutTemplate, Scale, Ruler, Images, UtensilsCrossed, Salad, Apple, Calculator, Bot, Settings2, LogOut, LogIn, UserPlus,
 } from "lucide-react";
 import { useAuth } from "@/src/lib/auth";
 import { Button } from "@/components/ui/button";
+import Background from "@/src/components/Background";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { errText } from "@/src/lib/api";
 
-const NAV = [
-  { to: "/", label: "总览", icon: LayoutDashboard, end: true },
-  { to: "/exercises", label: "动作库", icon: Dumbbell },
-  { to: "/plans", label: "计划", icon: ClipboardList },
-  { to: "/train", label: "打卡", icon: CalendarCheck },
-  { to: "/weight", label: "体重", icon: Scale },
-  { to: "/diet", label: "饮食", icon: UtensilsCrossed },
-  { to: "/coach", label: "虎教练", icon: Bot },
+const NAV_GROUPS = [
+  {
+    title: "训练",
+    items: [
+      { to: "/dashboard", label: "总览", icon: LayoutDashboard, end: true },
+      { to: "/exercises", label: "动作库", icon: Dumbbell },
+      { to: "/plans", label: "计划", icon: ClipboardList },
+      { to: "/templates", label: "模板", icon: LayoutTemplate },
+      { to: "/train", label: "打卡", icon: CalendarCheck },
+      { to: "/calendar", label: "日历", icon: CalendarDays },
+    ],
+  },
+  {
+    title: "饮食与身体",
+    items: [
+      { to: "/diet", label: "饮食", icon: UtensilsCrossed },
+      { to: "/nutrition", label: "营养计划", icon: Salad },
+      { to: "/foods", label: "食物库", icon: Apple },
+      { to: "/weight", label: "体重", icon: Scale },
+      { to: "/measurements", label: "围度", icon: Ruler },
+      { to: "/gallery", label: "画廊", icon: Images },
+    ],
+  },
+  {
+    title: "工具",
+    items: [
+      { to: "/calculators", label: "计算器", icon: Calculator },
+      { to: "/coach", label: "虎教练", icon: Bot },
+      { to: "/settings", label: "设置", icon: Settings2 },
+    ],
+  },
 ];
+const NAV_FLAT = NAV_GROUPS.flatMap((g) => g.items);
 
 function Brand() {
   return (
@@ -47,22 +72,30 @@ export default function Layout() {
 
   return (
     <div className="min-h-dvh">
+      <Background />
       {/* 桌面侧边栏 */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-border bg-sidebar/80 backdrop-blur-md md:flex">
         <div className="px-4 py-5"><Brand /></div>
-        <nav className="flex-1 space-y-1 px-3">
-          {NAV.map(({ to, label, icon: Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              className={({ isActive }) => cn(
-                "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
-                isActive ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-accent hover:text-foreground",
-              )}
-            >
-              <Icon className="size-4.5" /> {label}
-            </NavLink>
+        <nav className="flex-1 space-y-4 overflow-y-auto px-3 pb-3">
+          {NAV_GROUPS.map((group) => (
+            <div key={group.title}>
+              <div className="px-3 pb-1 pt-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground/70">{group.title}</div>
+              <div className="space-y-1">
+                {group.items.map(({ to, label, icon: Icon, end }) => (
+                  <NavLink
+                    key={to}
+                    to={to}
+                    end={end}
+                    className={({ isActive }) => cn(
+                      "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
+                      isActive ? "tiger-nav-active bg-primary/15 text-primary" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                    )}
+                  >
+                    <Icon className="size-4.5" /> {label}
+                  </NavLink>
+                ))}
+              </div>
+            </div>
           ))}
         </nav>
         <div className="border-t border-border p-3">
@@ -108,15 +141,15 @@ export default function Layout() {
         </div>
       </main>
 
-      {/* 移动端底部标签 */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-7 border-t border-border bg-background/92 backdrop-blur-md md:hidden">
-        {NAV.map(({ to, label, icon: Icon, end }) => (
+      {/* 移动端底部标签（横向滑动查看全部功能） */}
+      <nav className="fixed inset-x-0 bottom-0 z-30 flex overflow-x-auto border-t border-border bg-background/92 backdrop-blur-md [scrollbar-width:none] md:hidden [&::-webkit-scrollbar]:hidden">
+        {NAV_FLAT.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
             to={to}
             end={end}
             className={({ isActive }) => cn(
-              "flex flex-col items-center gap-0.5 py-2 text-[10px]",
+              "flex shrink-0 flex-col items-center gap-0.5 px-3.5 py-2 text-[10px]",
               isActive ? "text-primary" : "text-muted-foreground",
             )}
           >

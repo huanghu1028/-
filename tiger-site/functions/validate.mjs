@@ -105,3 +105,63 @@ export function validateLogDetail(raw) {
     };
   });
 }
+
+// ---------- 嫁接模块校验 ----------
+
+export const WEIGHT_UNITS = ['kg', 'lb'];
+export const DAY_TYPES = ['standard', 'emom', 'amrap', 'hiit', 'tabata', 'custom'];
+export const SET_TYPES = ['normal', 'drop', 'rest_pause', 'cluster', 'myo_rep'];
+
+// 进度照片 data URL：仅允许 image/* 前缀 + 有界长度（客户端已压缩）。
+export function validateDataUrl(raw, maxChars = 600000) {
+  if (typeof raw !== 'string' || !/^data:image\/(jpeg|png|webp);base64,/.test(raw)) {
+    throw new AppError('invalid_input', 400);
+  }
+  if (raw.length > maxChars) throw new AppError('invalid_input', 400);
+  return raw;
+}
+
+// 高级训练法 extras：{ [id]: {...} } 映射，键为 uuid、值字段白名单 + 有界。
+export function validateExtras(raw, maxKeys, kind) {
+  if (raw === null || raw === undefined) return {};
+  if (typeof raw !== 'object' || Array.isArray(raw)) throw new AppError('invalid_input', 400);
+  const keys = Object.keys(raw);
+  if (keys.length > maxKeys) throw new AppError('invalid_input', 400);
+  const out = {};
+  for (const key of keys) {
+    if (!isUuid(key)) throw new AppError('invalid_input', 400);
+    const v = raw[key];
+    if (typeof v !== 'object' || v === null) throw new AppError('invalid_input', 400);
+    if (kind === 'day') {
+      out[key] = {
+        day_type: oneOf(v.day_type ?? 'standard', DAY_TYPES),
+        rounds: nullableIntIn(v.rounds, 1, 100),
+        work_sec: nullableIntIn(v.work_sec, 1, 3600),
+        rest_sec: nullableIntIn(v.rest_sec, 0, 3600),
+      };
+    } else {
+      out[key] = {
+        set_type: oneOf(v.set_type ?? 'normal', SET_TYPES),
+        superset_group: nullableIntIn(v.superset_group, 0, 60),
+        rpe: nullableIntIn(v.rpe, 1, 10),
+      };
+    }
+  }
+  return out;
+}
+
+// 仪表盘布局：组件 id 数组（有界、去重、白名单字符）。
+export function validateDashboardLayout(raw) {
+  if (raw === null || raw === undefined) return [];
+  if (!Array.isArray(raw) || raw.length > 24) throw new AppError('invalid_input', 400);
+  const seen = new Set();
+  const out = [];
+  for (const id of raw) {
+    if (typeof id !== 'string' || !/^[a-z0-9_-]{1,40}$/.test(id) || seen.has(id)) {
+      throw new AppError('invalid_input', 400);
+    }
+    seen.add(id);
+    out.push(id);
+  }
+  return out;
+}

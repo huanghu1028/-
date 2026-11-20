@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Plus, Dumbbell } from "lucide-react";
+import { ArrowLeft, Plus, Dumbbell, Target, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,60 @@ import { useAuth } from "@/src/lib/auth";
 import { api, errText, type Plan } from "@/src/lib/api";
 import { loadExercises, loadTaxonomy, nameOf, type Exercise, type Taxonomy } from "@/src/lib/data";
 import { cn } from "@/lib/utils";
+
+// ===== 目标肌群图示 =====
+// 素材来自原站 wger（Wikimedia Commons 肌肉图，见 public/img/muscles/SOURCES）：
+// 正面/背面底图 + 每块肌肉一张叠加层（main 红 / secondary 橙）。与原站 react-components
+// 相同的 CSS 多背景叠加方式：叠加层 fetch 后把填充色改为主题橙，编码为 data URL 叠在底图之上。
+// 主要肌群 #ff9f43（--primary），次要肌群浅橙 #ffc46b；加载失败时降级为纯底图 + 文字图例。
+type MuscleView = "front" | "back";
+const MUSCLE_BASE: Record<MuscleView, string> = {
+  front: "/img/muscles/muscular_system_front.svg",
+  back: "/img/muscles/muscular_system_back.svg",
+};
+const overlayCache = new Map<string, Promise<string>>();
+
+function loadMuscleOverlay(kind: "main" | "secondary", id: number): Promise<string> {
+  const key = `${kind}/${id}`;
+  const hit = overlayCache.get(key);
+  if (hit) return hit;
+  const p = (async () => {
+    const resp = await fetch(`/img/muscles/${kind}/muscle-${id}.svg`);
+    if (!resp.ok) throw new Error(`肌群图层加载失败：${key}`);
+    let svg = await resp.text();
+    if (kind === "main") {
+      svg = svg.replaceAll("#fc0000", "#ff9f43").replace(/opacity:0\.5242423\d*/g, "opacity:0.85");
+    } else {
+      svg = svg.replaceAll("#f57900", "#ffc46b").replace(/opacity:0\.5242423\d*/g, "opacity:0.6");
+    }
+    return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  })();
+  overlayCache.set(key, p);
+  p.catch(() => overlayCache.delete(key)); // 失败后允许下次重试
+  return p;
+}
+
+function MuscleFigure({ view, bg, label }: { view: MuscleView; bg: string | null; label: string }) {
+  return (
+    <figure className="m-0 w-full max-w-[190px] shrink-0">
+      <div className="rounded-xl border border-border bg-white p-2">
+        {bg ? (
+          <div
+            role="img"
+            aria-label={label}
+            className="mx-auto aspect-[1/2] w-full"
+            style={{ backgroundImage: bg, backgroundSize: "100% auto", backgroundRepeat: "no-repeat" }}
+          />
+        ) : (
+          <img src={MUSCLE_BASE[view]} alt={label} className="mx-auto aspect-[1/2] w-full object-contain object-top" />
+        )}
+      </div>
+      <figcaption className="mt-1.5 text-center text-xs text-muted-foreground">
+        {view === "front" ? "正面" : "背面"}
+      </figcaption>
+    </figure>
+  );
+}
 
 export default function ExerciseDetail() {
   const { id } = useParams();
@@ -33,6 +87,7 @@ export default function ExerciseDetail() {
   const [reps, setReps] = useState("12");
   const [weight, setWeight] = useState("0");
   const [busy, setBusy] = useState(false);
+  const [muscleBg, setMuscleBg] = useState<{ front: string | null; back: string | null }>({ front: null, back: null });
 
   useEffect(() => {
     setImgIndex(0);
@@ -41,6 +96,32 @@ export default function ExerciseDetail() {
       setTaxonomy(tax);
     }).catch(() => setExercise(null));
   }, [exerciseId]);
+
+  // 按 is_front 把主要/次要肌群分配到正/背面视图，叠加层置顶层、底图置底层。
+  useEffect(() => {
+    if (!exercise || !taxonomy) return;
+    let cancelled = false;
+    setMuscleBg({ front: null, back: null });
+    const build = async (view: MuscleView): Promise<string | null> => {
+      const isFront = view === "front";
+      const inView = (id: number) => taxonomy.muscles.find((m) => m.id === id)?.is_front === isFront;
+      const primary = exercise.muscles.filter(inView);
+      const secondary = exercise.muscles_secondary.filter((id) => !primary.includes(id) && inView(id));
+      try {
+        const urls = await Promise.all([
+          ...primary.map((id) => loadMuscleOverlay("main", id)),
+          ...secondary.map((id) => loadMuscleOverlay("secondary", id)),
+        ]);
+        return [...urls.map((u) => `url("${u}")`), `url("${MUSCLE_BASE[view]}")`].join(", ");
+      } catch {
+        return null; // 降级：仅显示底图，文字图例仍列出肌群
+      }
+    };
+    void Promise.all([build("front"), build("back")]).then(([front, back]) => {
+      if (!cancelled) setMuscleBg({ front, back });
+    });
+    return () => { cancelled = true; };
+  }, [exercise, taxonomy]);
 
   useEffect(() => {
     if (!user || !addOpen) return;
@@ -88,6 +169,19 @@ export default function ExerciseDetail() {
 
   const e = exercise;
   const images = e.images;
+
+  const muscleLabel = (view: MuscleView): string => {
+    const title = view === "front" ? "正面肌群图示" : "背面肌群图示";
+    if (!taxonomy) return title;
+    const isFront = view === "front";
+    const inView = (id: number) => taxonomy.muscles.find((m) => m.id === id)?.is_front === isFront;
+    const pri = e.muscles.filter(inView).map((id) => nameOf(taxonomy.muscles, id));
+    const sec = e.muscles_secondary.filter(inView).map((id) => nameOf(taxonomy.muscles, id));
+    const parts: string[] = [];
+    if (pri.length > 0) parts.push(`主要肌群：${pri.join("、")}`);
+    if (sec.length > 0) parts.push(`次要肌群：${sec.join("、")}`);
+    return parts.length > 0 ? `${title}，${parts.join("；")}` : `${title}（该视图无标注肌群）`;
+  };
 
   return (
     <div className="space-y-5">
@@ -142,11 +236,63 @@ export default function ExerciseDetail() {
               {e.muscles_secondary.map((m) => nameOf(taxonomy.muscles, m)).join("、")}
             </div>
           )}
-          <Button onClick={() => (user ? setAddOpen(true) : navigate("/login", { state: { from: `/exercises/${e.id}` } }))}>
-            <Plus className="size-4" /> 加入训练计划
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => (user ? setAddOpen(true) : navigate("/login", { state: { from: `/exercises/${e.id}` } }))}>
+              <Plus className="size-4" /> 加入训练计划
+            </Button>
+            <Button variant="outline" asChild>
+              <Link to={`/exercises/${e.id}/analytics`}><TrendingUp className="size-4" /> 训练分析</Link>
+            </Button>
+          </div>
         </div>
       </div>
+
+      {/* 目标肌群图示 */}
+      {taxonomy && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Target className="size-4 text-primary" aria-hidden="true" /> 目标肌群
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {e.muscles.length === 0 && e.muscles_secondary.length === 0 ? (
+              <p className="text-sm text-muted-foreground">该动作暂无肌群标注，可参考上方示范图。</p>
+            ) : (
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                <div className="flex justify-center gap-4 sm:justify-start">
+                  <MuscleFigure view="front" bg={muscleBg.front} label={muscleLabel("front")} />
+                  <MuscleFigure view="back" bg={muscleBg.back} label={muscleLabel("back")} />
+                </div>
+                <div className="min-w-0 flex-1 space-y-4 text-sm">
+                  <div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span aria-hidden="true" className="size-3 shrink-0 rounded-full" style={{ background: "#ff9f43" }} />
+                      主要肌群
+                    </div>
+                    <p className="mt-1 text-muted-foreground">
+                      {e.muscles.length > 0 ? e.muscles.map((m) => nameOf(taxonomy.muscles, m)).join("、") : "无标注"}
+                    </p>
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 font-medium">
+                      <span aria-hidden="true" className="size-3 shrink-0 rounded-full" style={{ background: "#ffc46b" }} />
+                      次要肌群
+                    </div>
+                    <p className="mt-1 text-muted-foreground">
+                      {e.muscles_secondary.length > 0 ? e.muscles_secondary.map((m) => nameOf(taxonomy.muscles, m)).join("、") : "无标注"}
+                    </p>
+                  </div>
+                  <p className="text-xs leading-relaxed text-muted-foreground">
+                    橙色高亮为主要目标肌群，浅橙色为次要参与肌群，按正面/背面视图分别显示。
+                    图示改编自 wger 开源肌肉图（Wikimedia Commons）。
+                  </p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {/* 说明 */}
       <Card>

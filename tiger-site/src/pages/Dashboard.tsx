@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Line, LineChart, XAxis, YAxis } from "recharts";
-import { CalendarCheck, ClipboardList, Scale, UtensilsCrossed, Bot, Pencil, Flame, TrendingDown, TrendingUp } from "lucide-react";
+import { CalendarCheck, CalendarDays, ClipboardList, Scale, UtensilsCrossed, Bot, Pencil, Flame, TrendingDown, TrendingUp, Apple, Settings2, Ruler } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { useAuth } from "@/src/lib/auth";
-import { api, errText, todayStr, ACTIVITY_ZH, type Profile, type WeightEntry, type WorkoutLog, type DietEntry, type Plan } from "@/src/lib/api";
-
-const chartConfig = { weight: { label: "体重 kg", color: "var(--chart-1)" } } satisfies ChartConfig;
+import { api, errText, todayStr, MEAL_ZH, ACTIVITY_ZH, type Profile, type WeightEntry, type WorkoutLog, type DietEntry, type Plan, type Preferences, type MeasurementCategory, type MeasurementEntry } from "@/src/lib/api";
+import { kgToUnit, tzToday, type WeightUnit } from "@/src/lib/units";
+import { DEFAULT_LAYOUT, isWidgetId, type WidgetId } from "@/src/lib/widgets";
 
 function mondayOfThisWeek(): string {
   const d = new Date();
@@ -30,22 +30,31 @@ export default function Dashboard() {
   const [logs, setLogs] = useState<WorkoutLog[] | null>(null);
   const [diet, setDiet] = useState<DietEntry[] | null>(null);
   const [plans, setPlans] = useState<Plan[] | null>(null);
+  const [prefs, setPrefs] = useState<Preferences | null>(null);
+  const [measCats, setMeasCats] = useState<MeasurementCategory[] | null>(null);
+  const [measEntries, setMeasEntries] = useState<MeasurementEntry[] | null>(null);
 
   const [editOpen, setEditOpen] = useState(false);
   const [form, setForm] = useState({ display_name: "", gender: "", birth_year: "", height_cm: "", activity: "moderate", kcal_target: "", protein_target: "" });
   const [busy, setBusy] = useState(false);
 
   const today = todayStr();
+  const unit: WeightUnit = prefs?.weight_unit === "lb" ? "lb" : "kg";
+  const displayToday = prefs ? tzToday(prefs.timezone) : today;
 
   const load = useCallback(async () => {
-    const [p, w, l, d, pl] = await Promise.allSettled([
+    const [p, w, l, d, pl, pr, mc, me] = await Promise.allSettled([
       api.getProfile(), api.getWeight(), api.getLogs(), api.getDiet(today), api.getPlans(),
+      api.getPreferences(), api.getMeasCategories(), api.getMeasEntries(),
     ]);
     if (p.status === "fulfilled") setProfile(p.value.profile);
     if (w.status === "fulfilled") setWeights(w.value);
     if (l.status === "fulfilled") setLogs(l.value);
     if (d.status === "fulfilled") setDiet(d.value);
     if (pl.status === "fulfilled") setPlans(pl.value);
+    if (pr.status === "fulfilled") setPrefs(pr.value.preferences);
+    if (mc.status === "fulfilled") setMeasCats(mc.value);
+    if (me.status === "fulfilled") setMeasEntries(me.value);
   }, [today]);
 
   useEffect(() => { void load(); }, [load]);
@@ -58,7 +67,26 @@ export default function Dashboard() {
     return (logs ?? []).filter((l) => l.log_date >= monday);
   }, [logs]);
   const todayKcal = useMemo(() => Math.round((diet ?? []).reduce((s, e) => s + Number(e.kcal), 0)), [diet]);
-  const chartData = useMemo(() => (weights ?? []).slice(-60).map((e) => ({ date: e.entry_date, weight: Number(e.weight_kg) })), [weights]);
+  const todayProtein = useMemo(() => Math.round((diet ?? []).reduce((s, e) => s + Number(e.protein), 0)), [diet]);
+  const chartData = useMemo(
+    () => (weights ?? []).slice(-60).map((e) => ({ date: e.entry_date, weight: +kgToUnit(Number(e.weight_kg), unit).toFixed(2) })),
+    [weights, unit],
+  );
+  const chartConfig = useMemo(() => ({ weight: { label: `体重 ${unit}`, color: "var(--chart-1)" } }) satisfies ChartConfig, [unit]);
+  const layout: WidgetId[] = useMemo(() => {
+    const saved = (prefs?.dashboard_layout ?? []).filter(isWidgetId);
+    return saved.length > 0 ? saved : [...DEFAULT_LAYOUT];
+  }, [prefs]);
+  const measLatest = useMemo(() => {
+    const out: { cat: MeasurementCategory; entry: MeasurementEntry }[] = [];
+    for (const cat of measCats ?? []) {
+      const list = (measEntries ?? []).filter((e) => e.category_id === cat.id);
+      if (list.length === 0) continue;
+      const entry = list.reduce((a, b) => (a.entry_date >= b.entry_date ? a : b));
+      out.push({ cat, entry });
+    }
+    return out;
+  }, [measCats, measEntries]);
 
   const openEdit = () => {
     setForm({
@@ -106,127 +134,189 @@ export default function Dashboard() {
   const loading = !weights || !logs || !diet || !plans;
   const greetingName = profile?.display_name || user?.username || "";
 
+  const widgets: Record<WidgetId, () => ReactNode> = {
+    stats: () => (
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Card className="py-4">
+          <CardContent className="px-4">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Scale className="size-3.5" /> 最新体重</div>
+            <div className="mt-1 text-2xl font-bold">{latest ? kgToUnit(Number(latest.weight_kg), unit).toFixed(1) : "—"}<span className="text-sm font-normal text-muted-foreground"> {unit}</span></div>
+            <div className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
+              {delta !== null && (delta < 0 ? <TrendingDown className="size-3.5 text-chart-2" /> : delta > 0 ? <TrendingUp className="size-3.5 text-chart-4" /> : null)}
+              {latest ? latest.entry_date : "去记第一笔"}
+            </div>
+          </CardContent>
+        </Card>
+        <Card className="py-4">
+          <CardContent className="px-4">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><CalendarCheck className="size-3.5" /> 本周训练</div>
+            <div className="mt-1 text-2xl font-bold">{weekLogs.length}<span className="text-sm font-normal text-muted-foreground"> 次</span></div>
+            <div className="mt-0.5 text-xs text-muted-foreground">累计 {(logs ?? []).length} 次打卡</div>
+          </CardContent>
+        </Card>
+        <Card className="py-4">
+          <CardContent className="px-4">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Flame className="size-3.5" /> 今日摄入</div>
+            <div className="mt-1 text-2xl font-bold">{todayKcal}<span className="text-sm font-normal text-muted-foreground"> kcal{profile?.kcal_target ? ` / ${profile.kcal_target}` : ""}</span></div>
+            <div className="mt-0.5 text-xs text-muted-foreground">{(diet ?? []).length} 条饮食记录</div>
+          </CardContent>
+        </Card>
+        <Card className="py-4">
+          <CardContent className="px-4">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><ClipboardList className="size-3.5" /> 训练计划</div>
+            <div className="mt-1 text-2xl font-bold">{(plans ?? []).length}<span className="text-sm font-normal text-muted-foreground"> 个</span></div>
+            <div className="mt-0.5 text-xs text-muted-foreground">{(plans ?? []).reduce((s, p) => s + p.days.length, 0)} 个训练日</div>
+          </CardContent>
+        </Card>
+      </div>
+    ),
+    weight: () => (
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">体重趋势</CardTitle>
+          <Link to="/weight" className="text-xs text-primary hover:underline">记录体重 →</Link>
+        </CardHeader>
+        <CardContent>
+          {chartData.length === 0 ? (
+            <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+              还没有体重记录，<Link to="/weight" className="ml-1 text-primary hover:underline">去记第一笔</Link>
+            </div>
+          ) : (
+            <ChartContainer config={chartConfig} className="h-40 w-full">
+              <LineChart data={chartData} margin={{ left: 0, right: 8, top: 6, bottom: 0 }}>
+                <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={6} tickFormatter={(v: string) => v.slice(5)} minTickGap={28} />
+                <YAxis hide domain={["dataMin - 0.5", "dataMax + 0.5"]} />
+                <ChartTooltip content={<ChartTooltipContent />} />
+                <Line dataKey="weight" type="monotone" stroke="var(--color-weight)" strokeWidth={2} dot={false} />
+              </LineChart>
+            </ChartContainer>
+          )}
+        </CardContent>
+      </Card>
+    ),
+    quick: () => (
+      <Card>
+        <CardHeader><CardTitle className="text-base">快速开始</CardTitle></CardHeader>
+        <CardContent className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/train"><CalendarCheck className="size-5 text-primary" /> 去打卡</Link>
+          </Button>
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/diet"><UtensilsCrossed className="size-5 text-chart-2" /> 记饮食</Link>
+          </Button>
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/plans"><ClipboardList className="size-5 text-chart-3" /> 排计划</Link>
+          </Button>
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/calendar"><CalendarDays className="size-5 text-chart-1" /> 看日历</Link>
+          </Button>
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/foods"><Apple className="size-5 text-chart-2" /> 食物库</Link>
+          </Button>
+          <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
+            <Link to="/coach"><Bot className="size-5 text-chart-4" /> 问虎教练</Link>
+          </Button>
+        </CardContent>
+      </Card>
+    ),
+    logs: () => (
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">最近打卡</CardTitle>
+          <Link to="/train" className="text-xs text-primary hover:underline">全部记录 →</Link>
+        </CardHeader>
+        <CardContent>
+          {(logs ?? []).length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              还没有打卡。先到<Link to="/plans" className="mx-1 text-primary hover:underline">计划页</Link>安排训练日，然后开始第一次训练吧。
+            </p>
+          ) : (
+            <div className="space-y-2">
+              {(logs ?? []).slice(0, 3).map((log) => (
+                <div key={log.id} className="flex flex-wrap items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">
+                  <Badge variant="secondary">{log.log_date}</Badge>
+                  <span className="font-medium">{log.plan_name}{log.day_name ? ` · ${log.day_name}` : ""}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {log.detail.length} 个动作 · 完成 {log.detail.reduce((s, d) => s + d.done_sets, 0)} 组 · {log.duration_min} 分钟
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    ),
+    diet_today: () => (
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">今日饮食</CardTitle>
+          <Link to="/diet" className="text-xs text-primary hover:underline">去记录 →</Link>
+        </CardHeader>
+        <CardContent>
+          {(diet ?? []).length === 0 ? (
+            <p className="text-sm text-muted-foreground">今天还没有饮食记录，去记第一餐吧。</p>
+          ) : (
+            <div className="space-y-2">
+              <div className="flex flex-wrap gap-2 text-sm">
+                <Badge variant="secondary">{todayKcal} kcal{profile?.kcal_target ? ` / 目标 ${profile.kcal_target}` : ""}</Badge>
+                <Badge variant="secondary">蛋白质 {todayProtein} g{profile?.protein_target ? ` / 目标 ${profile.protein_target}` : ""}</Badge>
+              </div>
+              {(diet ?? []).slice(0, 6).map((e) => (
+                <div key={e.id} className="flex flex-wrap items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">
+                  <Badge>{MEAL_ZH[e.meal] ?? e.meal}</Badge>
+                  <span className="font-medium">{e.food_name}</span>
+                  <span className="text-xs text-muted-foreground">{e.grams} g · {e.kcal} kcal</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    ),
+    meas_latest: () => (
+      <Card>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
+          <CardTitle className="text-base">最新围度</CardTitle>
+          <Link to="/measurements" className="text-xs text-primary hover:underline">去测量 →</Link>
+        </CardHeader>
+        <CardContent>
+          {measLatest.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              还没有围度记录。到<Link to="/measurements" className="mx-1 text-primary hover:underline">测量页</Link>建立腰围、臂围等类别并开始记录。
+            </p>
+          ) : (
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {measLatest.map(({ cat, entry }) => (
+                <div key={cat.id} className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">
+                  <Ruler className="size-4 text-primary" />
+                  <span className="font-medium">{cat.name}</span>
+                  <span className="ml-auto font-bold">{entry.value} {cat.unit}</span>
+                  <span className="text-xs text-muted-foreground">{entry.entry_date.slice(5)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    ),
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">你好，{greetingName}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">{today} · 坚持记录，改变看得见</p>
+          <p className="mt-1 text-sm text-muted-foreground">{displayToday} · 坚持记录，改变看得见</p>
         </div>
-        <Button variant="outline" size="sm" onClick={openEdit}><Pencil className="size-4" /> 个人资料</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" asChild><Link to="/settings"><Settings2 className="size-4" /> 组件设置</Link></Button>
+          <Button variant="outline" size="sm" onClick={openEdit}><Pencil className="size-4" /> 个人资料</Button>
+        </div>
       </div>
 
       {loading && <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-xl" />)}</div>}
 
-      {!loading && (
-        <>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <Card className="py-4">
-              <CardContent className="px-4">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Scale className="size-3.5" /> 最新体重</div>
-                <div className="mt-1 text-2xl font-bold">{latest ? `${latest.weight_kg}` : "—"}<span className="text-sm font-normal text-muted-foreground"> kg</span></div>
-                <div className="mt-0.5 flex items-center gap-1 text-xs text-muted-foreground">
-                  {delta !== null && (delta < 0 ? <TrendingDown className="size-3.5 text-chart-2" /> : delta > 0 ? <TrendingUp className="size-3.5 text-chart-4" /> : null)}
-                  {latest ? latest.entry_date : "去记第一笔"}
-                </div>
-              </CardContent>
-            </Card>
-            <Card className="py-4">
-              <CardContent className="px-4">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><CalendarCheck className="size-3.5" /> 本周训练</div>
-                <div className="mt-1 text-2xl font-bold">{weekLogs.length}<span className="text-sm font-normal text-muted-foreground"> 次</span></div>
-                <div className="mt-0.5 text-xs text-muted-foreground">累计 {(logs ?? []).length} 次打卡</div>
-              </CardContent>
-            </Card>
-            <Card className="py-4">
-              <CardContent className="px-4">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><Flame className="size-3.5" /> 今日摄入</div>
-                <div className="mt-1 text-2xl font-bold">{todayKcal}<span className="text-sm font-normal text-muted-foreground"> kcal{profile?.kcal_target ? ` / ${profile.kcal_target}` : ""}</span></div>
-                <div className="mt-0.5 text-xs text-muted-foreground">{(diet ?? []).length} 条饮食记录</div>
-              </CardContent>
-            </Card>
-            <Card className="py-4">
-              <CardContent className="px-4">
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground"><ClipboardList className="size-3.5" /> 训练计划</div>
-                <div className="mt-1 text-2xl font-bold">{(plans ?? []).length}<span className="text-sm font-normal text-muted-foreground"> 个</span></div>
-                <div className="mt-0.5 text-xs text-muted-foreground">{(plans ?? []).reduce((s, p) => s + p.days.length, 0)} 个训练日</div>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-3">
-            {/* 体重趋势 */}
-            <Card className="lg:col-span-2">
-              <CardHeader className="flex-row items-center justify-between space-y-0">
-                <CardTitle className="text-base">体重趋势</CardTitle>
-                <Link to="/weight" className="text-xs text-primary hover:underline">记录体重 →</Link>
-              </CardHeader>
-              <CardContent>
-                {chartData.length === 0 ? (
-                  <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
-                    还没有体重记录，<Link to="/weight" className="ml-1 text-primary hover:underline">去记第一笔</Link>
-                  </div>
-                ) : (
-                  <ChartContainer config={chartConfig} className="h-40 w-full">
-                    <LineChart data={chartData} margin={{ left: 0, right: 8, top: 6, bottom: 0 }}>
-                      <XAxis dataKey="date" tickLine={false} axisLine={false} tickMargin={6} tickFormatter={(v: string) => v.slice(5)} minTickGap={28} />
-                      <YAxis hide domain={["dataMin - 0.5", "dataMax + 0.5"]} />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Line dataKey="weight" type="monotone" stroke="var(--color-weight)" strokeWidth={2} dot={false} />
-                    </LineChart>
-                  </ChartContainer>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* 快捷入口 */}
-            <Card>
-              <CardHeader><CardTitle className="text-base">快速开始</CardTitle></CardHeader>
-              <CardContent className="grid grid-cols-2 gap-2">
-                <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
-                  <Link to="/train"><CalendarCheck className="size-5 text-primary" /> 去打卡</Link>
-                </Button>
-                <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
-                  <Link to="/diet"><UtensilsCrossed className="size-5 text-chart-2" /> 记饮食</Link>
-                </Button>
-                <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
-                  <Link to="/plans"><ClipboardList className="size-5 text-chart-3" /> 排计划</Link>
-                </Button>
-                <Button variant="outline" className="h-auto flex-col gap-1.5 py-3" asChild>
-                  <Link to="/coach"><Bot className="size-5 text-chart-4" /> 问虎教练</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* 最近打卡 */}
-          <Card>
-            <CardHeader className="flex-row items-center justify-between space-y-0">
-              <CardTitle className="text-base">最近打卡</CardTitle>
-              <Link to="/train" className="text-xs text-primary hover:underline">全部记录 →</Link>
-            </CardHeader>
-            <CardContent>
-              {(logs ?? []).length === 0 ? (
-                <p className="text-sm text-muted-foreground">
-                  还没有打卡。先到<Link to="/plans" className="mx-1 text-primary hover:underline">计划页</Link>安排训练日，然后开始第一次训练吧。
-                </p>
-              ) : (
-                <div className="space-y-2">
-                  {(logs ?? []).slice(0, 3).map((log) => (
-                    <div key={log.id} className="flex flex-wrap items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm">
-                      <Badge variant="secondary">{log.log_date}</Badge>
-                      <span className="font-medium">{log.plan_name}{log.day_name ? ` · ${log.day_name}` : ""}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {log.detail.length} 个动作 · 完成 {log.detail.reduce((s, d) => s + d.done_sets, 0)} 组 · {log.duration_min} 分钟
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </>
-      )}
+      {!loading && layout.map((id) => <div key={id}>{widgets[id]()}</div>)}
 
       {/* 资料编辑 */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Plus, Search, Trash2, UtensilsCrossed } from "lucide-react";
+import { Camera, Plus, Search, Trash2, UtensilsCrossed } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { api, errText, todayStr, MEAL_ZH, type DietEntry, type Profile } from "@/src/lib/api";
 import { loadFoods, scaleFood, type Food } from "@/src/lib/data";
+import FoodPhotoScanner, { type FoodPickEvent } from "@/src/components/FoodPhotoScanner";
 import { cn } from "@/lib/utils";
 
 const MEALS = ["breakfast", "lunch", "dinner", "snack"] as const;
@@ -34,6 +35,7 @@ export default function Diet() {
   const [grams, setGrams] = useState("100");
   const [manual, setManual] = useState({ food_name: "", grams: "100", kcal: "", protein: "", fat: "", carb: "" });
   const [busy, setBusy] = useState(false);
+  const [scanMeal, setScanMeal] = useState<string | null>(null);
 
   const refresh = useCallback(async (d: string) => {
     try { setEntries(await api.getDiet(d)); } catch (e) { toast.error(errText(e)); setEntries([]); }
@@ -95,6 +97,23 @@ export default function Diet() {
   const kcalTarget = profile?.kcal_target ?? null;
   const proteinTarget = profile?.protein_target ?? null;
 
+  // 拍照识餐回传：识别结果为所吃份量的总量，直接记入对应餐次。
+  const onScanPick = async (pick: FoodPickEvent) => {
+    const meal = scanMeal;
+    if (!meal) return;
+    try {
+      await api.addDiet({
+        entry_date: date, meal,
+        food_name: pick.food_name.slice(0, 80), grams: pick.grams,
+        kcal: pick.kcal, protein: pick.protein, fat: pick.fat, carb: pick.carb,
+      });
+      toast.success(`已记入${MEAL_ZH[meal]}（拍照识别）`);
+      await refresh(date);
+    } catch (e) {
+      toast.error(errText(e));
+    }
+  };
+
   return (
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
@@ -145,9 +164,14 @@ export default function Diet() {
                 {MEAL_ZH[meal]}
                 <span className="text-xs font-normal text-muted-foreground">{sum(list, "kcal")} kcal</span>
               </CardTitle>
-              <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => openAdd(meal)}>
-                <Plus className="size-3.5" /> 添加
-              </Button>
+              <div className="flex items-center gap-1.5">
+                <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => setScanMeal(meal)} title="拍照识餐">
+                  <Camera className="size-3.5" /> 拍照
+                </Button>
+                <Button variant="outline" size="sm" className="h-7 text-xs" onClick={() => openAdd(meal)}>
+                  <Plus className="size-3.5" /> 添加
+                </Button>
+              </div>
             </CardHeader>
             <CardContent className="px-4">
               {list.length === 0 ? (
@@ -253,6 +277,13 @@ export default function Diet() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* 拍照识餐（浏览器本地 ONNX 推理，照片不上传） */}
+      <FoodPhotoScanner
+        open={scanMeal !== null}
+        onOpenChange={(o) => !o && setScanMeal(null)}
+        onPick={(pick) => void onScanPick(pick)}
+      />
     </div>
   );
 }

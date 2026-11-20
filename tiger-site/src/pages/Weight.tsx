@@ -10,27 +10,29 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from "@/components/ui/chart";
 import { api, errText, todayStr, type WeightEntry } from "@/src/lib/api";
-
-const chartConfig = {
-  weight: { label: "体重 kg", color: "var(--chart-1)" },
-} satisfies ChartConfig;
+import { fmtWeight, kgToUnit, unitToKg, type WeightUnit } from "@/src/lib/units";
 
 export default function Weight() {
   const [entries, setEntries] = useState<WeightEntry[] | null>(null);
+  const [unit, setUnit] = useState<WeightUnit>("kg");
   const [date, setDate] = useState(todayStr());
   const [kg, setKg] = useState("");
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
 
   const refresh = useCallback(async () => {
-    try { setEntries(await api.getWeight()); } catch (e) { toast.error(errText(e)); setEntries([]); }
+    const [w, p] = await Promise.allSettled([api.getWeight(), api.getPreferences()]);
+    if (w.status === "fulfilled") setEntries(w.value);
+    else { toast.error(errText(w.reason)); setEntries([]); }
+    if (p.status === "fulfilled") setUnit(p.value.preferences.weight_unit === "lb" ? "lb" : "kg");
   }, []);
 
   useEffect(() => { void refresh(); }, [refresh]);
 
+  const chartConfig = useMemo(() => ({ weight: { label: `体重 ${unit}`, color: "var(--chart-1)" } }) satisfies ChartConfig, [unit]);
   const chartData = useMemo(
-    () => (entries ?? []).map((e) => ({ date: e.entry_date, weight: Number(e.weight_kg) })),
-    [entries],
+    () => (entries ?? []).map((e) => ({ date: e.entry_date, weight: +kgToUnit(Number(e.weight_kg), unit).toFixed(2) })),
+    [entries, unit],
   );
   const latest = entries && entries.length > 0 ? entries[entries.length - 1] : null;
   const prev = entries && entries.length > 1 ? entries[entries.length - 2] : null;
@@ -40,11 +42,13 @@ export default function Weight() {
 
   const onSubmit = async () => {
     const value = Number(kg);
-    if (!Number.isFinite(value) || value <= 0 || value > 500) { toast.error("请输入有效体重（0-500 kg）"); return; }
+    const max = unit === "lb" ? 1100 : 500;
+    if (!Number.isFinite(value) || value <= 0 || value > max) { toast.error(`请输入有效体重（0-${max} ${unit}）`); return; }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) { toast.error("日期格式应为 YYYY-MM-DD"); return; }
     setBusy(true);
     try {
-      await api.putWeight(date, Math.round(value * 100) / 100, note.trim().slice(0, 200));
+      const kgValue = Math.round(unitToKg(value, unit) * 100) / 100;
+      await api.putWeight(date, kgValue, note.trim().slice(0, 200));
       toast.success("体重已记录（同一天重复提交会更新）");
       setKg(""); setNote("");
       await refresh();
@@ -66,7 +70,7 @@ export default function Weight() {
         <Card className="py-4">
           <CardContent className="px-4">
             <div className="text-xs text-muted-foreground">最新体重</div>
-            <div className="mt-1 text-2xl font-bold">{latest ? `${latest.weight_kg} kg` : "—"}</div>
+            <div className="mt-1 text-2xl font-bold">{latest ? fmtWeight(Number(latest.weight_kg), unit) : "—"}</div>
             <div className="text-xs text-muted-foreground">{latest?.entry_date ?? "还没有记录"}</div>
           </CardContent>
         </Card>
@@ -77,7 +81,7 @@ export default function Weight() {
               {delta === null ? "—" : (
                 <>
                   {delta < 0 ? <TrendingDown className="size-5 text-chart-2" /> : delta > 0 ? <TrendingUp className="size-5 text-chart-4" /> : null}
-                  {delta > 0 ? "+" : ""}{delta.toFixed(2)} kg
+                  {delta > 0 ? "+" : ""}{kgToUnit(delta, unit).toFixed(2)} {unit}
                 </>
               )}
             </div>
@@ -88,7 +92,7 @@ export default function Weight() {
           <CardContent className="px-4">
             <div className="text-xs text-muted-foreground">累计变化</div>
             <div className="mt-1 text-2xl font-bold">
-              {totalDelta === null ? "—" : `${totalDelta > 0 ? "+" : ""}${totalDelta.toFixed(2)} kg`}
+              {totalDelta === null ? "—" : `${totalDelta > 0 ? "+" : ""}${kgToUnit(totalDelta, unit).toFixed(2)} ${unit}`}
             </div>
             <div className="text-xs text-muted-foreground">共 {entries?.length ?? 0} 条记录</div>
           </CardContent>
@@ -130,8 +134,8 @@ export default function Weight() {
               <Input type="date" value={date} min="2000-01-01" max="2100-12-31" onChange={(e) => setDate(e.target.value)} />
             </div>
             <div className="space-y-1.5">
-              <Label>体重 kg</Label>
-              <Input type="number" min={0.1} max={500} step={0.05} value={kg} onChange={(e) => setKg(e.target.value)} placeholder="72.5" />
+              <Label>体重 {unit}</Label>
+              <Input type="number" min={0.1} max={unit === "lb" ? 1100 : 500} step={0.05} value={kg} onChange={(e) => setKg(e.target.value)} placeholder={unit === "lb" ? "160" : "72.5"} />
             </div>
             <div className="space-y-1.5">
               <Label>备注（可选）</Label>
@@ -160,7 +164,7 @@ export default function Weight() {
                 {[...entries].reverse().map((e) => (
                   <TableRow key={e.entry_date}>
                     <TableCell className="font-medium">{e.entry_date}</TableCell>
-                    <TableCell>{e.weight_kg} kg</TableCell>
+                    <TableCell>{fmtWeight(Number(e.weight_kg), unit, 2)}</TableCell>
                     <TableCell className="hidden text-muted-foreground sm:table-cell">{e.note || "—"}</TableCell>
                     <TableCell>
                       <Button variant="ghost" size="icon" className="size-7 text-destructive" aria-label="删除记录"

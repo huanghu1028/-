@@ -12,7 +12,7 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && node scripts/build.mjs",
     "preview": "vite preview --host 127.0.0.1",
-    "dev:api": "deno run --allow-net=127.0.0.1:8001,api.deepseek.com --allow-read=dev --allow-write=dev --allow-env=DEEPSEEK_API_KEY dev/function-local.ts",
+    "dev:api": "deno run --allow-net=127.0.0.1:8001,127.0.0.1:8002,api.deepseek.com --allow-read=dev --allow-write=dev --allow-env=DEEPSEEK_API_KEY,PORT dev/function-local.ts",
     "check:function": "deno check dev/function-local.ts"
   },
   "dependencies": {

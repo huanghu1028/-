@@ -34,7 +34,8 @@ const handle = createApplication({
   env: (key: string) => Deno.env.get(key),
 });
 
-Deno.serve({ hostname: "127.0.0.1", port: 8001 }, async (request) => {
+const PORT = Number(Deno.env.get("PORT") ?? "8001");
+Deno.serve({ hostname: "127.0.0.1", port: PORT }, async (request) => {
   // 演练垫片：本地 http 没有可信 HTTPS Origin，统一重写为固定演练源以通过同源校验。
   const headers = new Headers(request.headers);
   headers.set("origin", LOCAL_ORIGIN);
@@ -47,4 +48,4 @@ Deno.serve({ hostname: "127.0.0.1", port: 8001 }, async (request) => {
   return await handle({ request: shimmed });
 });
 
-console.log(`[dev] tiger-减脂 API 演练服务: http://127.0.0.1:8001/functions/v1/app/api/health`);
+console.log(`[dev] tiger-减脂 API 演练服务: http://127.0.0.1:${PORT}/functions/v1/app/api/health`);

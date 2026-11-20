@@ -4,8 +4,9 @@
 // 所有业务读写都带 owner_id 谓词；平台 RLS 负责租户隔离，这里负责用户级归属。
 import { AppError, applicationPath, errorJson, json, readJson, requireTrustedOrigin, rows } from './http.mjs';
 import {
-  ACTIVITIES, GENDERS, MEALS, boundedText, canonicalUsername, decimalStr, intIn,
+  ACTIVITIES, GENDERS, MEALS, WEIGHT_UNITS, boundedText, canonicalUsername, decimalStr, intIn,
   nullableIntIn, oneOf, validateDate, validateLogDetail, validatePassword,
+  validateDataUrl, validateExtras, validateDashboardLayout,
 } from './validate.mjs';
 import { hashPassword, verifyPassword, verifyPasswordAgainstDummy } from './passwords.mjs';
 import { SESSION_TTL_MS, clearSessionCookie, createSession, revokeSession, sessionCookie, validateSession } from './sessions.mjs';
@@ -180,7 +181,7 @@ async function plansGet({ db, session }) {
   const days = rows(await db.from('plan_days').select('id,plan_id,day_index,name')
     .eq('owner_id', session.userId).order('day_index').limit(210));
   const items = rows(await db.from('plan_items').select('id,day_id,exercise_id,sort,sets,reps,weight')
-    .eq('owner_id', session.userId).order('sort').limit(1500));
+    .eq('owner_id', session.userId).order('sort').limit(1000));
   const planIds = new Set(plans.map((p) => p.id));
   const daysByPlan = new Map();
   for (const day of days) {
@@ -571,6 +572,378 @@ async function chatPost({ db, request, session }) {
   return json({ reply, saved });
 }
 
+// ---------- 测量围度 ----------
+
+const MEAS_CAT_COLS = 'id,name,unit,created_at';
+const MEAS_ENTRY_COLS = 'id,category_id,entry_date,value,note,created_at';
+
+async function measCatsGet({ db, session }) {
+  return json(rows(await db.from('measurement_categories').select(MEAS_CAT_COLS)
+    .eq('owner_id', session.userId).order('created_at').limit(60)));
+}
+
+async function measCatsPost({ db, request, session }) {
+  const body = await readJson(request);
+  const existing = rows(await db.from('measurement_categories').select('id')
+    .eq('owner_id', session.userId).limit(60));
+  if (existing.length >= 40) throw new AppError('too_many_items', 400);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId,
+    name: boundedText(body?.name, 60), unit: boundedText(body?.unit, 12),
+    created_at: new Date().toISOString(),
+  };
+  const created = rows(await db.from('measurement_categories').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(MEAS_CAT_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json(created[0], 201);
+}
+
+async function measCatDelete({ db, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'measurement_categories', id, session.userId);
+  rows(await db.from('measurement_entries').delete().eq('owner_id', session.userId).eq('category_id', id).select('id'));
+  const deleted = rows(await db.from('measurement_categories').delete().eq('owner_id', session.userId).eq('id', id).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+async function measEntriesGet({ db, session, url }) {
+  const cat = url.searchParams.get('category');
+  let q = db.from('measurement_entries').select(MEAS_ENTRY_COLS).eq('owner_id', session.userId);
+  if (cat) { if (!/^[0-9a-f-]{36}$/.test(cat)) throw new AppError('invalid_input', 400); q = q.eq('category_id', cat); }
+  const list = rows(await q.order('entry_date').limit(1000));
+  return json(list);
+}
+
+async function measEntriesPost({ db, request, session }) {
+  const body = await readJson(request);
+  const categoryId = body?.category_id;
+  if (typeof categoryId !== 'string') throw new AppError('invalid_input', 400);
+  await assertOwned(db, 'measurement_categories', categoryId, session.userId);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId, category_id: categoryId,
+    entry_date: validateDate(body?.entry_date),
+    value: decimalStr(body?.value, 100000, 2),
+    note: boundedText(body?.note ?? '', 200, { allowEmpty: true }),
+    created_at: new Date().toISOString(),
+  };
+  const created = rows(await db.from('measurement_entries').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(MEAS_ENTRY_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json(created[0], 201);
+}
+
+async function measEntryDelete({ db, session, match }) {
+  const deleted = rows(await db.from('measurement_entries').delete().eq('owner_id', session.userId).eq('id', match[1]).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+// ---------- 画廊（进度照片） ----------
+
+const GALLERY_COLS = 'id,entry_date,caption,data_url,created_at';
+
+async function galleryGet({ db, session }) {
+  return json(rows(await db.from('gallery_images').select(GALLERY_COLS)
+    .eq('owner_id', session.userId).order('entry_date').limit(60)));
+}
+
+async function galleryPost({ db, request, session }) {
+  const body = await readJson(request, 700000);
+  const existing = rows(await db.from('gallery_images').select('id').eq('owner_id', session.userId).limit(60));
+  if (existing.length >= 60) throw new AppError('too_many_items', 400);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId,
+    entry_date: validateDate(body?.entry_date),
+    caption: boundedText(body?.caption ?? '', 120, { allowEmpty: true }),
+    data_url: validateDataUrl(body?.data_url),
+    created_at: new Date().toISOString(),
+  };
+  const created = rows(await db.from('gallery_images').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(GALLERY_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json(created[0], 201);
+}
+
+async function galleryDelete({ db, session, match }) {
+  const deleted = rows(await db.from('gallery_images').delete().eq('owner_id', session.userId).eq('id', match[1]).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+// ---------- 营养计划 ----------
+
+const NUT_PLAN_COLS = 'id,name,description,kcal_target,protein_target,carb_target,fat_target,created_at';
+const NUT_MEAL_COLS = 'id,plan_id,meal,name,sort';
+const NUT_ITEM_COLS = 'id,meal_id,food_name,grams,kcal,protein,fat,carb,sort';
+
+async function nutPlansGet({ db, session }) {
+  const plans = rows(await db.from('nutrition_plans').select(NUT_PLAN_COLS).eq('owner_id', session.userId).order('created_at').limit(30));
+  const meals = rows(await db.from('nutrition_meals').select(NUT_MEAL_COLS).eq('owner_id', session.userId).order('sort').limit(120));
+  const items = rows(await db.from('nutrition_items').select(NUT_ITEM_COLS).eq('owner_id', session.userId).order('sort').limit(1000));
+  const planIds = new Set(plans.map((p) => p.id));
+  const mealsByPlan = new Map();
+  for (const m of meals) {
+    if (!planIds.has(m.plan_id)) continue;
+    if (!mealsByPlan.has(m.plan_id)) mealsByPlan.set(m.plan_id, []);
+    mealsByPlan.get(m.plan_id).push({ ...m, items: [] });
+  }
+  const mealIds = new Set([...mealsByPlan.values()].flat().map((m) => m.id));
+  const itemsByMeal = new Map();
+  for (const it of items) {
+    if (!mealIds.has(it.meal_id)) continue;
+    if (!itemsByMeal.has(it.meal_id)) itemsByMeal.set(it.meal_id, []);
+    itemsByMeal.get(it.meal_id).push(it);
+  }
+  for (const list of mealsByPlan.values()) for (const m of list) m.items = itemsByMeal.get(m.id) ?? [];
+  return json(plans.map((p) => ({ ...p, meals: mealsByPlan.get(p.id) ?? [] })));
+}
+
+async function nutPlansPost({ db, request, session }) {
+  const body = await readJson(request);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId,
+    name: boundedText(body?.name, 60),
+    description: boundedText(body?.description ?? '', 300, { allowEmpty: true }),
+    kcal_target: nullableIntIn(body?.kcal_target, 800, 6000),
+    protein_target: nullableIntIn(body?.protein_target, 0, 400),
+    carb_target: nullableIntIn(body?.carb_target, 0, 800),
+    fat_target: nullableIntIn(body?.fat_target, 0, 300),
+    created_at: new Date().toISOString(),
+  };
+  const created = rows(await db.from('nutrition_plans').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(NUT_PLAN_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json({ ...created[0], meals: [] }, 201);
+}
+
+async function nutPlanPatch({ db, request, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'nutrition_plans', id, session.userId);
+  const body = await readJson(request);
+  const patch = {};
+  if (body?.name !== undefined) patch.name = boundedText(body.name, 60);
+  if (body?.description !== undefined) patch.description = boundedText(body.description, 300, { allowEmpty: true });
+  if (body?.kcal_target !== undefined) patch.kcal_target = nullableIntIn(body.kcal_target, 800, 6000);
+  if (body?.protein_target !== undefined) patch.protein_target = nullableIntIn(body.protein_target, 0, 400);
+  if (body?.carb_target !== undefined) patch.carb_target = nullableIntIn(body.carb_target, 0, 800);
+  if (body?.fat_target !== undefined) patch.fat_target = nullableIntIn(body.fat_target, 0, 300);
+  if (Object.keys(patch).length === 0) throw new AppError('invalid_input', 400);
+  const updated = rows(await db.from('nutrition_plans').update(patch).eq('owner_id', session.userId).eq('id', id).select(NUT_PLAN_COLS));
+  if (updated.length !== 1) return errorJson('invalid_input', 503);
+  return json(updated[0]);
+}
+
+async function nutPlanDelete({ db, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'nutrition_plans', id, session.userId);
+  const meals = rows(await db.from('nutrition_meals').select('id').eq('owner_id', session.userId).eq('plan_id', id).limit(120));
+  for (const m of meals) rows(await db.from('nutrition_items').delete().eq('owner_id', session.userId).eq('meal_id', m.id).select('id'));
+  rows(await db.from('nutrition_meals').delete().eq('owner_id', session.userId).eq('plan_id', id).select('id'));
+  const deleted = rows(await db.from('nutrition_plans').delete().eq('owner_id', session.userId).eq('id', id).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+async function nutMealsPost({ db, request, session, match }) {
+  const planId = match[1];
+  await assertOwned(db, 'nutrition_plans', planId, session.userId);
+  const body = await readJson(request);
+  const existing = rows(await db.from('nutrition_meals').select('id').eq('owner_id', session.userId).eq('plan_id', planId).limit(120));
+  if (existing.length >= 8) throw new AppError('too_many_items', 400);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId, plan_id: planId,
+    meal: oneOf(body?.meal, MEALS), name: boundedText(body?.name ?? '', 60, { allowEmpty: true }),
+    sort: existing.length,
+  };
+  const created = rows(await db.from('nutrition_meals').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(NUT_MEAL_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json({ ...created[0], items: [] }, 201);
+}
+
+async function nutMealPatch({ db, request, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'nutrition_meals', id, session.userId);
+  const body = await readJson(request);
+  const patch = {};
+  if (body?.name !== undefined) patch.name = boundedText(body.name, 60, { allowEmpty: true });
+  if (body?.meal !== undefined) patch.meal = oneOf(body.meal, MEALS);
+  if (Object.keys(patch).length === 0) throw new AppError('invalid_input', 400);
+  const updated = rows(await db.from('nutrition_meals').update(patch).eq('owner_id', session.userId).eq('id', id).select(NUT_MEAL_COLS));
+  if (updated.length !== 1) return errorJson('invalid_input', 503);
+  return json(updated[0]);
+}
+
+async function nutMealDelete({ db, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'nutrition_meals', id, session.userId);
+  rows(await db.from('nutrition_items').delete().eq('owner_id', session.userId).eq('meal_id', id).select('id'));
+  const deleted = rows(await db.from('nutrition_meals').delete().eq('owner_id', session.userId).eq('id', id).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+async function nutItemsPost({ db, request, session, match }) {
+  const mealId = match[1];
+  await assertOwned(db, 'nutrition_meals', mealId, session.userId);
+  const body = await readJson(request);
+  const existing = rows(await db.from('nutrition_items').select('id').eq('owner_id', session.userId).eq('meal_id', mealId).limit(200));
+  if (existing.length >= 40) throw new AppError('too_many_items', 400);
+  const grams = decimalStr(body?.grams, 5000, 1);
+  if (Number(grams) <= 0) throw new AppError('invalid_input', 400);
+  const row = {
+    id: crypto.randomUUID(), owner_id: session.userId, meal_id: mealId,
+    food_name: boundedText(body?.food_name, 80), grams,
+    kcal: decimalStr(body?.kcal, 9000, 1), protein: decimalStr(body?.protein, 1000, 1),
+    fat: decimalStr(body?.fat, 1000, 1), carb: decimalStr(body?.carb, 1000, 1),
+    sort: existing.length,
+  };
+  const created = rows(await db.from('nutrition_items').insertIfAbsent(row, { onConflict: 'owner_id,id' }).select(NUT_ITEM_COLS));
+  if (created.length !== 1) return errorJson('invalid_input', 503);
+  return json(created[0], 201);
+}
+
+async function nutItemPatch({ db, request, session, match }) {
+  const id = match[1];
+  await assertOwned(db, 'nutrition_items', id, session.userId);
+  const body = await readJson(request);
+  const patch = {};
+  if (body?.food_name !== undefined) patch.food_name = boundedText(body.food_name, 80);
+  if (body?.grams !== undefined) { patch.grams = decimalStr(body.grams, 5000, 1); if (Number(patch.grams) <= 0) throw new AppError('invalid_input', 400); }
+  if (body?.kcal !== undefined) patch.kcal = decimalStr(body.kcal, 9000, 1);
+  if (body?.protein !== undefined) patch.protein = decimalStr(body.protein, 1000, 1);
+  if (body?.fat !== undefined) patch.fat = decimalStr(body.fat, 1000, 1);
+  if (body?.carb !== undefined) patch.carb = decimalStr(body.carb, 1000, 1);
+  if (Object.keys(patch).length === 0) throw new AppError('invalid_input', 400);
+  const updated = rows(await db.from('nutrition_items').update(patch).eq('owner_id', session.userId).eq('id', id).select(NUT_ITEM_COLS));
+  if (updated.length !== 1) return errorJson('invalid_input', 503);
+  return json(updated[0]);
+}
+
+async function nutItemDelete({ db, session, match }) {
+  const deleted = rows(await db.from('nutrition_items').delete().eq('owner_id', session.userId).eq('id', match[1]).select('id'));
+  if (deleted.length !== 1) return errorJson('not_found', 404);
+  return json({ ok: true });
+}
+
+// ---------- 计划模板 / 高级训练法元数据 ----------
+
+const PLAN_META_COLS = 'owner_id,plan_id,is_template,is_public,day_extras,item_extras,updated_at';
+
+async function readPlanMeta(db, ownerId, planId) {
+  const found = rows(await db.from('plan_meta').select(PLAN_META_COLS).eq('owner_id', ownerId).eq('plan_id', planId).limit(1));
+  return found.length === 1 ? found[0] : null;
+}
+
+async function planMetaGet({ db, session, match }) {
+  const planId = match[1];
+  await assertOwned(db, 'plans', planId, session.userId);
+  return json({ meta: await readPlanMeta(db, session.userId, planId) });
+}
+
+async function planMetaPatch({ db, request, session, match }) {
+  const planId = match[1];
+  await assertOwned(db, 'plans', planId, session.userId);
+  const body = await readJson(request, 65536);
+  const prev = await readPlanMeta(db, session.userId, planId);
+  const row = {
+    owner_id: session.userId, plan_id: planId,
+    is_template: body?.is_template !== undefined ? body.is_template === true : (prev?.is_template ?? false),
+    is_public: body?.is_public !== undefined ? body.is_public === true : (prev?.is_public ?? false),
+    day_extras: body?.day_extras !== undefined ? validateExtras(body.day_extras, 210, 'day') : (prev?.day_extras ?? {}),
+    item_extras: body?.item_extras !== undefined ? validateExtras(body.item_extras, 1500, 'item') : (prev?.item_extras ?? {}),
+    updated_at: new Date().toISOString(),
+  };
+  const inserted = rows(await db.from('plan_meta').insertIfAbsent(row, { onConflict: 'owner_id,plan_id' }).select(PLAN_META_COLS));
+  if (inserted.length === 1) return json(inserted[0]);
+  const updated = rows(await db.from('plan_meta').update(row).eq('owner_id', session.userId).eq('plan_id', planId).select(PLAN_META_COLS));
+  if (updated.length !== 1) return errorJson('invalid_input', 503);
+  return json(updated[0]);
+}
+
+// 模板列表：自己的模板 + 他人公开的模板（function_backend 下 Function 可跨 owner 读，应用层判定公开性）。
+async function templatesGet({ db, session }) {
+  const metas = rows(await db.from('plan_meta').select('owner_id,plan_id,is_template,is_public')
+    .eq('is_template', true).limit(200));
+  const visible = metas.filter((m) => m.owner_id === session.userId || m.is_public === true);
+  if (visible.length === 0) return json([]);
+  const ids = visible.map((m) => m.plan_id);
+  const plans = rows(await db.from('plans').select('id,owner_id,name,goal,created_at').limit(200));
+  const byId = new Map(plans.map((p) => [p.id, p]));
+  const out = [];
+  for (const m of visible) {
+    const p = byId.get(m.plan_id);
+    if (!p) continue;
+    out.push({ id: p.id, name: p.name, goal: p.goal, created_at: p.created_at, is_public: m.is_public, is_mine: p.owner_id === session.userId });
+  }
+  return json(out);
+}
+
+// 复制模板（自己的或他人公开的）为一个新自有计划。
+async function templateCopy({ db, session, match }) {
+  const srcId = match[1];
+  const srcPlan = rows(await db.from('plans').select('id,owner_id,name,goal').eq('id', srcId).limit(1));
+  if (srcPlan.length !== 1) return errorJson('not_found', 404);
+  const src = srcPlan[0];
+  const meta = await readPlanMeta(db, src.owner_id, srcId);
+  const allowed = src.owner_id === session.userId || (meta?.is_template === true && meta?.is_public === true);
+  if (!allowed) return errorJson('not_found', 404);
+
+  const newPlanId = crypto.randomUUID();
+  const created = rows(await db.from('plans').insertIfAbsent({
+    id: newPlanId, owner_id: session.userId, name: `${src.name}（副本）`.slice(0, 60), goal: src.goal,
+    created_at: new Date().toISOString(),
+  }, { onConflict: 'owner_id,id' }).select('id,name,goal,created_at'));
+  if (created.length !== 1) return errorJson('plan_unconfirmed', 503);
+
+  const days = rows(await db.from('plan_days').select('id,day_index,name').eq('owner_id', src.owner_id).eq('plan_id', srcId).order('day_index').limit(210));
+  const newDays = [];
+  const dayExtras = {}, itemExtras = {};
+  for (const d of days) {
+    const nd = crypto.randomUUID();
+    rows(await db.from('plan_days').insertIfAbsent({ id: nd, owner_id: session.userId, plan_id: newPlanId, day_index: d.day_index, name: d.name }, { onConflict: 'owner_id,id' }).select('id'));
+    if (meta?.day_extras?.[d.id]) dayExtras[nd] = meta.day_extras[d.id];
+    const items = rows(await db.from('plan_items').select('id,exercise_id,sort,sets,reps,weight').eq('owner_id', src.owner_id).eq('day_id', d.id).order('sort').limit(100));
+    for (const it of items) {
+      const ni = crypto.randomUUID();
+      rows(await db.from('plan_items').insertIfAbsent({ id: ni, owner_id: session.userId, day_id: nd, exercise_id: it.exercise_id, sort: it.sort, sets: it.sets, reps: it.reps, weight: it.weight }, { onConflict: 'owner_id,id' }).select('id'));
+      if (meta?.item_extras?.[it.id]) itemExtras[ni] = meta.item_extras[it.id];
+    }
+    newDays.push({ id: nd, plan_id: newPlanId, day_index: d.day_index, name: d.name, items: [] });
+  }
+  // 高级训练法设置随副本带走（重映射到新 id）；副本默认不公开、不作为模板。
+  if (Object.keys(dayExtras).length > 0 || Object.keys(itemExtras).length > 0) {
+    rows(await db.from('plan_meta').insertIfAbsent({
+      owner_id: session.userId, plan_id: newPlanId, is_template: false, is_public: false,
+      day_extras: dayExtras, item_extras: itemExtras, updated_at: new Date().toISOString(),
+    }, { onConflict: 'owner_id,plan_id' }).select('plan_id'));
+  }
+  return json({ ...created[0], days: newDays }, 201);
+}
+
+// ---------- 偏好 ----------
+
+const PREF_COLS = 'owner_id,weight_unit,timezone,dashboard_layout,updated_at';
+const DEFAULT_PREFS = { weight_unit: 'kg', timezone: 'Asia/Shanghai', dashboard_layout: [] };
+
+async function prefsGet({ db, session }) {
+  const found = rows(await db.from('preferences').select(PREF_COLS).eq('owner_id', session.userId).limit(1));
+  if (found.length === 1) return json({ preferences: found[0] });
+  return json({ preferences: { ...DEFAULT_PREFS, owner_id: session.userId } });
+}
+
+async function prefsPut({ db, request, session }) {
+  const body = await readJson(request, 65536);
+  const row = {
+    owner_id: session.userId,
+    weight_unit: oneOf(body?.weight_unit ?? 'kg', WEIGHT_UNITS),
+    timezone: boundedText(body?.timezone ?? 'Asia/Shanghai', 64),
+    dashboard_layout: validateDashboardLayout(body?.dashboard_layout),
+    updated_at: new Date().toISOString(),
+  };
+  const inserted = rows(await db.from('preferences').insertIfAbsent(row, { onConflict: 'owner_id' }).select(PREF_COLS));
+  if (inserted.length === 1) return json({ preferences: inserted[0] });
+  const updated = rows(await db.from('preferences').update(row).eq('owner_id', session.userId).select(PREF_COLS));
+  if (updated.length !== 1) return errorJson('profile_unconfirmed', 503);
+  return json({ preferences: updated[0] });
+}
+
 // ---------- 路由表 ----------
 
 const UUID_SEG = '([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})';
@@ -606,6 +979,35 @@ const ROUTES = [
   { method: 'GET', path: '/api/chat', auth: true, handle: chatGet },
   { method: 'POST', path: '/api/chat', auth: true, handle: chatPost },
   { method: 'DELETE', path: '/api/chat', auth: true, handle: chatDelete },
+  // 测量围度
+  { method: 'GET', path: '/api/measurements/categories', auth: true, handle: measCatsGet },
+  { method: 'POST', path: '/api/measurements/categories', auth: true, handle: measCatsPost },
+  { method: 'DELETE', path: idRoute('measurements/categories'), auth: true, handle: measCatDelete },
+  { method: 'GET', path: '/api/measurements/entries', auth: true, handle: measEntriesGet },
+  { method: 'POST', path: '/api/measurements/entries', auth: true, handle: measEntriesPost },
+  { method: 'DELETE', path: idRoute('measurements/entries'), auth: true, handle: measEntryDelete },
+  // 画廊
+  { method: 'GET', path: '/api/gallery', auth: true, handle: galleryGet },
+  { method: 'POST', path: '/api/gallery', auth: true, handle: galleryPost },
+  { method: 'DELETE', path: idRoute('gallery'), auth: true, handle: galleryDelete },
+  // 营养计划
+  { method: 'GET', path: '/api/nutrition-plans', auth: true, handle: nutPlansGet },
+  { method: 'POST', path: '/api/nutrition-plans', auth: true, handle: nutPlansPost },
+  { method: 'PATCH', path: idRoute('nutrition-plans'), auth: true, handle: nutPlanPatch },
+  { method: 'DELETE', path: idRoute('nutrition-plans'), auth: true, handle: nutPlanDelete },
+  { method: 'POST', path: new RegExp(`^/api/nutrition-plans/${UUID_SEG}/meals$`), auth: true, handle: nutMealsPost },
+  { method: 'PATCH', path: idRoute('nutrition-meals'), auth: true, handle: nutMealPatch },
+  { method: 'DELETE', path: idRoute('nutrition-meals'), auth: true, handle: nutMealDelete },
+  { method: 'POST', path: new RegExp(`^/api/nutrition-meals/${UUID_SEG}/items$`), auth: true, handle: nutItemsPost },
+  { method: 'PATCH', path: idRoute('nutrition-items'), auth: true, handle: nutItemPatch },
+  { method: 'DELETE', path: idRoute('nutrition-items'), auth: true, handle: nutItemDelete },
+  // 模板 / 高级训练法 / 偏好
+  { method: 'GET', path: new RegExp(`^/api/plans/${UUID_SEG}/meta$`), auth: true, handle: planMetaGet },
+  { method: 'PATCH', path: new RegExp(`^/api/plans/${UUID_SEG}/meta$`), auth: true, handle: planMetaPatch },
+  { method: 'GET', path: '/api/templates', auth: true, handle: templatesGet },
+  { method: 'POST', path: new RegExp(`^/api/templates/${UUID_SEG}/copy$`), auth: true, handle: templateCopy },
+  { method: 'GET', path: '/api/preferences', auth: true, handle: prefsGet },
+  { method: 'PUT', path: '/api/preferences', auth: true, handle: prefsPut },
 ];
 
 async function route(db, request, origin, env) {

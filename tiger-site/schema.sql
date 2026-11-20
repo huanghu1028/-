@@ -125,3 +125,100 @@ CREATE TABLE app.chat_messages (
   PRIMARY KEY (owner_id, id)
 );
 CREATE INDEX chat_messages_owner_created_idx ON app.chat_messages (owner_id, created_at);
+
+-- ===== 嫁接模块：测量围度 / 画廊 / 营养计划 / 计划模板与高级训练法 / 偏好 =====
+
+-- 自定义测量类别（围度 cm、体脂 %、血压 mmHg 等），单位自由有界文本。
+CREATE TABLE app.measurement_categories (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  name text NOT NULL,
+  unit text NOT NULL,
+  created_at timestamptz NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+
+CREATE TABLE app.measurement_entries (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  category_id uuid NOT NULL,
+  entry_date text NOT NULL,
+  value text NOT NULL,
+  note text NOT NULL,
+  created_at timestamptz NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+CREATE INDEX measurement_entries_cat_idx ON app.measurement_entries (owner_id, category_id, entry_date);
+
+-- 进度照片：客户端压缩后的 data URL（有界），owner 隔离，不引入额外存储能力。
+CREATE TABLE app.gallery_images (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  entry_date text NOT NULL,
+  caption text NOT NULL,
+  data_url text NOT NULL,
+  created_at timestamptz NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+CREATE INDEX gallery_images_owner_date_idx ON app.gallery_images (owner_id, entry_date);
+
+-- 营养计划 → 餐次 → 食物项（镜像原站 nutrition plan/meal/ingredient）。
+CREATE TABLE app.nutrition_plans (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  name text NOT NULL,
+  description text NOT NULL,
+  kcal_target integer,
+  protein_target integer,
+  carb_target integer,
+  fat_target integer,
+  created_at timestamptz NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+
+CREATE TABLE app.nutrition_meals (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  plan_id uuid NOT NULL,
+  meal text NOT NULL,
+  name text NOT NULL,
+  sort integer NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+CREATE INDEX nutrition_meals_plan_idx ON app.nutrition_meals (owner_id, plan_id);
+
+CREATE TABLE app.nutrition_items (
+  id uuid NOT NULL,
+  owner_id text NOT NULL,
+  meal_id uuid NOT NULL,
+  food_name text NOT NULL,
+  grams text NOT NULL,
+  kcal text NOT NULL,
+  protein text NOT NULL,
+  fat text NOT NULL,
+  carb text NOT NULL,
+  sort integer NOT NULL,
+  PRIMARY KEY (owner_id, id)
+);
+CREATE INDEX nutrition_items_meal_idx ON app.nutrition_items (owner_id, meal_id);
+
+-- 计划元数据：模板/公开标记 + 高级训练法（日类型 EMOM/AMRAP/HIIT/Tabata、组类型/超级组）。
+CREATE TABLE app.plan_meta (
+  owner_id text NOT NULL,
+  plan_id uuid NOT NULL,
+  is_template boolean NOT NULL,
+  is_public boolean NOT NULL,
+  day_extras jsonb NOT NULL,
+  item_extras jsonb NOT NULL,
+  updated_at timestamptz NOT NULL,
+  PRIMARY KEY (owner_id, plan_id)
+);
+
+-- 偏好：体重单位 kg/lb、时区、仪表盘组件布局（jsonb）。
+CREATE TABLE app.preferences (
+  owner_id text PRIMARY KEY,
+  weight_unit text NOT NULL,
+  timezone text NOT NULL,
+  dashboard_layout jsonb NOT NULL,
+  updated_at timestamptz NOT NULL
+);

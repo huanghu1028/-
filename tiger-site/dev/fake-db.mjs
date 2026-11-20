@@ -80,7 +80,7 @@ export function createFakeDb(control = { mode: 'ok', dropTable: null, rejectTabl
 
     const chain = {
       eq(key, value) { filters.push([key, value]); return chain; },
-      limit(count) { maxRows = count; return chain; },
+      limit(count) { if (count > 1000) throw new RangeError('limit exceeds backend max 1000'); maxRows = count; return chain; },
       order(name) { orderBy = String(name); return chain; },
       select(names) { if (typeof names === 'string') columns = names; return chain; },
       then(resolve, reject) { execution ??= Promise.resolve().then(run); return execution.then(resolve, reject); },

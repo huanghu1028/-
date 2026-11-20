@@ -1,0 +1,1446 @@
+{
+ "keys": [
+  "apple_pie",
+  "baby_back_ribs",
+  "baklava",
+  "beef_carpaccio",
+  "beef_tartare",
+  "beet_salad",
+  "beignets",
+  "bibimbap",
+  "bread_pudding",
+  "breakfast_burrito",
+  "bruschetta",
+  "caesar_salad",
+  "cannoli",
+  "caprese_salad",
+  "carrot_cake",
+  "ceviche",
+  "cheese_plate",
+  "cheesecake",
+  "chicken_curry",
+  "chicken_quesadilla",
+  "chicken_wings",
+  "chocolate_cake",
+  "chocolate_mousse",
+  "churros",
+  "clam_chowder",
+  "club_sandwich",
+  "crab_cakes",
+  "creme_brulee",
+  "croque_madame",
+  "cup_cakes",
+  "deviled_eggs",
+  "donuts",
+  "dumplings",
+  "edamame",
+  "eggs_benedict",
+  "escargots",
+  "falafel",
+  "filet_mignon",
+  "fish_and_chips",
+  "foie_gras",
+  "french_fries",
+  "french_onion_soup",
+  "french_toast",
+  "fried_calamari",
+  "fried_rice",
+  "frozen_yogurt",
+  "garlic_bread",
+  "gnocchi",
+  "greek_salad",
+  "grilled_cheese_sandwich",
+  "grilled_salmon",
+  "guacamole",
+  "gyoza",
+  "hamburger",
+  "hot_and_sour_soup",
+  "hot_dog",
+  "huevos_rancheros",
+  "hummus",
+  "ice_cream",
+  "lasagna",
+  "lobster_bisque",
+  "lobster_roll_sandwich",
+  "macaroni_and_cheese",
+  "macarons",
+  "miso_soup",
+  "mussels",
+  "nachos",
+  "omelette",
+  "onion_rings",
+  "oysters",
+  "pad_thai",
+  "paella",
+  "pancakes",
+  "panna_cotta",
+  "peking_duck",
+  "pho",
+  "pizza",
+  "pork_chop",
+  "poutine",
+  "prime_rib",
+  "pulled_pork_sandwich",
+  "ramen",
+  "ravioli",
+  "red_velvet_cake",
+  "risotto",
+  "samosa",
+  "sashimi",
+  "scallops",
+  "seaweed_salad",
+  "shrimp_and_grits",
+  "spaghetti_bolognese",
+  "spaghetti_carbonara",
+  "spring_rolls",
+  "steak",
+  "strawberry_shortcake",
+  "sushi",
+  "tacos",
+  "takoyaki",
+  "tiramisu",
+  "tuna_tartare",
+  "waffles"
+ ],
+ "foods": {
+  "apple_pie": {
+   "key": "apple_pie",
+   "zh": "苹果派",
+   "en": "Apple pie",
+   "energy": 237,
+   "protein": 2.4,
+   "fat": 11,
+   "carbs": 34,
+   "serving": 125,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "baby_back_ribs": {
+   "key": "baby_back_ribs",
+   "zh": "烤猪肋排",
+   "en": "Baby back ribs",
+   "energy": 292,
+   "protein": 25,
+   "fat": 20,
+   "carbs": 3,
+   "serving": 200,
+   "tags": [
+    "high_protein",
+    "high_fat"
+   ]
+  },
+  "baklava": {
+   "key": "baklava",
+   "zh": "果仁蜜饼",
+   "en": "Baklava",
+   "energy": 428,
+   "protein": 6,
+   "fat": 29,
+   "carbs": 38,
+   "serving": 60,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "beef_carpaccio": {
+   "key": "beef_carpaccio",
+   "zh": "生牛肉薄片",
+   "en": "Beef carpaccio",
+   "energy": 121,
+   "protein": 22,
+   "fat": 3,
+   "carbs": 1,
+   "serving": 80,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "beef_tartare": {
+   "key": "beef_tartare",
+   "zh": "鞑靼牛肉",
+   "en": "Beef tartare",
+   "energy": 140,
+   "protein": 20,
+   "fat": 6,
+   "carbs": 2,
+   "serving": 100,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "beet_salad": {
+   "key": "beet_salad",
+   "zh": "甜菜沙拉",
+   "en": "Beet salad",
+   "energy": 43,
+   "protein": 1.6,
+   "fat": 0.2,
+   "carbs": 9.6,
+   "serving": 150,
+   "tags": [
+    "light",
+    "veg"
+   ]
+  },
+  "beignets": {
+   "key": "beignets",
+   "zh": "法式炸面团",
+   "en": "Beignets",
+   "energy": 330,
+   "protein": 5,
+   "fat": 18,
+   "carbs": 38,
+   "serving": 80,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "bibimbap": {
+   "key": "bibimbap",
+   "zh": "韩式拌饭",
+   "en": "Bibimbap",
+   "energy": 170,
+   "protein": 7,
+   "fat": 5,
+   "carbs": 25,
+   "serving": 400,
+   "tags": [
+    "staple"
+   ]
+  },
+  "bread_pudding": {
+   "key": "bread_pudding",
+   "zh": "面包布丁",
+   "en": "Bread pudding",
+   "energy": 153,
+   "protein": 5,
+   "fat": 4,
+   "carbs": 25,
+   "serving": 150,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "breakfast_burrito": {
+   "key": "breakfast_burrito",
+   "zh": "早餐墨西哥卷",
+   "en": "Breakfast burrito",
+   "energy": 200,
+   "protein": 9,
+   "fat": 9,
+   "carbs": 22,
+   "serving": 250,
+   "tags": []
+  },
+  "bruschetta": {
+   "key": "bruschetta",
+   "zh": "意式烤面包",
+   "en": "Bruschetta",
+   "energy": 195,
+   "protein": 5,
+   "fat": 7,
+   "carbs": 28,
+   "serving": 120,
+   "tags": []
+  },
+  "caesar_salad": {
+   "key": "caesar_salad",
+   "zh": "凯撒沙拉",
+   "en": "Caesar salad",
+   "energy": 127,
+   "protein": 6,
+   "fat": 9,
+   "carbs": 6,
+   "serving": 200,
+   "tags": [
+    "light",
+    "veg"
+   ]
+  },
+  "cannoli": {
+   "key": "cannoli",
+   "zh": "卡诺里卷",
+   "en": "Cannoli",
+   "energy": 369,
+   "protein": 7,
+   "fat": 22,
+   "carbs": 37,
+   "serving": 85,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "caprese_salad": {
+   "key": "caprese_salad",
+   "zh": "卡普雷塞沙拉",
+   "en": "Caprese salad",
+   "energy": 160,
+   "protein": 8,
+   "fat": 12,
+   "carbs": 5,
+   "serving": 180,
+   "tags": [
+    "veg"
+   ]
+  },
+  "carrot_cake": {
+   "key": "carrot_cake",
+   "zh": "胡萝卜蛋糕",
+   "en": "Carrot cake",
+   "energy": 326,
+   "protein": 4,
+   "fat": 18,
+   "carbs": 38,
+   "serving": 100,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "ceviche": {
+   "key": "ceviche",
+   "zh": "酸橘汁腌鱼",
+   "en": "Ceviche",
+   "energy": 120,
+   "protein": 16,
+   "fat": 4,
+   "carbs": 5,
+   "serving": 150,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "cheesecake": {
+   "key": "cheesecake",
+   "zh": "芝士蛋糕",
+   "en": "Cheesecake",
+   "energy": 321,
+   "protein": 6,
+   "fat": 22,
+   "carbs": 26,
+   "serving": 100,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "cheese_plate": {
+   "key": "cheese_plate",
+   "zh": "奶酪拼盘",
+   "en": "Cheese plate",
+   "energy": 350,
+   "protein": 22,
+   "fat": 28,
+   "carbs": 3,
+   "serving": 100,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "chicken_curry": {
+   "key": "chicken_curry",
+   "zh": "咖喱鸡",
+   "en": "Chicken curry",
+   "energy": 165,
+   "protein": 14,
+   "fat": 9,
+   "carbs": 7,
+   "serving": 300,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "chicken_quesadilla": {
+   "key": "chicken_quesadilla",
+   "zh": "鸡肉芝士饼",
+   "en": "Chicken quesadilla",
+   "energy": 230,
+   "protein": 13,
+   "fat": 12,
+   "carbs": 18,
+   "serving": 200,
+   "tags": []
+  },
+  "chicken_wings": {
+   "key": "chicken_wings",
+   "zh": "烤鸡翅",
+   "en": "Chicken wings",
+   "energy": 203,
+   "protein": 30,
+   "fat": 8,
+   "carbs": 0,
+   "serving": 150,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "chocolate_cake": {
+   "key": "chocolate_cake",
+   "zh": "巧克力蛋糕",
+   "en": "Chocolate cake",
+   "energy": 371,
+   "protein": 5,
+   "fat": 20,
+   "carbs": 45,
+   "serving": 100,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "chocolate_mousse": {
+   "key": "chocolate_mousse",
+   "zh": "巧克力慕斯",
+   "en": "Chocolate mousse",
+   "energy": 225,
+   "protein": 4,
+   "fat": 14,
+   "carbs": 22,
+   "serving": 100,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "churros": {
+   "key": "churros",
+   "zh": "吉事果",
+   "en": "Churros",
+   "energy": 380,
+   "protein": 4,
+   "fat": 22,
+   "carbs": 42,
+   "serving": 80,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "clam_chowder": {
+   "key": "clam_chowder",
+   "zh": "蛤蜊浓汤",
+   "en": "Clam chowder",
+   "energy": 90,
+   "protein": 5,
+   "fat": 4,
+   "carbs": 9,
+   "serving": 300,
+   "tags": [
+    "light",
+    "soup"
+   ]
+  },
+  "club_sandwich": {
+   "key": "club_sandwich",
+   "zh": "总会三明治",
+   "en": "Club sandwich",
+   "energy": 230,
+   "protein": 13,
+   "fat": 12,
+   "carbs": 18,
+   "serving": 250,
+   "tags": []
+  },
+  "crab_cakes": {
+   "key": "crab_cakes",
+   "zh": "蟹肉饼",
+   "en": "Crab cakes",
+   "energy": 155,
+   "protein": 12,
+   "fat": 8,
+   "carbs": 9,
+   "serving": 150,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "creme_brulee": {
+   "key": "creme_brulee",
+   "zh": "焦糖布丁",
+   "en": "Creme brulee",
+   "energy": 260,
+   "protein": 4,
+   "fat": 18,
+   "carbs": 22,
+   "serving": 120,
+   "tags": [
+    "dessert",
+    "high_fat"
+   ]
+  },
+  "croque_madame": {
+   "key": "croque_madame",
+   "zh": "法式火腿芝士三明治",
+   "en": "Croque madame",
+   "energy": 280,
+   "protein": 14,
+   "fat": 17,
+   "carbs": 18,
+   "serving": 220,
+   "tags": [
+    "high_fat"
+   ]
+  },
+  "cup_cakes": {
+   "key": "cup_cakes",
+   "zh": "纸杯蛋糕",
+   "en": "Cup cakes",
+   "energy": 305,
+   "protein": 4,
+   "fat": 14,
+   "carbs": 42,
+   "serving": 70,
+   "tags": [
+    "dessert",
+    "high_energy"
+   ]
+  },
+  "deviled_eggs": {
+   "key": "deviled_eggs",
+   "zh": "魔鬼蛋",
+   "en": "Deviled eggs",
+   "energy": 124,
+   "protein": 11,
+   "fat": 8,
+   "carbs": 2,
+   "serving": 100,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "donuts": {
+   "key": "donuts",
+   "zh": "甜甜圈",
+   "en": "Donuts",
+   "energy": 421,
+   "protein": 5,
+   "fat": 25,
+   "carbs": 45,
+   "serving": 60,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "dumplings": {
+   "key": "dumplings",
+   "zh": "饺子",
+   "en": "Dumplings",
+   "energy": 220,
+   "protein": 9,
+   "fat": 9,
+   "carbs": 26,
+   "serving": 250,
+   "tags": [
+    "staple"
+   ]
+  },
+  "edamame": {
+   "key": "edamame",
+   "zh": "毛豆",
+   "en": "Edamame",
+   "energy": 121,
+   "protein": 12,
+   "fat": 5,
+   "carbs": 9,
+   "serving": 150,
+   "tags": [
+    "light",
+    "veg",
+    "high_protein"
+   ]
+  },
+  "eggs_benedict": {
+   "key": "eggs_benedict",
+   "zh": "班尼迪克蛋",
+   "en": "Eggs benedict",
+   "energy": 220,
+   "protein": 12,
+   "fat": 16,
+   "carbs": 8,
+   "serving": 200,
+   "tags": [
+    "high_protein",
+    "high_fat"
+   ]
+  },
+  "escargots": {
+   "key": "escargots",
+   "zh": "法式焗蜗牛",
+   "en": "Escargots",
+   "energy": 90,
+   "protein": 16,
+   "fat": 2,
+   "carbs": 2,
+   "serving": 100,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "falafel": {
+   "key": "falafel",
+   "zh": "中东炸豆丸",
+   "en": "Falafel",
+   "energy": 333,
+   "protein": 13,
+   "fat": 18,
+   "carbs": 32,
+   "serving": 150,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "filet_mignon": {
+   "key": "filet_mignon",
+   "zh": "菲力牛排",
+   "en": "Filet mignon",
+   "energy": 227,
+   "protein": 26,
+   "fat": 13,
+   "carbs": 0,
+   "serving": 180,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "fish_and_chips": {
+   "key": "fish_and_chips",
+   "zh": "炸鱼薯条",
+   "en": "Fish and chips",
+   "energy": 250,
+   "protein": 13,
+   "fat": 14,
+   "carbs": 19,
+   "serving": 350,
+   "tags": []
+  },
+  "foie_gras": {
+   "key": "foie_gras",
+   "zh": "鹅肝",
+   "en": "Foie gras",
+   "energy": 462,
+   "protein": 11,
+   "fat": 44,
+   "carbs": 4,
+   "serving": 60,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "french_fries": {
+   "key": "french_fries",
+   "zh": "炸薯条",
+   "en": "French fries",
+   "energy": 312,
+   "protein": 3.4,
+   "fat": 15,
+   "carbs": 41,
+   "serving": 150,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "french_onion_soup": {
+   "key": "french_onion_soup",
+   "zh": "法式洋葱汤",
+   "en": "French onion soup",
+   "energy": 75,
+   "protein": 3,
+   "fat": 3,
+   "carbs": 9,
+   "serving": 300,
+   "tags": [
+    "light",
+    "soup"
+   ]
+  },
+  "french_toast": {
+   "key": "french_toast",
+   "zh": "法式吐司",
+   "en": "French toast",
+   "energy": 229,
+   "protein": 8,
+   "fat": 11,
+   "carbs": 25,
+   "serving": 150,
+   "tags": []
+  },
+  "fried_calamari": {
+   "key": "fried_calamari",
+   "zh": "炸鱿鱼圈",
+   "en": "Fried calamari",
+   "energy": 175,
+   "protein": 15,
+   "fat": 8,
+   "carbs": 11,
+   "serving": 150,
+   "tags": []
+  },
+  "fried_rice": {
+   "key": "fried_rice",
+   "zh": "炒饭",
+   "en": "Fried rice",
+   "energy": 163,
+   "protein": 4,
+   "fat": 5,
+   "carbs": 26,
+   "serving": 350,
+   "tags": [
+    "staple"
+   ]
+  },
+  "frozen_yogurt": {
+   "key": "frozen_yogurt",
+   "zh": "冷冻酸奶",
+   "en": "Frozen yogurt",
+   "energy": 127,
+   "protein": 3,
+   "fat": 4,
+   "carbs": 21,
+   "serving": 150,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "garlic_bread": {
+   "key": "garlic_bread",
+   "zh": "蒜香面包",
+   "en": "Garlic bread",
+   "energy": 350,
+   "protein": 8,
+   "fat": 16,
+   "carbs": 44,
+   "serving": 80,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "gnocchi": {
+   "key": "gnocchi",
+   "zh": "意式土豆团子",
+   "en": "Gnocchi",
+   "energy": 130,
+   "protein": 3.5,
+   "fat": 1,
+   "carbs": 27,
+   "serving": 250,
+   "tags": [
+    "staple"
+   ]
+  },
+  "greek_salad": {
+   "key": "greek_salad",
+   "zh": "希腊沙拉",
+   "en": "Greek salad",
+   "energy": 90,
+   "protein": 3,
+   "fat": 7,
+   "carbs": 5,
+   "serving": 250,
+   "tags": [
+    "light",
+    "veg"
+   ]
+  },
+  "grilled_cheese_sandwich": {
+   "key": "grilled_cheese_sandwich",
+   "zh": "烤芝士三明治",
+   "en": "Grilled cheese sandwich",
+   "energy": 300,
+   "protein": 12,
+   "fat": 17,
+   "carbs": 26,
+   "serving": 150,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "grilled_salmon": {
+   "key": "grilled_salmon",
+   "zh": "烤三文鱼",
+   "en": "Grilled salmon",
+   "energy": 208,
+   "protein": 22,
+   "fat": 13,
+   "carbs": 0,
+   "serving": 150,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "guacamole": {
+   "key": "guacamole",
+   "zh": "牛油果酱",
+   "en": "Guacamole",
+   "energy": 160,
+   "protein": 2,
+   "fat": 15,
+   "carbs": 8,
+   "serving": 60,
+   "tags": [
+    "high_fat"
+   ]
+  },
+  "gyoza": {
+   "key": "gyoza",
+   "zh": "日式煎饺",
+   "en": "Gyoza",
+   "energy": 210,
+   "protein": 8,
+   "fat": 10,
+   "carbs": 23,
+   "serving": 200,
+   "tags": []
+  },
+  "hamburger": {
+   "key": "hamburger",
+   "zh": "汉堡包",
+   "en": "Hamburger",
+   "energy": 295,
+   "protein": 17,
+   "fat": 14,
+   "carbs": 24,
+   "serving": 220,
+   "tags": []
+  },
+  "hot_and_sour_soup": {
+   "key": "hot_and_sour_soup",
+   "zh": "酸辣汤",
+   "en": "Hot and sour soup",
+   "energy": 40,
+   "protein": 2.5,
+   "fat": 1.5,
+   "carbs": 4.5,
+   "serving": 300,
+   "tags": [
+    "light",
+    "soup"
+   ]
+  },
+  "hot_dog": {
+   "key": "hot_dog",
+   "zh": "热狗",
+   "en": "Hot dog",
+   "energy": 290,
+   "protein": 11,
+   "fat": 18,
+   "carbs": 22,
+   "serving": 150,
+   "tags": [
+    "high_fat"
+   ]
+  },
+  "huevos_rancheros": {
+   "key": "huevos_rancheros",
+   "zh": "墨西哥乡村蛋",
+   "en": "Huevos rancheros",
+   "energy": 180,
+   "protein": 9,
+   "fat": 12,
+   "carbs": 10,
+   "serving": 250,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "hummus": {
+   "key": "hummus",
+   "zh": "鹰嘴豆泥",
+   "en": "Hummus",
+   "energy": 166,
+   "protein": 8,
+   "fat": 10,
+   "carbs": 14,
+   "serving": 60,
+   "tags": []
+  },
+  "ice_cream": {
+   "key": "ice_cream",
+   "zh": "冰淇淋",
+   "en": "Ice cream",
+   "energy": 207,
+   "protein": 3.5,
+   "fat": 11,
+   "carbs": 24,
+   "serving": 100,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "lasagna": {
+   "key": "lasagna",
+   "zh": "千层面",
+   "en": "Lasagna",
+   "energy": 135,
+   "protein": 8,
+   "fat": 5,
+   "carbs": 15,
+   "serving": 350,
+   "tags": [
+    "staple"
+   ]
+  },
+  "lobster_bisque": {
+   "key": "lobster_bisque",
+   "zh": "龙虾浓汤",
+   "en": "Lobster bisque",
+   "energy": 100,
+   "protein": 6,
+   "fat": 6,
+   "carbs": 6,
+   "serving": 300,
+   "tags": [
+    "soup"
+   ]
+  },
+  "lobster_roll_sandwich": {
+   "key": "lobster_roll_sandwich",
+   "zh": "龙虾卷",
+   "en": "Lobster roll sandwich",
+   "energy": 280,
+   "protein": 14,
+   "fat": 16,
+   "carbs": 21,
+   "serving": 220,
+   "tags": [
+    "high_protein",
+    "high_fat"
+   ]
+  },
+  "macaroni_and_cheese": {
+   "key": "macaroni_and_cheese",
+   "zh": "芝士通心粉",
+   "en": "Macaroni and cheese",
+   "energy": 164,
+   "protein": 7,
+   "fat": 7,
+   "carbs": 19,
+   "serving": 250,
+   "tags": [
+    "staple"
+   ]
+  },
+  "macarons": {
+   "key": "macarons",
+   "zh": "马卡龙",
+   "en": "Macarons",
+   "energy": 400,
+   "protein": 6,
+   "fat": 20,
+   "carbs": 50,
+   "serving": 40,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "miso_soup": {
+   "key": "miso_soup",
+   "zh": "味噌汤",
+   "en": "Miso soup",
+   "energy": 40,
+   "protein": 3,
+   "fat": 1.5,
+   "carbs": 4,
+   "serving": 250,
+   "tags": [
+    "light",
+    "soup"
+   ]
+  },
+  "mussels": {
+   "key": "mussels",
+   "zh": "青口贝",
+   "en": "Mussels",
+   "energy": 86,
+   "protein": 12,
+   "fat": 2,
+   "carbs": 4,
+   "serving": 200,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "nachos": {
+   "key": "nachos",
+   "zh": "墨西哥玉米片",
+   "en": "Nachos",
+   "energy": 306,
+   "protein": 7,
+   "fat": 19,
+   "carbs": 28,
+   "serving": 150,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "omelette": {
+   "key": "omelette",
+   "zh": "欧姆蛋",
+   "en": "Omelette",
+   "energy": 154,
+   "protein": 11,
+   "fat": 12,
+   "carbs": 1.6,
+   "serving": 200,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "onion_rings": {
+   "key": "onion_rings",
+   "zh": "炸洋葱圈",
+   "en": "Onion rings",
+   "energy": 332,
+   "protein": 4,
+   "fat": 20,
+   "carbs": 35,
+   "serving": 120,
+   "tags": [
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "oysters": {
+   "key": "oysters",
+   "zh": "生蚝",
+   "en": "Oysters",
+   "energy": 68,
+   "protein": 7,
+   "fat": 2,
+   "carbs": 4,
+   "serving": 150,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "pad_thai": {
+   "key": "pad_thai",
+   "zh": "泰式炒河粉",
+   "en": "Pad thai",
+   "energy": 190,
+   "protein": 8,
+   "fat": 8,
+   "carbs": 23,
+   "serving": 350,
+   "tags": [
+    "staple"
+   ]
+  },
+  "paella": {
+   "key": "paella",
+   "zh": "西班牙海鲜饭",
+   "en": "Paella",
+   "energy": 170,
+   "protein": 10,
+   "fat": 6,
+   "carbs": 20,
+   "serving": 400,
+   "tags": [
+    "staple"
+   ]
+  },
+  "pancakes": {
+   "key": "pancakes",
+   "zh": "松饼",
+   "en": "Pancakes",
+   "energy": 227,
+   "protein": 6,
+   "fat": 9,
+   "carbs": 30,
+   "serving": 150,
+   "tags": []
+  },
+  "panna_cotta": {
+   "key": "panna_cotta",
+   "zh": "意式奶冻",
+   "en": "Panna cotta",
+   "energy": 230,
+   "protein": 3,
+   "fat": 16,
+   "carbs": 20,
+   "serving": 120,
+   "tags": [
+    "dessert",
+    "high_fat"
+   ]
+  },
+  "peking_duck": {
+   "key": "peking_duck",
+   "zh": "北京烤鸭",
+   "en": "Peking duck",
+   "energy": 337,
+   "protein": 19,
+   "fat": 28,
+   "carbs": 2,
+   "serving": 150,
+   "tags": [
+    "high_protein",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "pho": {
+   "key": "pho",
+   "zh": "越南河粉",
+   "en": "Pho",
+   "energy": 130,
+   "protein": 7,
+   "fat": 3,
+   "carbs": 19,
+   "serving": 500,
+   "tags": [
+    "staple",
+    "soup"
+   ]
+  },
+  "pizza": {
+   "key": "pizza",
+   "zh": "披萨",
+   "en": "Pizza",
+   "energy": 266,
+   "protein": 11,
+   "fat": 10,
+   "carbs": 33,
+   "serving": 200,
+   "tags": []
+  },
+  "pork_chop": {
+   "key": "pork_chop",
+   "zh": "猪排",
+   "en": "Pork chop",
+   "energy": 231,
+   "protein": 25,
+   "fat": 14,
+   "carbs": 0,
+   "serving": 180,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "poutine": {
+   "key": "poutine",
+   "zh": "肉汁奶酪薯条",
+   "en": "Poutine",
+   "energy": 290,
+   "protein": 8,
+   "fat": 16,
+   "carbs": 30,
+   "serving": 300,
+   "tags": [
+    "high_fat"
+   ]
+  },
+  "prime_rib": {
+   "key": "prime_rib",
+   "zh": "烤肋眼牛排",
+   "en": "Prime rib",
+   "energy": 291,
+   "protein": 24,
+   "fat": 21,
+   "carbs": 0,
+   "serving": 200,
+   "tags": [
+    "high_protein",
+    "high_fat"
+   ]
+  },
+  "pulled_pork_sandwich": {
+   "key": "pulled_pork_sandwich",
+   "zh": "手撕猪肉三明治",
+   "en": "Pulled pork sandwich",
+   "energy": 260,
+   "protein": 15,
+   "fat": 13,
+   "carbs": 22,
+   "serving": 250,
+   "tags": []
+  },
+  "ramen": {
+   "key": "ramen",
+   "zh": "日式拉面",
+   "en": "Ramen",
+   "energy": 180,
+   "protein": 8,
+   "fat": 7,
+   "carbs": 22,
+   "serving": 500,
+   "tags": [
+    "staple",
+    "soup"
+   ]
+  },
+  "ravioli": {
+   "key": "ravioli",
+   "zh": "意式饺",
+   "en": "Ravioli",
+   "energy": 175,
+   "protein": 8,
+   "fat": 7,
+   "carbs": 21,
+   "serving": 250,
+   "tags": [
+    "staple"
+   ]
+  },
+  "red_velvet_cake": {
+   "key": "red_velvet_cake",
+   "zh": "红丝绒蛋糕",
+   "en": "Red velvet cake",
+   "energy": 367,
+   "protein": 4,
+   "fat": 19,
+   "carbs": 46,
+   "serving": 100,
+   "tags": [
+    "dessert",
+    "high_energy",
+    "high_fat"
+   ]
+  },
+  "risotto": {
+   "key": "risotto",
+   "zh": "意式烩饭",
+   "en": "Risotto",
+   "energy": 158,
+   "protein": 5,
+   "fat": 5,
+   "carbs": 24,
+   "serving": 300,
+   "tags": [
+    "staple"
+   ]
+  },
+  "samosa": {
+   "key": "samosa",
+   "zh": "咖喱角",
+   "en": "Samosa",
+   "energy": 262,
+   "protein": 6,
+   "fat": 14,
+   "carbs": 29,
+   "serving": 100,
+   "tags": []
+  },
+  "sashimi": {
+   "key": "sashimi",
+   "zh": "刺身",
+   "en": "Sashimi",
+   "energy": 130,
+   "protein": 22,
+   "fat": 4,
+   "carbs": 0,
+   "serving": 120,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "scallops": {
+   "key": "scallops",
+   "zh": "扇贝",
+   "en": "Scallops",
+   "energy": 88,
+   "protein": 17,
+   "fat": 1,
+   "carbs": 3,
+   "serving": 150,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "seaweed_salad": {
+   "key": "seaweed_salad",
+   "zh": "海藻沙拉",
+   "en": "Seaweed salad",
+   "energy": 45,
+   "protein": 1.5,
+   "fat": 1,
+   "carbs": 8,
+   "serving": 100,
+   "tags": [
+    "light",
+    "veg"
+   ]
+  },
+  "shrimp_and_grits": {
+   "key": "shrimp_and_grits",
+   "zh": "虾仁玉米糊",
+   "en": "Shrimp and grits",
+   "energy": 180,
+   "protein": 12,
+   "fat": 9,
+   "carbs": 14,
+   "serving": 300,
+   "tags": [
+    "high_protein"
+   ]
+  },
+  "spaghetti_bolognese": {
+   "key": "spaghetti_bolognese",
+   "zh": "肉酱意面",
+   "en": "Spaghetti bolognese",
+   "energy": 160,
+   "protein": 8,
+   "fat": 6,
+   "carbs": 19,
+   "serving": 350,
+   "tags": [
+    "staple"
+   ]
+  },
+  "spaghetti_carbonara": {
+   "key": "spaghetti_carbonara",
+   "zh": "培根蛋酱意面",
+   "en": "Spaghetti carbonara",
+   "energy": 210,
+   "protein": 9,
+   "fat": 11,
+   "carbs": 20,
+   "serving": 350,
+   "tags": [
+    "staple"
+   ]
+  },
+  "spring_rolls": {
+   "key": "spring_rolls",
+   "zh": "春卷",
+   "en": "Spring rolls",
+   "energy": 140,
+   "protein": 4,
+   "fat": 7,
+   "carbs": 16,
+   "serving": 120,
+   "tags": []
+  },
+  "steak": {
+   "key": "steak",
+   "zh": "牛排",
+   "en": "Steak",
+   "energy": 271,
+   "protein": 25,
+   "fat": 19,
+   "carbs": 0,
+   "serving": 200,
+   "tags": [
+    "high_protein",
+    "high_fat"
+   ]
+  },
+  "strawberry_shortcake": {
+   "key": "strawberry_shortcake",
+   "zh": "草莓蛋糕",
+   "en": "Strawberry shortcake",
+   "energy": 280,
+   "protein": 4,
+   "fat": 12,
+   "carbs": 40,
+   "serving": 120,
+   "tags": [
+    "dessert"
+   ]
+  },
+  "sushi": {
+   "key": "sushi",
+   "zh": "寿司",
+   "en": "Sushi",
+   "energy": 143,
+   "protein": 6,
+   "fat": 2,
+   "carbs": 26,
+   "serving": 250,
+   "tags": [
+    "staple"
+   ]
+  },
+  "tacos": {
+   "key": "tacos",
+   "zh": "塔可",
+   "en": "Tacos",
+   "energy": 226,
+   "protein": 10,
+   "fat": 12,
+   "carbs": 20,
+   "serving": 200,
+   "tags": []
+  },
+  "takoyaki": {
+   "key": "takoyaki",
+   "zh": "章鱼烧",
+   "en": "Takoyaki",
+   "energy": 180,
+   "protein": 7,
+   "fat": 8,
+   "carbs": 21,
+   "serving": 180,
+   "tags": []
+  },
+  "tiramisu": {
+   "key": "tiramisu",
+   "zh": "提拉米苏",
+   "en": "Tiramisu",
+   "energy": 283,
+   "protein": 5,
+   "fat": 17,
+   "carbs": 29,
+   "serving": 120,
+   "tags": [
+    "dessert",
+    "high_fat"
+   ]
+  },
+  "tuna_tartare": {
+   "key": "tuna_tartare",
+   "zh": "金枪鱼塔塔",
+   "en": "Tuna tartare",
+   "energy": 130,
+   "protein": 23,
+   "fat": 4,
+   "carbs": 1,
+   "serving": 120,
+   "tags": [
+    "light",
+    "high_protein"
+   ]
+  },
+  "waffles": {
+   "key": "waffles",
+   "zh": "华夫饼",
+   "en": "Waffles",
+   "energy": 291,
+   "protein": 7,
+   "fat": 14,
+   "carbs": 35,
+   "serving": 100,
+   "tags": [
+    "dessert"
+   ]
+  }
+ }
+}

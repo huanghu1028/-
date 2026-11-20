@@ -126,14 +126,107 @@
   --default-transition-duration: calc(150ms * var(--site-motion));
 }
 
-body {
-  background:
-    radial-gradient(1100px 500px at 85% -10%, color-mix(in oklab, var(--site-accent) 13%, transparent), transparent 60%),
-    radial-gradient(900px 520px at -10% 110%, color-mix(in oklab, #60a5fa 10%, transparent), transparent 60%),
-    var(--background);
+/* ===== 深空背景（移植自原站 tiger-dark.css，6 层，back→front）=====
+   极光带(-5) < 星云 nebula(-4) < 火星 embers(-3) < 星空 night-sky(-2) < 老虎水印(-1) < 页面内容。
+   全部 fixed、pointer-events:none，低透明度保证文字可读。canvas 层由 Background 组件驱动。 */
+html {
+  background-color: var(--site-bg);
+  background-image:
+    radial-gradient(1100px 750px at 85% -10%, rgba(124, 77, 255, 0.16), transparent 60%),
+    radial-gradient(950px 700px at -10% 110%, rgba(45, 152, 138, 0.14), transparent 60%),
+    radial-gradient(800px 550px at 55% 45%, rgba(255, 159, 67, 0.05), transparent 70%);
   background-attachment: fixed;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: transparent;
   color: var(--foreground);
   font-family: var(--site-font);
+}
+
+/* 卡通老虎水印，固定于右下角，置于所有内容之后 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("/img/brand/tiger-cartoon.svg") no-repeat right -3rem bottom -3rem;
+  background-size: min(55vh, 460px) auto;
+  opacity: 0.16;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 动态星空（H0rn0chse/NightSky, MIT），位于老虎水印之下 */
+#tigerNightSky {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.5;
+  z-index: -2;
+}
+
+/* 星云渐变 canvas（Granim） */
+.tiger-nebula {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: -4;
+}
+
+/* 老虎橙火星粒子（particles.js） */
+.tiger-embers {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: -3;
+}
+.tiger-embers canvas { display: block; }
+
+/* 极光带（技法改编自 LunarLogic/auroral, MIT）：两条超大渐变带缓慢漂移 */
+html::before,
+html::after {
+  content: "";
+  position: fixed;
+  left: -50%;
+  top: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: -5;
+}
+html::before {
+  background: linear-gradient(10deg, rgba(94, 234, 212, 0.10) 20%, rgba(45, 152, 138, 0.12) 40%, rgba(11, 16, 32, 0) 70%);
+  animation: tiger-aurora-drift calc(44s * var(--site-motion)) linear infinite alternate;
+}
+html::after {
+  background: linear-gradient(-45deg, rgba(255, 159, 67, 0.08) 15%, rgba(124, 77, 255, 0.10) 45%, rgba(11, 16, 32, 0) 75%);
+  animation: tiger-aurora-sway calc(58s * var(--site-motion)) linear infinite alternate;
+}
+@keyframes tiger-aurora-drift {
+  0% { transform: translate(5%, -2%); }
+  25% { transform: translate(10%, 7%); }
+  40% { transform: rotate(-10deg); }
+  60% { transform: translate(7%, -2%); }
+  85% { transform: translate(6%, 3%) rotate(12deg); }
+  100% { transform: none; }
+}
+@keyframes tiger-aurora-sway {
+  0% { transform: rotate(20deg); }
+  20% { transform: translateY(100px) rotate(1deg); }
+  40% { transform: rotate(-15deg); }
+  60% { transform: rotate(-1deg); }
+  80% { transform: translateY(-10px) rotate(16deg); }
+  100% { transform: rotate(1deg); }
 }
 
 @layer base {
@@ -141,6 +234,8 @@ body {
   @media (prefers-reduced-motion: reduce) {
     button, a { transition-duration: 0ms; }
     .tiger-rise { animation: none; }
+    html::before, html::after { animation: none; }
+    html { scroll-behavior: auto; }
   }
 }
 
@@ -153,11 +248,175 @@ body {
   animation: tiger-rise calc(260ms * var(--site-motion)) ease-out both;
 }
 
-/* 细滚动条与选区颜色 */
+/* ===== 视觉抛光（移植自原站）===== */
 ::selection {
-  background: color-mix(in oklab, var(--site-accent) 40%, transparent);
+  background: color-mix(in oklab, var(--site-accent) 35%, transparent);
+  color: #fff;
 }
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--site-border) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: color-mix(in oklab, var(--site-bg), #000 30%); }
+*::-webkit-scrollbar-thumb {
+  background: var(--site-border);
+  border-radius: 6px;
+  border: 2px solid color-mix(in oklab, var(--site-bg), #000 30%);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--site-accent); }
+:focus-visible { outline: 2px solid var(--site-accent); outline-offset: 2px; }
+
+/* 玻璃拟态面板 */
+.tiger-glass {
+  background: rgba(16, 16, 16, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.tiger-glass:hover {
+  border-color: color-mix(in oklab, var(--site-accent) 35%, transparent);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+
+/* hero 老虎暖光晕 */
+.tiger-hero-wrap { position: relative; }
+.tiger-hero-wrap::before {
+  content: "";
+  position: absolute;
+  inset: 8% 12%;
+  background: radial-gradient(closest-side, color-mix(in oklab, var(--site-accent) 35%, transparent), transparent 70%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+.tiger-hero-wrap img { position: relative; }
+
+/* 老虎橙渐变文字 */
+.tiger-gradient-text {
+  background: linear-gradient(92deg, #ffc46b, #ff9f43 45%, #ff7a3d);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.header-hero-glow { text-shadow: 0 0 24px rgba(255, 159, 67, 0.25); }
+
+/* 主按钮扫光（应用于 shadcn 主按钮 / .tiger-shine） */
+.tiger-shine { position: relative; overflow: hidden; }
+.tiger-shine::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+.tiger-shine:hover::after { left: 120%; }
+
+/* 卡片悬浮抬升 */
+.tiger-lift { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+.tiger-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  border-color: color-mix(in oklab, var(--site-accent) 30%, var(--site-border));
+}
+
+/* 落地页统计带 */
+.tiger-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+@media (max-width: 767px) { .tiger-stats { grid-template-columns: repeat(2, 1fr); } }
+.tiger-stat { padding: 1.25rem 1rem; text-align: center; }
+.tiger-stat .num { font-size: 2.6rem; line-height: 1; }
+.tiger-stat .num .suffix { color: var(--site-accent); }
+.tiger-stat .label { color: var(--site-muted); font-size: 0.85rem; letter-spacing: 0.05em; margin-top: 0.35rem; }
+
+/* 章节标题橙色下划线 */
+.tiger-section-h2::after {
+  content: "";
+  display: block;
+  width: 64px; height: 3px;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--site-accent), transparent);
+}
+
+/* FAQ 微交互 */
+.faq-item { transition: border-color 0.25s ease, transform 0.25s ease; }
+.faq-item:hover {
+  border-color: color-mix(in oklab, var(--site-accent) 35%, transparent);
+  transform: translateY(-2px);
+}
+
+/* 侧边栏当前项橙色内嵌条 */
+.tiger-nav-active { box-shadow: inset 3px 0 0 var(--site-accent); }
+
+/* 打字机行 / 视差 */
+.tiger-typed-line { color: var(--site-accent); min-height: 1.6em; letter-spacing: 0.04em; }
+.tiger-typed-line .Typewriter__cursor { color: var(--site-accent); font-weight: 400; }
+[data-tilt] { transform-style: preserve-3d; will-change: transform; }
+[data-rellax-speed] { will-change: transform; }
+
+/* 回到顶部按钮（逻辑见 Background 组件） */
+.tiger-back-top {
+  position: fixed;
+  right: 1.25rem; bottom: 1.25rem;
+  z-index: 40;
+  width: 44px; height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  border: 1px solid var(--site-border);
+  border-radius: 50%;
+  background-color: var(--site-surface);
+  color: var(--site-muted);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  opacity: 0; visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.tiger-back-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.tiger-back-top:hover, .tiger-back-top:focus-visible {
+  border-color: var(--site-accent);
+  color: var(--site-accent);
+}
+@media (max-width: 767px) { .tiger-back-top { bottom: 5rem; } }
+
+/* 减弱动效：关闭所有动画/过渡 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* 打印 / 存为 PDF：隐藏导航与动态背景，只留白纸黑字的内容 */
+@media print {
+  aside, header, nav.fixed, .tiger-back-top,
+  #tigerNebula, #tigerEmbers, night-sky,
+  [data-sonner-toaster], .toaster {
+    display: none !important;
+  }
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+  html::before, html::after, body::before {
+    display: none !important;
+    background: none !important;
+    animation: none !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .tiger-rise { animation: none !important; }
+  [class*="card"], .card {
+    box-shadow: none !important;
+    border-color: #ccc !important;
+    break-inside: avoid;
+  }
+  a { color: #000 !important; text-decoration: none !important; }
 }
