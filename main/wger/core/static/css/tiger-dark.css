@@ -17,7 +17,12 @@
 }
 
 html {
-    background-color: #000;
+    background-color: #0b1020;
+    background-image:
+        radial-gradient(1100px 750px at 85% -10%, rgba(124, 77, 255, 0.16), transparent 60%),
+        radial-gradient(950px 700px at -10% 110%, rgba(45, 152, 138, 0.14), transparent 60%),
+        radial-gradient(800px 550px at 55% 45%, rgba(255, 159, 67, 0.05), transparent 70%);
+    background-attachment: fixed;
 }
 
 body {
@@ -61,6 +66,7 @@ body::before {
     height: 100vh;
     pointer-events: none;
     opacity: 0.7;
+    mix-blend-mode: screen;
     z-index: -4;
 }
 
@@ -78,6 +84,56 @@ body::before {
     display: block;
 }
 
+/* ---------- round 4: aurora base (technique adapted from LunarLogic/auroral, MIT) ----------
+   Two oversized gradient bands drift slowly behind the nebula/embers/starfield
+   stack, so the base reads as deep space with northern lights, not pure black. */
+html::before,
+html::after {
+    content: "";
+    position: fixed;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    pointer-events: none;
+    z-index: -5;
+}
+
+html::before {
+    background: linear-gradient(10deg, rgba(94, 234, 212, 0.10) 20%, rgba(45, 152, 138, 0.12) 40%, rgba(11, 16, 32, 0) 70%);
+    animation: tiger-aurora-drift 44s linear infinite alternate;
+}
+
+html::after {
+    background: linear-gradient(-45deg, rgba(255, 159, 67, 0.08) 15%, rgba(124, 77, 255, 0.10) 45%, rgba(11, 16, 32, 0) 75%);
+    animation: tiger-aurora-sway 58s linear infinite alternate;
+}
+
+@keyframes tiger-aurora-drift {
+    0% { transform: translate(5%, -2%); }
+    25% { transform: translate(10%, 7%); }
+    40% { transform: rotate(-10deg); }
+    60% { transform: translate(7%, -2%); }
+    85% { transform: translate(6%, 3%) rotate(12deg); }
+    100% { transform: none; }
+}
+
+@keyframes tiger-aurora-sway {
+    0% { transform: rotate(20deg); }
+    20% { transform: translateY(100px) rotate(1deg); }
+    40% { transform: rotate(-15deg); }
+    60% { transform: rotate(-1deg); }
+    80% { transform: translateY(-10px) rotate(16deg); }
+    100% { transform: rotate(1deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html::before,
+    html::after {
+        animation: none;
+    }
+}
+
 /* $light was remapped to a dark surface color for the black theme, which made
    the .text-light utility near-black and invisible on black backgrounds
    (footer links, brand line, attribution). Keep it readable site-wide. */
@@ -85,14 +141,19 @@ body::before {
     color: #e6e6e6 !important;
 }
 
+/* secondary text was tuned for a pure-black base; lift it for the nebula/aurora base */
+.text-secondary {
+    color: #a7aec2 !important;
+}
+
 /* ---------- left sidebar layout ---------- */
 
 .app-sidebar {
     --bs-offcanvas-width: 250px;
     width: 250px;
-    background-color: #0a0a0a !important;
-    border-right: 1px solid #222;
-    scrollbar-color: #333 #0a0a0a;
+    background-color: #0d1229 !important;
+    border-right: 1px solid #232c44;
+    scrollbar-color: #333 #0d1229;
     scrollbar-width: thin;
 }
 
@@ -159,8 +220,8 @@ body {
 /* ---------- chrome ---------- */
 
 .navbar.bg-primary {
-    background-color: #000 !important;
-    border-bottom: 1px solid #222;
+    background-color: #0a0f1e !important;
+    border-bottom: 1px solid #232c44;
 }
 
 .navbar-brand,
@@ -169,13 +230,13 @@ body {
 }
 
 #main-footer {
-    background-color: rgba(5, 5, 5, 0.9) !important;
-    border-color: #222 !important;
+    background-color: rgba(8, 11, 22, 0.9) !important;
+    border-color: #232c44 !important;
 }
 
 .bg-wger-light,
 .bg-light {
-    background-color: rgba(13, 13, 13, 0.6) !important;
+    background-color: rgba(14, 19, 35, 0.6) !important;
 }
 
 /* ---------- landing page (features.html) ---------- */
@@ -190,7 +251,7 @@ main {
 }
 
 .bg-dark-blue {
-    background-color: #161616 !important;
+    background-color: #161d33 !important;
 }
 
 .text-dark-blue {
@@ -198,15 +259,15 @@ main {
 }
 
 .bg-light-blue {
-    background-color: rgba(13, 13, 13, 0.6) !important;
+    background-color: rgba(14, 19, 35, 0.6) !important;
 }
 
 .bg-bottom-menu {
-    background: linear-gradient(181.83deg, rgba(5, 5, 5, 0.92) 2.2%, rgba(20, 20, 20, 0.92) 99.11%) !important;
+    background: linear-gradient(181.83deg, rgba(8, 11, 22, 0.92) 2.2%, rgba(17, 22, 38, 0.92) 99.11%) !important;
 }
 
 .footer-bg {
-    background-color: rgba(5, 5, 5, 0.92) !important;
+    background-color: rgba(8, 11, 22, 0.92) !important;
 }
 
 .sign-up-bg {
@@ -253,9 +314,9 @@ img[src*="screens-"] {
 .list-group-item,
 .accordion-item,
 .offcanvas {
-    background-color: #101010;
+    background-color: #12172a;
     color: #e6e6e6;
-    border-color: #2e2e2e;
+    border-color: #2a3148;
 }
 
 .card-header,
@@ -263,40 +324,40 @@ img[src*="screens-"] {
 .modal-header,
 .modal-footer,
 .accordion-button {
-    background-color: #161616;
+    background-color: #182036;
     color: #e6e6e6;
-    border-color: #2e2e2e;
+    border-color: #2a3148;
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: #1a1a1a;
+    background-color: #1d2540;
     color: #fff;
 }
 
 .table {
     --bs-table-bg: transparent;
     --bs-table-color: #e6e6e6;
-    --bs-table-border-color: #333;
-    --bs-table-striped-bg: #141414;
+    --bs-table-border-color: #313b56;
+    --bs-table-striped-bg: #161c30;
     --bs-table-striped-color: #e6e6e6;
-    --bs-table-hover-bg: #1c1c1c;
+    --bs-table-hover-bg: #1e2640;
     --bs-table-hover-color: #fff;
-    --bs-table-active-bg: #1c1c1c;
+    --bs-table-active-bg: #1e2640;
     --bs-table-active-color: #fff;
 }
 
 .form-control,
 .form-select {
-    background-color: #101010;
+    background-color: #10162a;
     color: #e6e6e6;
-    border-color: #3a3a3a;
+    border-color: #35405c;
 }
 
 .form-control:focus,
 .form-select:focus {
-    background-color: #141414;
+    background-color: #16203a;
     color: #fff;
-    border-color: #555;
+    border-color: #4a5678;
     box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.08);
 }
 
@@ -306,72 +367,72 @@ img[src*="screens-"] {
 
 .form-control:disabled,
 .form-select:disabled {
-    background-color: #1a1a1a;
+    background-color: #1a2138;
     color: #888;
 }
 
 .input-group-text {
-    background-color: #1a1a1a;
+    background-color: #1a2138;
     color: #e6e6e6;
-    border-color: #3a3a3a;
+    border-color: #35405c;
 }
 
 .btn-primary {
-    --bs-btn-bg: #161616;
-    --bs-btn-border-color: #3a3a3a;
+    --bs-btn-bg: #182036;
+    --bs-btn-border-color: #35405c;
     --bs-btn-color: #fff;
-    --bs-btn-hover-bg: #242424;
-    --bs-btn-hover-border-color: #555;
+    --bs-btn-hover-bg: #222b47;
+    --bs-btn-hover-border-color: #4a5678;
     --bs-btn-hover-color: #fff;
-    --bs-btn-active-bg: #2e2e2e;
-    --bs-btn-active-border-color: #666;
+    --bs-btn-active-bg: #2a3454;
+    --bs-btn-active-border-color: #566288;
     --bs-btn-active-color: #fff;
-    --bs-btn-disabled-bg: #161616;
-    --bs-btn-disabled-border-color: #333;
+    --bs-btn-disabled-bg: #182036;
+    --bs-btn-disabled-border-color: #303a54;
     --bs-btn-disabled-color: #888;
 }
 
 .btn-outline-primary {
     --bs-btn-color: #d9d9d9;
-    --bs-btn-border-color: #4a4a4a;
-    --bs-btn-hover-bg: #1c1c1c;
+    --bs-btn-border-color: #3d4763;
+    --bs-btn-hover-bg: #1a2138;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-border-color: #666;
-    --bs-btn-active-bg: #242424;
-    --bs-btn-active-border-color: #777;
+    --bs-btn-hover-border-color: #566288;
+    --bs-btn-active-bg: #222b47;
+    --bs-btn-active-border-color: #66739c;
     --bs-btn-active-color: #fff;
 }
 
 /* compiled bootstrap defines "light" as #0d0d0d, i.e. black-on-black here */
 .btn-outline-light {
     --bs-btn-color: #e6e6e6;
-    --bs-btn-border-color: #4a4a4a;
-    --bs-btn-hover-bg: #2a2a2a;
+    --bs-btn-border-color: #3d4763;
+    --bs-btn-hover-bg: #263050;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-border-color: #666;
-    --bs-btn-active-bg: #333;
-    --bs-btn-active-border-color: #777;
+    --bs-btn-hover-border-color: #566288;
+    --bs-btn-active-bg: #303a54;
+    --bs-btn-active-border-color: #66739c;
     --bs-btn-active-color: #fff;
     --bs-btn-disabled-color: #888;
-    --bs-btn-disabled-border-color: #333;
+    --bs-btn-disabled-border-color: #303a54;
 }
 
 .btn-light {
-    --bs-btn-bg: #1c1c1c;
+    --bs-btn-bg: #1c2440;
     --bs-btn-color: #e6e6e6;
-    --bs-btn-border-color: #333;
-    --bs-btn-hover-bg: #2a2a2a;
+    --bs-btn-border-color: #303a54;
+    --bs-btn-hover-bg: #263050;
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-border-color: #444;
-    --bs-btn-active-bg: #333;
+    --bs-btn-hover-border-color: #3d4763;
+    --bs-btn-active-bg: #303a54;
     --bs-btn-active-color: #fff;
 }
 
 .btn-secondary {
-    --bs-btn-bg: #262626;
-    --bs-btn-border-color: #3a3a3a;
+    --bs-btn-bg: #232c48;
+    --bs-btn-border-color: #35405c;
     --bs-btn-color: #e6e6e6;
-    --bs-btn-hover-bg: #333;
+    --bs-btn-hover-bg: #303a54;
     --bs-btn-hover-color: #fff;
 }
 
@@ -1123,8 +1184,8 @@ html {
 }
 
 .ai-msg-assistant .ai-bubble {
-    background: #141414;
-    border: 1px solid #262626;
+    background: #151b2e;
+    border: 1px solid #2a3148;
     color: #e6e6e6;
     border-bottom-left-radius: 4px;
 }
@@ -1179,15 +1240,15 @@ html {
 }
 
 .ai-input-footer {
-    background: #0d0d0d;
-    border-top: 1px solid #222;
+    background: #0e1425;
+    border-top: 1px solid #232c44;
 }
 
 #ai-input {
     resize: none;
     max-height: 160px;
-    background: #101010;
-    border-color: #333;
+    background: #10162a;
+    border-color: #303a54;
     color: #e6e6e6;
 }
 
