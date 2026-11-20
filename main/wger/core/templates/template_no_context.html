@@ -17,7 +17,7 @@
 -->
 
 {% load i18n static wger_extras django_bootstrap_breadcrumbs %}
-<html lang="de">
+<html lang="de" data-bs-theme="dark">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8">
@@ -27,13 +27,14 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/workout-manager.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-compiled.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-custom.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tiger-dark.css' %}">
 
-    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+    <link rel="icon" href="{% static 'images/tiger/tiger-face-72.png' %}" type="image/png">
 
 
     {% block header %}{% endblock %}
 
-    <title>{% translate "An error occurred" %}</title>
+    <title>tiger-减脂 - {% translate "An error occurred" %}</title>
 </head>
 
 <body>

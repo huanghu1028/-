@@ -1,15 +1,14 @@
 /*
- * wger customization for bootstrap
- *
- * https://coolors.co/e63946-a8dadc-457b9d-1d3557-cba328-296713-266dd3-a5a5b6
+ * tiger-减脂 black theme customization for bootstrap
+ * (based on wger's customization; palette replaced with black/gray)
  */
 
-$wger-blue: #2A4C7D !default;
-$wger-blue-2: #266dd3 !default;
-$wger-blue-light-2: #a8dadc !default;
-$wger-light: #f4f4f6 !default;
-$wger-light-2: #dddde3 !default;
-$wger-light-3: #a5a5b6 !default;
+$wger-blue: #0a0a0a !default;
+$wger-blue-2: #d9d9d9 !default;
+$wger-blue-light-2: #3a3a3a !default;
+$wger-light: #0d0d0d !default;
+$wger-light-2: #1c1c1c !default;
+$wger-light-3: #9a9a9a !default;
 $wger-red: #e63946 !default;
 $wger-yellow: #cba328 !default;
 $wger-green: #307916 !default;
@@ -19,9 +18,60 @@ $link-color: $wger-blue-2 !default;
 @import "../../../../node_modules/bootstrap/scss/functions";
 @import "../../../../node_modules/bootstrap/scss/variables";
 
+/* tiger-减脂: black background, dark surfaces, light text */
+$body-bg: #000000;
+$body-color: #e6e6e6;
+$headings-color: #f2f2f2;
+$border-color: #333333;
+$dark: #050505;
+$link-color: #d9d9d9;
+$link-hover-color: #ffffff;
+$card-bg: #101010;
+$card-border-color: #2e2e2e;
+$modal-content-bg: #101010;
+$modal-content-border-color: #2e2e2e;
+$dropdown-bg: #101010;
+$dropdown-border-color: #2e2e2e;
+$dropdown-link-color: #e6e6e6;
+$dropdown-link-hover-color: #ffffff;
+$dropdown-link-hover-bg: #1e1e1e;
+$input-bg: #101010;
+$input-color: #e6e6e6;
+$input-border-color: #3a3a3a;
+$input-placeholder-color: #777777;
+$input-group-addon-bg: #1a1a1a;
+$form-check-input-bg: #101010;
+$form-select-bg: #101010;
+$form-select-color: #e6e6e6;
+$form-select-border-color: #3a3a3a;
+$list-group-bg: #101010;
+$list-group-color: #e6e6e6;
+$list-group-border-color: #2e2e2e;
+$table-color: #e6e6e6;
+$table-bg: transparent;
+$table-border-color: #333333;
+$table-striped-bg: #141414;
+$table-hover-bg: #1c1c1c;
+$pagination-bg: #101010;
+$pagination-color: #d9d9d9;
+$pagination-border-color: #333333;
+$nav-tabs-border-color: #333333;
+$nav-tabs-link-active-bg: #101010;
+$nav-tabs-link-active-color: #ffffff;
+$progress-bg: #1c1c1c;
+$tooltip-bg: #1c1c1c;
+$popover-bg: #101010;
+$popover-border-color: #2e2e2e;
+$popover-header-bg: #1a1a1a;
+$accordion-bg: #101010;
+$accordion-border-color: #2e2e2e;
+$accordion-button-active-bg: #1a1a1a;
+$accordion-button-active-color: #ffffff;
+$btn-close-color: #ffffff;
+
 $theme-colors: (
     "primary": $wger-blue,
-    "secondary": $wger-red,
+    "secondary": #262626,
     "success": $wger-green,
     "info": $info,
     "warning": $wger-yellow,

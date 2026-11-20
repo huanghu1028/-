@@ -17,14 +17,14 @@
 -->
 
 
-{% load i18n static %}
-<html lang="{{ language.short_name }}">
+{% load i18n static wger_extras %}
+<html lang="{{ language.short_name }}" data-bs-theme="dark">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta charset="utf-8">
-    <meta name="author" content="wger team">
+    <meta name="author" content="tiger-减脂">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/png">
+    <link rel="icon" href="{% static 'images/tiger/tiger-face-72.png' %}" type="image/png">
 
     <!-- OpenGraph -->
     {% block opengraph %}
@@ -38,15 +38,31 @@
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-compiled.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'fontawesomefree/css/all.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/landing_page.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/tiger-dark.css' %}">
 
     <script src="{% static 'node/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/language.js' %}"></script>
     <script src="{% static 'js/forms.js' %}"></script>
 
-    <title>wger Workout Manager - {% translate "Features" %}</title>
+    <title>tiger-减脂 - {% translate "Features" %}</title>
 </head>
 
 <body>
-{% block template %}{% endblock %}
+<div class="app-shell d-flex">
+    {% include 'navigation.html' %}
+    <div class="app-content flex-grow-1">
+        <div class="app-mobilebar d-md-none d-flex align-items-center gap-2 px-3 py-2">
+            <button class="btn btn-light btn-sm" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#appSidebar" aria-controls="appSidebar"
+                    aria-label="{% translate 'Menu' %}">
+                <span class="{% fa_class 'bars' %}"></span>
+            </button>
+            <img src="{% static 'images/tiger/tiger-face.svg' %}" style="width: 28px;"
+                 alt="tiger-减脂 logo">
+            <span class="fw-bold text-white">tiger-减脂</span>
+        </div>
+        {% block template %}{% endblock %}
+    </div>
+</div>
 </body>
 </html>

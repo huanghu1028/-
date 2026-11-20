@@ -16,10 +16,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-11-07 14:27+0100\n"
 "PO-Revision-Date: 2026-11-07 13:07+0000\n"
-"Last-Translator: Smoker Clarkson "
-"<reynardhung@users.noreply.hosted.weblate.org>\n"
-"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
-"projects/wger/web/zh_Hans/>\n"
+"Last-Translator: Smoker Clarkson <reynardhung@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/wger/web/zh_Hans/>\n"
 "Language: zh_Hans\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,9 +33,7 @@ msgstr "默认健身房"
 msgid ""
 "Select the default gym for this installation. This will assign all new "
 "registered users to this gym and update all existing users without a gym."
-msgstr ""
-"选择默认健身房。所有新注册用户及没有添加健身房的已注册用户会加入此默认健身"
-"房。"
+msgstr "选择默认健身房。所有新注册用户及没有添加健身房的已注册用户会加入此默认健身房。"
 
 #: config/views/gym_config.py:46 core/templates/language/view.html:64
 #: core/templates/license/list.html:17
@@ -50,9 +46,10 @@ msgstr ""
 #: gallery/views/images.py:100 gym/templates/admin_notes/list.html:31
 #: gym/templates/contract/list.html:30 gym/templates/contract/view.html:106
 #: gym/templates/contract_option/list.html:29
-#: gym/templates/contract_type/list.html:30 gym/templates/document/list.html:38
-#: gym/templates/gym/list.html:19 gym/templates/gym/list.html:48
-#: gym/templates/gym/member_list.html:94 gym/templates/gym/member_list.html:152
+#: gym/templates/contract_type/list.html:30
+#: gym/templates/document/list.html:38 gym/templates/gym/list.html:19
+#: gym/templates/gym/list.html:48 gym/templates/gym/member_list.html:94
+#: gym/templates/gym/member_list.html:152
 #: gym/templates/gym/member_list.html:190
 #: nutrition/templates/ingredient/view.html:254
 #: nutrition/templates/ingredient/view.html:297
@@ -149,8 +146,9 @@ msgstr "请输入你的原密码。"
 #: exercises/templates/muscles/admin-overview.html:20
 #: gym/templates/admin_notes/list.html:37
 #: gym/templates/contract_option/list.html:35
-#: gym/templates/contract_type/list.html:36 gym/templates/document/list.html:46
-#: gym/templates/gym/list.html:23 nutrition/templates/ingredient/view.html:258
+#: gym/templates/contract_type/list.html:36
+#: gym/templates/document/list.html:46 gym/templates/gym/list.html:23
+#: nutrition/templates/ingredient/view.html:258
 #: nutrition/templates/ingredient/view.html:303
 msgid "Delete"
 msgstr "删除"
@@ -165,8 +163,7 @@ msgstr "确认"
 
 #: core/forms.py:328
 #, python-brace-format
-msgid ""
-"Your account has no password. Type the username \"{username}\" to confirm."
+msgid "Your account has no password. Type the username \"{username}\" to confirm."
 msgstr "密码未填写,请填写\"{username}\"后提交"
 
 #: core/forms.py:344
@@ -197,9 +194,7 @@ msgstr "全称"
 msgid ""
 "If a license has been localized, e.g. the Creative Commons licenses for the "
 "different countries, add them as separate entries here."
-msgstr ""
-"如果一个许可证已经本地化，例如，不同国家的 \"知识共享 \"许可证，请将它们作为"
-"单独的条目添加到这里。"
+msgstr "如果一个许可证已经本地化，例如，不同国家的 \"知识共享 \"许可证，请将它们作为单独的条目添加到这里。"
 
 #: core/models/license.py:40
 msgid "Short name, e.g. CC-BY-SA 3"
@@ -272,9 +267,7 @@ msgstr "默认的健身持续时间"
 msgid ""
 "Default duration in weeks of workouts not in a schedule. Used for email "
 "workout reminders."
-msgstr ""
-"默认每周的健身持续时间,需要注意,这不是日程的健身持续时间.健身的邮件提醒中会使"
-"用这项内容."
+msgstr "默认每周的健身持续时间,需要注意,这不是日程的健身持续时间.健身的邮件提醒中会使用这项内容."
 
 #: core/models/profile.py:184
 msgid "Notification language"
@@ -284,9 +277,7 @@ msgstr "通知语言"
 msgid ""
 "Language to use when sending you email notifications, e.g. email reminders "
 "for workouts. This does not affect the language used on the website."
-msgstr ""
-"发送给你电子邮件通知,包括健身的邮件提醒等所使用的语言.这不会影响到网站使用的"
-"语言."
+msgstr "发送给你电子邮件通知,包括健身的邮件提醒等所使用的语言.这不会影响到网站使用的语言."
 
 #: core/models/profile.py:219 gym/views/export.py:65
 msgid "Age"
@@ -383,8 +374,9 @@ msgstr "距离"
 #: exercises/models/muscle.py:36 gym/models/contract.py:52
 #: gym/models/contract.py:103 gym/models/gym.py:46
 #: gym/models/user_document.py:84 gym/templates/contract/view.html:50
-#: gym/templates/gym/member_list.html:28 gym/templates/gym/member_list.html:108
-#: gym/views/gym.py:168 nutrition/templates/ingredient/view.html:241
+#: gym/templates/gym/member_list.html:28
+#: gym/templates/gym/member_list.html:108 gym/views/gym.py:168
+#: nutrition/templates/ingredient/view.html:241
 msgid "Name"
 msgstr "名称"
 
@@ -421,9 +413,7 @@ msgid ""
 "There was an error on the server while processing your request. Try "
 "refreshing your browser and if that doesn't help, please try again at a "
 "later time. If the problem persists, you can seek help in ways listed below:"
-msgstr ""
-"服务器在处理您的请求时出现错误。尝试刷新您的浏览器，如果没有帮助，请稍后再"
-"试。如果问题仍然存在，您可以通过以下方式寻求帮助："
+msgstr "服务器在处理您的请求时出现错误。尝试刷新您的浏览器，如果没有帮助，请稍后再试。如果问题仍然存在，您可以通过以下方式寻求帮助："
 
 #: core/templates/account/email/email_confirmation_message.html:81
 #: core/templates/account/email/email_confirmation_message.txt:2
@@ -435,9 +425,7 @@ msgstr "就快要成功了!"
 msgid ""
 "You're receiving this email because the user \"%(user_display)s\" has given "
 "your email address to register an account on %(site_domain)s."
-msgstr ""
-"你收到这封邮件，是因为用户 \"%(user_display)s\" 使用你的邮箱地址在 "
-"%(site_domain)s 上注册了账户。"
+msgstr "你收到这封邮件，是因为用户 \"%(user_display)s\" 使用你的邮箱地址在 %(site_domain)s 上注册了账户。"
 
 #: core/templates/account/email/email_confirmation_message.html:93
 #: core/templates/account/email/email_confirmation_message.txt:9
@@ -461,14 +449,14 @@ msgid ""
 "The link is valid for %(expire_hours)s hour (until %(date)s, %(time)s). You "
 "can request a new one from your profile settings."
 msgid_plural ""
-"The link is valid for %(expire_hours)s hours (until %(date)s, %(time)s). You "
-"can request a new one from your profile settings."
+"The link is valid for %(expire_hours)s hours (until %(date)s, %(time)s). You"
+" can request a new one from your profile settings."
 msgstr[0] ""
-"该链接有效期为 %(expire_hours)s 小时（至 %(date)s，%(time)s）。您可以从个人资"
-"料设置中申请一个新的链接。"
+"该链接有效期为 %(expire_hours)s 小时（至 %(date)s，%(time)s）。您可以从个人资料设置中申请一个新的链接。"
 
 #: core/templates/account/email/email_confirmation_message.html:119
-msgid "If the button doesn't work, copy and paste this link into your browser:"
+msgid ""
+"If the button doesn't work, copy and paste this link into your browser:"
 msgstr "如果按钮不起作用，请将此链接复制粘贴到您的浏览器中："
 
 #: core/templates/account/email/email_confirmation_message.html:128
@@ -478,11 +466,9 @@ msgstr "维格小组"
 #: core/templates/account/email/email_confirmation_message.txt:4
 #, python-format
 msgid ""
-"You're receiving this email because the user %(user_display)s has given your "
-"email address to register an account on %(site_domain)s."
-msgstr ""
-"你收到这封邮件，是因为用户 %(user_display)s 使用你的邮箱地址在 "
-"%(site_domain)s 上注册了账户。"
+"You're receiving this email because the user %(user_display)s has given your"
+" email address to register an account on %(site_domain)s."
+msgstr "你收到这封邮件，是因为用户 %(user_display)s 使用你的邮箱地址在 %(site_domain)s 上注册了账户。"
 
 #: core/templates/account/email/email_confirmation_message.txt:14
 #, python-format
@@ -499,9 +485,7 @@ msgid ""
 "Your email address is used for password resets and, optionally, workout "
 "reminders. A new address only becomes active once you confirm it via the "
 "link sent to it."
-msgstr ""
-"您的电子邮件地址将用于密码重置，也可选择用于健身提醒。新的邮箱地址只有您在确"
-"认发送给您的链接后才会生效。"
+msgstr "您的电子邮件地址将用于密码重置，也可选择用于健身提醒。新的邮箱地址只有您在确认发送给您的链接后才会生效。"
 
 #: core/templates/account/email_change.html:20
 msgid "Current email"
@@ -578,8 +562,8 @@ msgstr "修改密码"
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
-"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
-"a>."
+"used.  Please request a <a href=\"%(passwd_reset_url)s\">new password "
+"reset</a>."
 msgstr ""
 
 #: core/templates/account/password_reset_from_key_done.html:4
@@ -603,9 +587,7 @@ msgstr "已有账户?"
 msgid ""
 "You are browsing the site as the user \"%(current_user)s\", all actions are "
 "performed on their data."
-msgstr ""
-"您正以用户 “%(current_user)s” 的身份浏览本网站，所有操作均基于该用户的数据执"
-"行。"
+msgstr "您正以用户 “%(current_user)s” 的身份浏览本网站，所有操作均基于该用户的数据执行。"
 
 #: core/templates/base.html:17 core/templates/base_wide.html:14
 #, python-format
@@ -616,8 +598,7 @@ msgstr "返回到\"%(target)s\""
 #, python-format
 msgid ""
 "You are\n"
-"                browsing the site as the user \"%(current_user)s\", all "
-"actions are performed on\n"
+"                browsing the site as the user \"%(current_user)s\", all actions are performed on\n"
 "                their data.\n"
 "            "
 msgstr ""
@@ -658,7 +639,8 @@ msgstr "未找到匹配项。"
 msgid "Add one now."
 msgstr "现在就新增一个。"
 
-#: core/templates/language/overview.html:34 core/templates/license/list.html:43
+#: core/templates/language/overview.html:34
+#: core/templates/license/list.html:43
 #: core/templates/repetition_unit/list.html:44
 #: core/templates/user/overview.html:330 core/templates/user/overview.html:370
 #: core/templates/user/overview.html:408
@@ -671,8 +653,8 @@ msgstr "现在就新增一个。"
 #: gallery/views/images.py:63 gym/templates/admin_notes/list.html:64
 #: gym/templates/contract/list.html:69
 #: gym/templates/contract_option/list.html:65
-#: gym/templates/contract_type/list.html:66 gym/templates/document/list.html:78
-#: gym/templates/gym/member_list.html:228
+#: gym/templates/contract_type/list.html:66
+#: gym/templates/document/list.html:78 gym/templates/gym/member_list.html:228
 #: gym/templates/gym/member_list.html:264
 #: gym/templates/gym/member_list.html:303
 #: mailer/templates/mailer/gym/overview.html:43
@@ -701,8 +683,9 @@ msgstr "许可协议列表"
 #: exercises/templates/muscles/admin-overview.html:29
 #: gym/templates/admin_notes/list.html:50 gym/templates/contract/list.html:57
 #: gym/templates/contract_option/list.html:52
-#: gym/templates/contract_type/list.html:53 gym/templates/document/list.html:64
-#: gym/templates/gym/list.html:32 gym/templates/gym/member_list.html:248
+#: gym/templates/contract_type/list.html:53
+#: gym/templates/document/list.html:64 gym/templates/gym/list.html:32
+#: gym/templates/gym/member_list.html:248
 #: gym/templates/gym/member_list.html:284
 #: gym/templates/gym/member_list.html:321
 #: mailer/templates/mailer/gym/overview.html:30
@@ -926,8 +909,8 @@ msgstr ""
 
 #: core/templates/user/api_key.html:42
 msgid ""
-"It is shown only once. If you lose it, generate a new one and revoke the old "
-"session below."
+"It is shown only once. If you lose it, generate a new one and revoke the old"
+" session below."
 msgstr ""
 
 #: core/templates/user/api_key.html:56
@@ -968,13 +951,11 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
-"                There is currently <strong>%(counter)s</strong> active JWT "
-"session\n"
+"                There is currently <strong>%(counter)s</strong> active JWT session\n"
 "            "
 msgid_plural ""
 "\n"
-"                There are currently <strong>%(counter)s</strong> active JWT "
-"sessions\n"
+"                There are currently <strong>%(counter)s</strong> active JWT sessions\n"
 "            "
 msgstr[0] ""
 
@@ -984,7 +965,8 @@ msgid ""
 "via the JWT login endpoint."
 msgstr ""
 
-#: core/templates/user/api_key.html:144 core/templates/user/preferences.html:67
+#: core/templates/user/api_key.html:144
+#: core/templates/user/preferences.html:67
 msgid "API key"
 msgstr "API密钥"
 
@@ -1065,8 +1047,8 @@ msgstr ""
 
 #: core/templates/user/connected_applications.html:57
 msgid ""
-"Disconnecting takes the access away immediately. The application can ask for "
-"it again, and you will be shown the same page you saw the first time."
+"Disconnecting takes the access away immediately. The application can ask for"
+" it again, and you will be shown the same page you saw the first time."
 msgstr ""
 
 #: core/templates/user/connected_applications.html:66
@@ -1079,8 +1061,9 @@ msgstr "你的账户"
 
 #: core/templates/user/connected_applications.html:81
 msgid ""
-"This list is about other applications using your wger account. To manage the "
-"accounts you use to log in to wger, see connected accounts in your settings."
+"This list is about other applications using your wger account. To manage the"
+" accounts you use to log in to wger, see connected accounts in your "
+"settings."
 msgstr ""
 
 #: core/templates/user/connected_applications.html:89
@@ -1100,8 +1083,7 @@ msgstr "你确定吗？"
 #, python-format
 msgid ""
 "This action will delete the user account \"%(username)s\".\n"
-"It will also  irrevocably remove all the data associated with it (workouts, "
-"logs, etc.)\n"
+"It will also  irrevocably remove all the data associated with it (workouts, logs, etc.)\n"
 "and can't be undone. "
 msgstr ""
 "这会删除\"%(username)s\"的用户账户。\n"
@@ -1118,7 +1100,8 @@ msgstr "最后%(number)s"
 
 #: core/templates/user/overview.html:29 core/templates/user/overview.html:163
 #: core/templates/user/overview.html:329 core/templates/user/overview.html:368
-#: core/templates/user/overview.html:407 gym/templates/gym/member_list.html:226
+#: core/templates/user/overview.html:407
+#: gym/templates/gym/member_list.html:226
 #: gym/templates/gym/member_list.html:262
 #: gym/templates/gym/member_list.html:302
 msgid "Overview"
@@ -1209,7 +1192,8 @@ msgstr "克"
 #: core/templates/user/overview.html:223 core/templates/user/overview.html:326
 #: core/templates/user/overview.html:365 core/templates/user/overview.html:404
 #: core/templates/user/overview.html:449 gym/templates/gym/list.html:45
-#: gym/templates/gym/member_list.html:91 gym/templates/gym/member_list.html:149
+#: gym/templates/gym/member_list.html:91
+#: gym/templates/gym/member_list.html:149
 #: gym/templates/gym/member_list.html:187
 #: gym/templates/gym/member_list.html:223
 #: gym/templates/gym/member_list.html:259
@@ -1233,7 +1217,8 @@ msgstr "重置用户密码"
 msgid "Roles"
 msgstr "角色"
 
-#: core/templates/user/overview.html:258 gym/templates/gym/member_list.html:105
+#: core/templates/user/overview.html:258
+#: gym/templates/gym/member_list.html:105
 msgid "Details"
 msgstr "详细"
 
@@ -1395,9 +1380,8 @@ msgid ""
 "weight and nutrition plan entries so you can better see what  this site can "
 "do. Feel free to edit or delete them!"
 msgstr ""
-"我们已经创建了健身示例，健身日程，体重日志，(体)重和营养计划条目等，通过这"
-"些，你可以更加深入了解到这个网站可以做到什么    你可以随意编辑或者删除这些数"
-"据！"
+"我们已经创建了健身示例，健身日程，体重日志，(体)重和营养计划条目等，通过这些，你可以更加深入了解到这个网站可以做到什么    "
+"你可以随意编辑或者删除这些数据！"
 
 #: core/views/oidc.py:130
 #, python-brace-format
@@ -1851,7 +1835,8 @@ msgstr "合同类型"
 
 #: gym/templates/gym/email_inactive_members.html:2
 #, python-format
-msgid "The following users have not visited the gym in the last %(weeks)s week"
+msgid ""
+"The following users have not visited the gym in the last %(weeks)s week"
 msgid_plural ""
 "The following users have not visited the gym in the last %(weeks)s weeks"
 msgstr[0] "下面的用户在过去的%(weeks)s 周内没有访问健身房"
@@ -1924,8 +1909,7 @@ msgstr "提示"
 #: gym/templates/gym/new_user.html:50
 msgid ""
 "Please write down the user password or save the exported\n"
-"file, which contains all the user data, and keep it in a safe place. The "
-"password\n"
+"file, which contains all the user data, and keep it in a safe place. The password\n"
 "cannot be recovered later."
 msgstr ""
 "请写下用户密码或者保存包含所有用户数据的导出文件，\n"
@@ -2406,7 +2390,8 @@ msgstr "您当前的训练计划 “%(routine)s” 已于 %(days)s 天前过期�
 
 #: manager/templates/routines/email_reminder.tpl:5
 #, python-format
-msgid "Your current workout '%(routine)s' is about to expire in %(days)s days."
+msgid ""
+"Your current workout '%(routine)s' is about to expire in %(days)s days."
 msgstr "您当前的训练计划 “%(routine)s” 将在 %(days)s 天后过期。"
 
 #: manager/templates/routines/email_reminder.tpl:9
@@ -2446,7 +2431,8 @@ msgstr ""
 
 #: manager/templates/workout/email_weight_reminder.tpl:8
 msgid ""
-"You will regularly receive such reminders till you enter your current weight."
+"You will regularly receive such reminders till you enter your current "
+"weight."
 msgstr "你会定期收到此类提醒，直到你输入当前体重。"
 
 #: manager/views/pdf.py:76 manager/views/pdf.py:146
@@ -2546,10 +2532,8 @@ msgstr ""
 msgid ""
 "After you submit the form, the administrators will be notified.\n"
 "Once it is reviewed, it will be added to the database. Till this happens,\n"
-"it will not be visible in the overview or the search. In case you added your "
-"email\n"
-"when you registered, you will get notified when the process is completed "
-"sucessfully."
+"it will not be visible in the overview or the search. In case you added your email\n"
+"when you registered, you will get notified when the process is completed sucessfully."
 msgstr ""
 "在你提交这个表格后，管理员会收到提醒\n"
 "表格会在被审阅后加入到数据库中，在此之前，\n"
@@ -2666,8 +2650,7 @@ msgstr "基础代谢率"
 #: nutrition/templates/rate/form.html:26
 msgid ""
 "The basal metabolic rate is the amount of energy expended daily\n"
-"at rest. This is the minimum energy needed for the body to function, without "
-"any\n"
+"at rest. This is the minimum energy needed for the body to function, without any\n"
 "additional physical activity."
 msgstr ""
 "基础代谢率是你静息状态下每日消耗的能量。\n"
@@ -2711,8 +2694,7 @@ msgstr "计算基础热量摄入"
 #: nutrition/templates/rate/form.html:88
 msgid ""
 "The total calories are the actual total calories per day. This\n"
-"might include e.g. a surplus or deficit if you are bulking or cutting. "
-"Alternatively\n"
+"might include e.g. a surplus or deficit if you are bulking or cutting. Alternatively\n"
 "you might just enter yourself the amount of calories if you know the value."
 msgstr ""
 "总卡路里是指每日真实总卡路里数。如果你的每日消耗\n"
@@ -2793,9 +2775,8 @@ msgid ""
 "yourself, and also provide a convenient, free, and hosted version for easy "
 "access."
 msgstr ""
-"wger 能帮助您记录锻炼情况、管理营养摄入，从而达成健身目标。我们将其作为免费开"
-"源软件提供，您可以自行搭建使用；同时，我们也提供便捷、免费的托管版本，方便您"
-"直接使用。"
+"tiger-减脂 "
+"能帮助您记录锻炼情况、管理营养摄入，从而达成健身目标。我们将其作为免费开源软件提供，您可以自行搭建使用；同时，我们也提供便捷、免费的托管版本，方便您直接使用。"
 
 #: software/templates/about_us.html:18
 msgid "Open Source & free to use ❤️"
@@ -2805,13 +2786,12 @@ msgstr "开源且免费使用"
 msgid ""
 "wger is built on the principles of open source. Its code is publicly "
 "available, developed by our community, ensuring transparency and giving you "
-"control over your data (especially if self-hosting). The free hosted service "
-"runs entirely on this open-source foundation. We believe powerful fitness "
+"control over your data (especially if self-hosting). The free hosted service"
+" runs entirely on this open-source foundation. We believe powerful fitness "
 "tools should be accessible to everyone."
 msgstr ""
-"wger 基于开源理念构建而成。其代码完全公开，由社区共同开发，这不仅确保了透明"
-"度，也让您能掌控自己的数据（尤其是在自行搭建的情况下）。我们提供的免费托管服"
-"务，也完全基于这一开源基础运行。我们坚信，强大的健身工具应当为每个人所用。"
+"tiger-减脂 "
+"基于开源理念构建而成。其代码完全公开，由社区共同开发，这不仅确保了透明度，也让您能掌控自己的数据（尤其是在自行搭建的情况下）。我们提供的免费托管服务，也完全基于这一开源基础运行。我们坚信，强大的健身工具应当为每个人所用。"
 
 #: software/templates/about_us.html:30
 msgid "How you can help"
@@ -2829,8 +2809,7 @@ msgstr "加入 Discord 服务器"
 msgid ""
 "Hop on the Discord server to chat with the developers and other users, ask "
 "questions, or discuss new features."
-msgstr ""
-"登录 Discord 服务器，您可以与开发者和其他用户交流、提问，或探讨新功能。"
+msgstr "登录 Discord 服务器，您可以与开发者和其他用户交流、提问，或探讨新功能。"
 
 #: software/templates/about_us.html:55
 msgid "Get news, updates, and announcements about the project on Mastodon."
@@ -2840,9 +2819,7 @@ msgstr "在 Mastodon 上获取关于该项目的新闻、更新和公告。"
 msgid ""
 "Spread the word: Tell your friends, gym buddies, or share on social media! "
 "Your enthusiasm helps us grow and reach more people."
-msgstr ""
-"广而告之：告诉你的朋友、健身伙伴，或者在社交媒体上分享！你的热情将帮助我们发"
-"展壮大，触达更多人群。"
+msgstr "广而告之：告诉你的朋友、健身伙伴，或者在社交媒体上分享！你的热情将帮助我们发展壮大，触达更多人群。"
 
 #: software/templates/about_us.html:71
 msgid "Contribute your skills"
@@ -2888,16 +2865,14 @@ msgstr "进行捐赠"
 #: software/templates/about_us.html:100
 msgid ""
 "While the project is free and will always remain it, running the server "
-"isn’t! Providing the hosted version of wger involves real, ongoing costs for "
-"server hosting, bandwidth, backups, etc. Development also takes significant "
-"time and effort from volunteers. Your contribution directly supports these "
+"isn’t! Providing the hosted version of wger involves real, ongoing costs for"
+" server hosting, bandwidth, backups, etc. Development also takes significant"
+" time and effort from volunteers. Your contribution directly supports these "
 "essential costs, helping to keep the service reliable, improving, and free "
 "for everyone."
 msgstr ""
-"尽管该项目始终免费且将保持这一特性，但服务器的运营并非如此！提供 wger 的托管"
-"版本需要持续投入实际成本，包括服务器托管、带宽、备份等费用。此外，开发工作也"
-"耗费了志愿者大量的时间和精力。您的捐赠将直接用于支付这些必要开支，助力我们维"
-"持服务的稳定性、推动其持续改进，并确保所有人都能免费使用。"
+"尽管该项目始终免费且将保持这一特性，但服务器的运营并非如此！提供 tiger-减脂 "
+"的托管版本需要持续投入实际成本，包括服务器托管、带宽、备份等费用。此外，开发工作也耗费了志愿者大量的时间和精力。您的捐赠将直接用于支付这些必要开支，助力我们维持服务的稳定性、推动其持续改进，并确保所有人都能免费使用。"
 
 #: software/templates/about_us.html:135
 msgid "Sponsor on GitHub"
@@ -2922,15 +2897,13 @@ msgid ""
 "The goal is to build an awesome and flexible fitness manager, along with a "
 "comprehensive and complete list of exercises and ingredients, all released "
 "under a free license."
-msgstr ""
-"我们的目标是打造一款出色且灵活的健身管理工具，同时构建一份全面完整的训练动作"
-"与食材清单，所有内容均以免费许可协议发布。"
+msgstr "我们的目标是打造一款出色且灵活的健身管理工具，同时构建一份全面完整的训练动作与食材清单，所有内容均以免费许可协议发布。"
 
 #: software/templates/features.html:11
 msgid ""
 "wger Workout Manager is a free, open source web application that manages "
 "your exercises and workouts."
-msgstr "wger 健身管理器是一个免费的开源网络应用。"
+msgstr "tiger-减脂 健身管理器是一个免费的开源网络应用。"
 
 #: software/templates/features.html:45
 msgid "Contact"
@@ -2959,7 +2932,7 @@ msgstr "记录<br> 完美身材 <br> 之路"
 #: software/templates/features.html:115
 msgid ""
 "Join wger, the community-driven <b>free and open-source fitness tracker</b>"
-msgstr "加入wger，一个社区驱动的<b>免费开源健身记录软件</b>"
+msgstr "加入 tiger-减脂，<b>免费</b>的减脂健身记录伙伴"
 
 #: software/templates/features.html:125
 msgid "Get Started"
@@ -2967,7 +2940,7 @@ msgstr "从这里开始"
 
 #: software/templates/features.html:135
 msgid "people <br> using wger"
-msgstr "使用wger<br> 的人"
+msgstr "使用tiger-减脂<br> 的人"
 
 #: software/templates/features.html:139
 msgid "exercises <br> for workout creation"
@@ -3016,8 +2989,8 @@ msgstr "从包含超200万的数据库中构建你的营养餐"
 
 #: software/templates/features.html:223
 msgid ""
-"Get automatically calculated nutritional values (energy, protein, "
-"carbs, ...) for both individual meals and your entire weekly plan"
+"Get automatically calculated nutritional values (energy, protein, carbs, "
+"...) for both individual meals and your entire weekly plan"
 msgstr "为单独一餐和整周计划自动计算营养价值（能量、蛋白质、碳水等等）"
 
 #: software/templates/features.html:253
@@ -3046,7 +3019,7 @@ msgstr "使用日历模式检查过去的项目"
 
 #: software/templates/features.html:289
 msgid "Try wger now"
-msgstr "现在来试试 wger 吧"
+msgstr "现在来试试 tiger-减脂 吧"
 
 #: software/templates/features.html:310
 msgid "Powered By <span>the community</span>"
@@ -3056,20 +3029,17 @@ msgstr "社区<span>驱动</span>"
 msgid ""
 "wger is funded and created by the open-source community: people like you "
 "translating, adding exercises and nutritional info, developing, and more."
-msgstr ""
-"wger 是开源社区创造和资助的：你我共同翻译、添加动作和营养信息、开发，以及一切"
-"一切。"
+msgstr "tiger-减脂 是开源社区创造和资助的：你我共同翻译、添加动作和营养信息、开发，以及一切一切。"
 
 #: software/templates/features.html:319
 msgid ""
-"We don't use ads, don't sell your personal info, and we share the code under "
-"a free and open-source license."
-msgstr ""
-"我们没有广告，也不会出售你的个人信息，我们以免费和开源的许可证共享代码。"
+"We don't use ads, don't sell your personal info, and we share the code under"
+" a free and open-source license."
+msgstr "我们没有广告，也不会出售你的个人信息，我们以免费和开源的许可证共享代码。"
 
 #: software/templates/features.html:324
 msgid "Pitch in and help make wger even better!"
-msgstr "加入我们，让 wger 一起变得更好！"
+msgstr "加入我们，让 tiger-减脂 一起变得更好！"
 
 #: software/templates/features.html:333
 msgid "Contribute"
@@ -3095,7 +3065,7 @@ msgstr "为你的健身室搭建一个私人服务器"
 msgid ""
 "Don't want your data on an online service? Set up a wger instance on your "
 "own server for free!"
-msgstr "不想要在云端存放数据？你可以在自己的服务器搭建一个wger实例！"
+msgstr "不想要在云端存放数据？你可以在自己的服务器搭建一个tiger-减脂实例！"
 
 #: software/templates/features.html:402
 msgid "Integrate with your own app"
@@ -3103,7 +3073,7 @@ msgstr "和你自己的软件整合起来"
 
 #: software/templates/features.html:405
 msgid "wger offers an open API that you can use for your app."
-msgstr "wger提供了开放的API供你的软件使用。"
+msgstr "tiger-减脂提供了开放的API供你的软件使用。"
 
 #: software/templates/features.html:416
 msgid "Create your own version"
@@ -3111,8 +3081,8 @@ msgstr "开发专属版本"
 
 #: software/templates/features.html:419
 msgid ""
-"The source code is available under the GNU AGPLv3 license! Feel free to fork "
-"it on GitHub."
+"The source code is available under the GNU AGPLv3 license! Feel free to fork"
+" it on GitHub."
 msgstr "源代码以 GNU ALPLv3 许可证发行！你可以从 GitHub 上开发分支。"
 
 #: software/templates/features.html:440
@@ -3178,11 +3148,9 @@ msgstr "如果这是衍生作品，请链接到原始来源"
 #: utils/models.py:103
 msgid ""
 "Note that a derivative work is one which is not only based on a previous "
-"work, but which also contains sufficient new, creative content to entitle it "
-"to its own copyright."
-msgstr ""
-"请注意，衍生作品不仅基于以前的作品，而且还包含足够的新创意内容以使其拥有自己"
-"的版权。"
+"work, but which also contains sufficient new, creative content to entitle it"
+" to its own copyright."
+msgstr "请注意，衍生作品不仅基于以前的作品，而且还包含足够的新创意内容以使其拥有自己的版权。"
 
 #: utils/oidc_auth.py:44
 msgid "View your training, nutrition and body data"
@@ -3219,10 +3187,8 @@ msgstr ""
 #: weight/templates/import_csv_form.html:18
 msgid ""
 "You can copy and paste from your spreadsheet into the text input,\n"
-"the system will try to guess the format to import. The only things to "
-"consider is\n"
-"that the first column is the <strong>date</strong>, the second the "
-"<strong>weight</strong>.\n"
+"the system will try to guess the format to import. The only things to consider is\n"
+"that the first column is the <strong>date</strong>, the second the <strong>weight</strong>.\n"
 "All further columns are ignored. There is a 1000 row limit.\n"
 msgstr ""
 "您可以从电子表格中复制并粘贴到文本输入中，\n"
@@ -3261,12 +3227,9 @@ msgstr "无法转换以下值。"
 #: weight/templates/import_csv_preview.html:31
 msgid ""
 "These values could not be converted to a weight log entry.\n"
-"    The reasons for this could be anything from an unrecognised date or "
-"number\n"
-"    format, a problem with the encoding or something else. Please check "
-"that\n"
-"    there are no obvious errors in the list (and correct them if there "
-"are!)\n"
+"    The reasons for this could be anything from an unrecognised date or number\n"
+"    format, a problem with the encoding or something else. Please check that\n"
+"    there are no obvious errors in the list (and correct them if there are!)\n"
 "    and try to import the list again."
 msgstr ""
 "这些值无法转换为体重日志条目。\n"
@@ -3294,8 +3257,7 @@ msgstr "导入所有成功转换的条目"
 #: weight/templates/import_csv_preview.html:59
 msgid ""
 "Continue here if you want to import into your weight log all\n"
-"entries that were successfully converted. All entries that produced an "
-"error\n"
+"entries that were successfully converted. All entries that produced an error\n"
 "will simply be ignored. It's up to you to decide whether they are useful\n"
 "(unrecognised entries) or not (e.g. headers, comments, etc.)."
 msgstr ""
@@ -3330,15 +3292,13 @@ msgstr "重新提交"
 #~ msgid ""
 #~ "We've e-mailed you instructions for setting your password to the e-mail "
 #~ "address you submitted. You should be receiving it shortly."
-#~ msgstr ""
-#~ "我们已经通过你提供的邮件发送给你如何重置密码的步骤.你应该马上就可以收到了."
+#~ msgstr "我们已经通过你提供的邮件发送给你如何重置密码的步骤.你应该马上就可以收到了."
 
 #, python-format
 #~ msgid ""
-#~ "You're receiving this e-mail because you requested a password reset for "
-#~ "your user account at %(site_name)s."
-#~ msgstr ""
-#~ "你收到这封邮件是因为你在%(site_name)s站点为你的账户提交了重置密码的请求。"
+#~ "You're receiving this e-mail because you requested a password reset for your"
+#~ " user account at %(site_name)s."
+#~ msgstr "你收到这封邮件是因为你在%(site_name)s站点为你的账户提交了重置密码的请求。"
 
 #~ msgid "Please go to the following page and choose a new password:"
 #~ msgstr "请前往以下链接,然后选择一个新的密码:"
@@ -3387,10 +3347,8 @@ msgstr "重新提交"
 #~ msgid ""
 #~ "Check to also show ingredients in English while creating\n"
 #~ "a nutritional plan. These ingredients are extracted from a list provided\n"
-#~ "by the US Department of Agriculture. It is extremely complete, with "
-#~ "around\n"
-#~ "7000 entries, but can be somewhat overwhelming and make the search "
-#~ "difficult."
+#~ "by the US Department of Agriculture. It is extremely complete, with around\n"
+#~ "7000 entries, but can be somewhat overwhelming and make the search difficult."
 #~ msgstr ""
 #~ "勾选以在创建营养计划时,使用英文来显示食谱.\n"
 #~ "这些食谱摘录自美国农业部提供的食谱列表.它大概有7000多个食谱,\n"
@@ -3401,12 +3359,9 @@ msgstr "重新提交"
 #~ msgstr "允许外部访问"
 
 #~ msgid ""
-#~ "Allow external users to access your workouts and logs in a read-only "
-#~ "mode. You need to set this before you can share links e.g. to social "
-#~ "media."
-#~ msgstr ""
-#~ "允许外网用户以只读模式访问你的健身和日志等数据.在你分享链接到社交媒体之前,"
-#~ "你需要勾选这个选项."
+#~ "Allow external users to access your workouts and logs in a read-only mode. "
+#~ "You need to set this before you can share links e.g. to social media."
+#~ msgstr "允许外网用户以只读模式访问你的健身和日志等数据.在你分享链接到社交媒体之前,你需要勾选这个选项."
 
 #~ msgid "Your API key"
 #~ msgstr "你的API密钥"
@@ -3552,8 +3507,8 @@ msgstr "重新提交"
 #~ msgstr "健身计划模板"
 
 #~ msgid ""
-#~ "Marking a workout as a template will freeze it and allow you to make "
-#~ "copies of it"
+#~ "Marking a workout as a template will freeze it and allow you to make copies "
+#~ "of it"
 #~ msgstr "将锻炼标记为模板将冻结它并允许您复制它"
 
 #~ msgid "Public template"
@@ -3566,8 +3521,8 @@ msgstr "重新提交"
 #~ msgstr "您可能想要保存的有关本次锻炼课程的任何笔记。"
 
 #~ msgid ""
-#~ "Your impression about this workout session. Did you exercise as well as "
-#~ "you could?"
+#~ "Your impression about this workout session. Did you exercise as well as you "
+#~ "could?"
 #~ msgstr "您对本次锻炼的印象。您锻炼得尽善尽美了吗？"
 
 #~ msgid "Start time"
@@ -3618,8 +3573,8 @@ msgstr "重新提交"
 #~ msgstr "为这一餐添加名字或文本描述（例如早餐或健身后）"
 
 #~ msgid ""
-#~ "A description of the goal of the plan, e.g. \"Gain mass\" or \"Prepare "
-#~ "for summer\""
+#~ "A description of the goal of the plan, e.g. \"Gain mass\" or \"Prepare for "
+#~ "summer\""
 #~ msgstr "描述这个计划的目标（例如“增重”或者“为夏天做准备”）"
 
 #~ msgid "Use daily calories"
@@ -3628,9 +3583,7 @@ msgstr "重新提交"
 #~ msgid ""
 #~ "Tick the box if you want to mark this plan as having a goal amount of "
 #~ "calories. You can use the calculator or enter the value yourself."
-#~ msgstr ""
-#~ "如果你想标记一个有目标热量的计划，请勾选此项。你可以使用热量计算器或自己输"
-#~ "入一个值。"
+#~ msgstr "如果你想标记一个有目标热量的计划，请勾选此项。你可以使用热量计算器或自己输入一个值。"
 
 #~ msgid "Weight entry"
 #~ msgstr "体重输入"
@@ -3665,12 +3618,10 @@ msgstr "重新提交"
 #~ msgstr "总热量（{self.energy}千卡）并非加总 "
 
 #~ msgid ""
-#~ "Tick the box if you want to set this image as the main one for the "
-#~ "exercise (will be shown e.g. in the search). The first image is "
-#~ "automatically marked by the system."
-#~ msgstr ""
-#~ "勾选方格,如果你想把这张图片设置为这个健身项目的主图(会在搜索等地方显示).第"
-#~ "一张图片会被系统自动标记为主图."
+#~ "Tick the box if you want to set this image as the main one for the exercise "
+#~ "(will be shown e.g. in the search). The first image is automatically marked "
+#~ "by the system."
+#~ msgstr "勾选方格,如果你想把这张图片设置为这个健身项目的主图(会在搜索等地方显示).第一张图片会被系统自动标记为主图."
 
 #~ msgid "The art style of your image"
 #~ msgstr "您的图片的艺术风格"
@@ -3682,14 +3633,13 @@ msgstr "重新提交"
 #~ msgstr "关于我们"
 
 #~ msgid ""
-#~ "Thank you for using wger! wger is a collaborative open source project, "
-#~ "made by fitness enthusiasts from around the world."
-#~ msgstr ""
-#~ "感谢你使用wger！wger是一个协作开源项目，由全世界健身爱好者共同维护。"
+#~ "Thank you for using wger! wger is a collaborative open source project, made "
+#~ "by fitness enthusiasts from around the world."
+#~ msgstr "感谢你使用tiger-减脂！tiger-减脂是一个协作开源项目，由全世界健身爱好者共同维护。"
 
 #~ msgid ""
-#~ "Get in touch if something didn't behave as expected or if there is a "
-#~ "feature that you feel is missing."
+#~ "Get in touch if something didn't behave as expected or if there is a feature"
+#~ " that you feel is missing."
 #~ msgstr "如果有什么不对劲儿或者你希望添加什么功能，请联系我们。"
 
 #~ msgid "Say hi!"
@@ -3706,10 +3656,9 @@ msgstr "重新提交"
 #~ msgstr "在长毛象上关注我们，以获得最新资讯"
 
 #~ msgid ""
-#~ "This application is translated on weblate. If you also want to help, "
-#~ "click the link and start translating"
-#~ msgstr ""
-#~ "这个应用是在Weblate上翻译的。如果你想要提供帮助，请点击这个链接着手翻译"
+#~ "This application is translated on weblate. If you also want to help, click "
+#~ "the link and start translating"
+#~ msgstr "这个应用是在Weblate上翻译的。如果你想要提供帮助，请点击这个链接着手翻译"
 
 #~ msgid "Source code"
 #~ msgstr "源代码"
@@ -3757,13 +3706,10 @@ msgstr "重新提交"
 #~ msgid ""
 #~ "Generate an API key if you want to interact with wger via\n"
 #~ "the <a href=\"%(url)s\" rel=\"nofollow\">REST API</a> it provides (for\n"
-#~ "public resources such as the exercises or ingredients, you don't need to "
-#~ "provide\n"
-#~ "anything). You must pass this information in the header in the format "
-#~ "shown below."
+#~ "public resources such as the exercises or ingredients, you don't need to provide\n"
+#~ "anything). You must pass this information in the header in the format shown below."
 #~ msgstr ""
-#~ "如果你想要和wger通过<a href=\"%(url)s\" rel=\"nofollow\">REST API</a>交"
-#~ "互，\n"
+#~ "如果你想要和tiger-减脂通过<a href=\"%(url)s\" rel=\"nofollow\">REST API</a>交互，\n"
 #~ "可以生成一个API密钥（对于公共资源，\n"
 #~ "例如：练习或要素，你不必提供任何信息）。\n"
 #~ "你必须在请求头中以下列格式传入相应信息。"
@@ -3781,14 +3727,13 @@ msgstr "重新提交"
 #~ msgstr "健身计划的名称"
 
 #~ msgid ""
-#~ "A short description or goal of the workout. For example 'Focus on back' "
-#~ "or 'Week 1 of program xy'."
-#~ msgstr ""
-#~ "这个健身的简介或者目标，例如“专注练背”或者“健身大计某某某的第一周”。"
+#~ "A short description or goal of the workout. For example 'Focus on back' or "
+#~ "'Week 1 of program xy'."
+#~ msgstr "这个健身的简介或者目标，例如“专注练背”或者“健身大计某某某的第一周”。"
 
 #~ msgid ""
-#~ "You can search for more than one exercise, they will be grouped together "
-#~ "for a superset."
+#~ "You can search for more than one exercise, they will be grouped together for"
+#~ " a superset."
 #~ msgstr "你可以搜索多个健身项目,它们将会被聚合成一个超集."
 
 #~ msgid "Table"
@@ -3801,36 +3746,31 @@ msgstr "重新提交"
 #~ msgstr "带有评论"
 
 #~ msgid ""
-#~ "A description of what is done on this day (e.g. \"Pull day\") or what "
-#~ "body parts are trained (e.g. \"Arms and abs\")"
-#~ msgstr ""
-#~ "对这一天要做什么（例如“拉力日”）或训练身体哪些部位（例如“手臂和腹肌”）的描"
-#~ "述"
+#~ "A description of what is done on this day (e.g. \"Pull day\") or what body "
+#~ "parts are trained (e.g. \"Arms and abs\")"
+#~ msgstr "对这一天要做什么（例如“拉力日”）或训练身体哪些部位（例如“手臂和腹肌”）的描述"
 
 #~ msgid "Day"
 #~ msgstr "天"
 
-#~ msgid ""
-#~ "Name or short description of the schedule. For example 'Program XYZ'."
+#~ msgid "Name or short description of the schedule. For example 'Program XYZ'."
 #~ msgstr "日程表的名字或简介，例如“快速增重增肌”。"
 
 #~ msgid "Schedule active"
 #~ msgstr "日程活跃"
 
 #~ msgid ""
-#~ "Tick the box if you want to mark this schedule as your active one (will "
-#~ "be shown e.g. on your dashboard). All other schedules will then be marked "
-#~ "as inactive"
-#~ msgstr ""
-#~ "如果你想把这个日程表标注为活动的（也就是说让它显示在你的主页面），可以选定"
-#~ "此项。与此同时，其他日程表将被标注为非活动的"
+#~ "Tick the box if you want to mark this schedule as your active one (will be "
+#~ "shown e.g. on your dashboard). All other schedules will then be marked as "
+#~ "inactive"
+#~ msgstr "如果你想把这个日程表标注为活动的（也就是说让它显示在你的主页面），可以选定此项。与此同时，其他日程表将被标注为非活动的"
 
 #~ msgid "Is a loop"
 #~ msgstr "是一个循环"
 
 #~ msgid ""
-#~ "Tick the box if you want to repeat the schedules in a loop (i.e. A, B, C, "
-#~ "A, B, C, and so on)"
+#~ "Tick the box if you want to repeat the schedules in a loop (i.e. A, B, C, A,"
+#~ " B, C, and so on)"
 #~ msgstr "如果要循环重复计划，请勾选此框（即 A、B、C、A、B、C 等）"
 
 #~ msgid "schedule"
@@ -3896,8 +3836,7 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "A new workout session (impression, notes, time) will\n"
-#~ "be created if there isn't already one for the selected date. If there is, "
-#~ "it\n"
+#~ "be created if there isn't already one for the selected date. If there is, it\n"
 #~ "will simply be edited. Weight entries are always added."
 #~ msgstr ""
 #~ "如果所选日期还没有锻炼课程（印象、笔记、时间），\n"
@@ -3925,10 +3864,8 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "You can indicate how long you want to do each workout\n"
-#~ "        before jumping to the next. It is also possible to create a loop, "
-#~ "so you\n"
-#~ "        always do the same workouts in succession, e.g. A > B > C > A > B "
-#~ "> C and so\n"
+#~ "        before jumping to the next. It is also possible to create a loop, so you\n"
+#~ "        always do the same workouts in succession, e.g. A > B > C > A > B > C and so\n"
 #~ "        on."
 #~ msgstr ""
 #~ "您可以指定每次锻炼的时间，然后再跳到下一个锻炼。\n"
@@ -3938,8 +3875,7 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "The currently active schedule will remain active (and be\n"
-#~ "        shown e.g. in your dashboard) till it reaches the last workout or "
-#~ "till you\n"
+#~ "        shown e.g. in your dashboard) till it reaches the last workout or till you\n"
 #~ "        deactivate it, if it is a loop."
 #~ msgstr ""
 #~ "当前活动的计划将保持活动状态\n"
@@ -3979,8 +3915,7 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "Add as many workouts to the schedule as you want. You can\n"
-#~ "            edit the order by dragging and dropping them. It's also "
-#~ "possible to add one workout more\n"
+#~ "            edit the order by dragging and dropping them. It's also possible to add one workout more\n"
 #~ "            than once."
 #~ msgstr ""
 #~ "在计划表里任意添加训练。你可以\n"
@@ -3995,10 +3930,8 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "You can then import the file it into your calendar\n"
-#~ "                        application for example google calendar, outlook "
-#~ "or iCal. This will create\n"
-#~ "                        an appointment for each training day with the "
-#~ "appropriate\n"
+#~ "                        application for example google calendar, outlook or iCal. This will create\n"
+#~ "                        an appointment for each training day with the appropriate\n"
 #~ "                        exercises."
 #~ msgstr ""
 #~ "你可以把文件导入进\n"
@@ -4015,8 +3948,7 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "If you do the same repetitions for all sets,\n"
-#~ "you can just enter one value: e.g. for 4 sets just enter one \"10\" for "
-#~ "the repetitions, this\n"
+#~ "you can just enter one value: e.g. for 4 sets just enter one \"10\" for the repetitions, this\n"
 #~ "automatically becomes \"4 x 10\"."
 #~ msgstr ""
 #~ "如果你每一组都做相同的次数，\n"
@@ -4142,8 +4074,7 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "If a license has been localized, e.g. the Creative Commons\n"
-#~ "            licenses for the different countries, add them as separate "
-#~ "entries here."
+#~ "            licenses for the different countries, add them as separate entries here."
 #~ msgstr ""
 #~ "如果一个许可证已经本地化，例如，不同国家的 \"知识共享 \"\n"
 #~ "许可证，请将它们作为单独的条目添加到这里。"
@@ -4182,10 +4113,8 @@ msgstr "重新提交"
 #~ msgstr "纤维"
 
 #, fuzzy, python-brace-format
-#~| msgid "The user {0} submitted a new exercise \"{1}\"."
 #~ msgid ""
-#~ "The user {request.user.username} submitted a new ingredient \"{self.name}"
-#~ "\"."
+#~ "The user {request.user.username} submitted a new ingredient \"{self.name}\"."
 #~ msgstr "用户{0}提交了一次新训练“{1}”."
 
 #~ msgid "Submission date"
@@ -4196,13 +4125,11 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "This user submitted ingredient is pending a decision to be\n"
-#~ "included in the database. Till then, it will not be shown in the overview "
-#~ "or\n"
+#~ "included in the database. Till then, it will not be shown in the overview or\n"
 #~ "the search."
 #~ msgstr ""
 #~ "用户提交一个新的食谱之后,会在这里进行审核,\n"
-#~ "最终来决定是否将申请的食谱添加到数据库中.审核之前,该食谱不会在食谱总览或"
-#~ "者\n"
+#~ "最终来决定是否将申请的食谱添加到数据库中.审核之前,该食谱不会在食谱总览或者\n"
 #~ "食谱搜索中出现."
 
 #~ msgid "Accept"
@@ -4237,17 +4164,14 @@ msgstr "重新提交"
 #~ msgstr "这个健身是日程的一部分："
 
 #~ msgid ""
-#~ "The current workout is selected from your active schedule or, if you "
-#~ "don't have one, simply by date."
-#~ msgstr ""
-#~ "当前的锻炼是从您的健身计划中选择的，如果您没有活动计划，则只需按日期选择。"
+#~ "The current workout is selected from your active schedule or, if you don't "
+#~ "have one, simply by date."
+#~ msgstr "当前的锻炼是从您的健身计划中选择的，如果您没有活动计划，则只需按日期选择。"
 
 #~ msgid "Share this page"
 #~ msgstr "分享这个页面"
 
 #, fuzzy
-#~| msgid ""
-#~| "Before you share links on social media you need to allow external access."
 #~ msgid ""
 #~ "Before you share links on social media you need to allow external\n"
 #~ "                            access."
@@ -4278,11 +4202,9 @@ msgstr "重新提交"
 #~ msgstr "添加新的日记条目"
 
 #~ msgid ""
-#~ "Click to add an entry to your nutrition diary for today. You can either "
-#~ "log a meal as you defined it, or entry any number of custom entries."
-#~ msgstr ""
-#~ "点击添加一个条目到你今天的营养日记。您可以按照自己的定义记录一餐，也可以输"
-#~ "入任意数量的自定义条目。"
+#~ "Click to add an entry to your nutrition diary for today. You can either log "
+#~ "a meal as you defined it, or entry any number of custom entries."
+#~ msgstr "点击添加一个条目到你今天的营养日记。您可以按照自己的定义记录一餐，也可以输入任意数量的自定义条目。"
 
 #~ msgid "Add custom diary entry"
 #~ msgstr "添加自定义日记条目"
@@ -4355,10 +4277,8 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "Use the configuration to select in what languages the\n"
-#~ "exercises and ingredients will be shown for the current language (for "
-#~ "example\n"
-#~ "the exercises should be shown in languages A, B and C; the ingredients "
-#~ "only\n"
+#~ "exercises and ingredients will be shown for the current language (for example\n"
+#~ "the exercises should be shown in languages A, B and C; the ingredients only\n"
 #~ "in A)."
 #~ msgstr ""
 #~ "使用这个配置来选择在当前语言环境下,\n"
@@ -4429,15 +4349,11 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "After you submit the form, the administrators will be notified.\n"
-#~ "Once it is reviewed, it will be added to the database. Till this "
-#~ "happens,\n"
-#~ "it will not be visible in the overview or the search. In case you added "
-#~ "your email\n"
-#~ "when you registered, you will get notified when the process is completed "
-#~ "successfully."
+#~ "Once it is reviewed, it will be added to the database. Till this happens,\n"
+#~ "it will not be visible in the overview or the search. In case you added your email\n"
+#~ "when you registered, you will get notified when the process is completed successfully."
 #~ msgstr ""
-#~ "你提交申请表单之后,管理员会收到通知.如果被审核通过,那么就会被添加到数据库"
-#~ "中.\n"
+#~ "你提交申请表单之后,管理员会收到通知.如果被审核通过,那么就会被添加到数据库中.\n"
 #~ "管理员审核之前,在总览或者搜索中不会看到.\n"
 #~ "如果你在注册的时候添加了邮件,那么在审核过程成功完成之后,你也会收到通知."
 
@@ -4501,8 +4417,7 @@ msgstr "重新提交"
 #~ msgid "Add exercise"
 #~ msgstr "新增健身项目"
 
-#~ msgid ""
-#~ "Thank you. Once the changes are reviewed the exercise will be updated."
+#~ msgid "Thank you. Once the changes are reviewed the exercise will be updated."
 #~ msgstr "谢谢你. 一旦修改被审核通过,那么该健身项目也会随之更新."
 
 #, python-brace-format
@@ -4574,11 +4489,8 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "If you want to further help and improve this project,\n"
-#~ "you might also be interested <a href=\"%(contribute)s\">in contributing</"
-#~ "a>."
-#~ msgstr ""
-#~ "如果你想要更近一步地帮助提升这个项目,你或许也会对 <a href=\"%"
-#~ "(contribute)s\">感兴趣</a>."
+#~ "you might also be interested <a href=\"%(contribute)s\">in contributing</a>."
+#~ msgstr "如果你想要更近一步地帮助提升这个项目,你或许也会对 <a href=\"%(contribute)s\">感兴趣</a>."
 
 #~ msgid "Feedback form"
 #~ msgstr "反馈表格"
@@ -4596,16 +4508,14 @@ msgstr "重新提交"
 #~ msgid ""
 #~ "We are also on twitter. Write us and tell us what\n"
 #~ "you think! Except patches, don't send patches via twitter."
-#~ msgstr ""
-#~ "我们也在推特上.推特我们告诉我们你的想法!当然,除了补丁包,请不要通过推特发送"
-#~ "补丁包."
+#~ msgstr "我们也在推特上.推特我们告诉我们你的想法!当然,除了补丁包,请不要通过推特发送补丁包."
 
 #~ msgid ""
 #~ "Use the public group to get support for your\n"
 #~ "local wger installation, discuss issues or your new idea, etc.\n"
 #~ "(no registration needed)"
 #~ msgstr ""
-#~ "在公开小组, 你可以获取wger本地安装的支持,\n"
+#~ "在公开小组, 你可以获取tiger-减脂本地安装的支持,\n"
 #~ "你也可以讨论问题,表达你的想法等.\n"
 #~ "(无需注册)"
 
@@ -4620,38 +4530,25 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "wger Workout Manager is build by volunteers,\n"
-#~ "the development process is open and freely accessible to anybody "
-#~ "interested.\n"
+#~ "the development process is open and freely accessible to anybody interested.\n"
 #~ "If you are new to the free software world, we recommend to take a\n"
-#~ "look <a href=\"http://schlitt.info/opensource/blog/"
-#~ "0541_10_golden_rules_for_starting_with_open_source.html\">this\n"
-#~ "article</a> which summarizes they way open source projects work very "
-#~ "well. "
+#~ "look <a href=\"http://schlitt.info/opensource/blog/0541_10_golden_rules_for_starting_with_open_source.html\">this\n"
+#~ "article</a> which summarizes they way open source projects work very well. "
 #~ msgstr ""
-#~ "wger 健身经理是志愿者们参与开发的.整个开发的过程\n"
-#~ "是公开的,并且任何对这个项目感兴趣的人都可以免费参与进来.如果您对自由软件世"
-#~ "界不熟悉,那么我们推荐您浏览\n"
-#~ "一下<a href=\"http://schlitt.info/opensource/blog/"
-#~ "0541_10_golden_rules_for_starting_with_open_source.html\">这篇文章</a>, \n"
+#~ "tiger-减脂 健身经理是志愿者们参与开发的.整个开发的过程\n"
+#~ "是公开的,并且任何对这个项目感兴趣的人都可以免费参与进来.如果您对自由软件世界不熟悉,那么我们推荐您浏览\n"
+#~ "一下<a href=\"http://schlitt.info/opensource/blog/0541_10_golden_rules_for_starting_with_open_source.html\">这篇文章</a>, \n"
 #~ "它会告诉您开源项目是如何良好运作的."
 
 #, fuzzy
-#~| msgid ""
-#~| "Do you want to use wger in your own language?\n"
-#~| "Do you think the current translation could be improved?\n"
-#~| "The translations are easily managed and edited online, if you are "
-#~| "interested,\n"
-#~| "go to the transifex site, request access and we will set everything\n"
-#~| "up. "
 #~ msgid ""
 #~ "Do you want to use wger in your own language?\n"
 #~ "Do you think the current translation could be improved?\n"
-#~ "The translations are easily managed and edited online, if you are "
-#~ "interested,\n"
+#~ "The translations are easily managed and edited online, if you are interested,\n"
 #~ "visit the link and start translating."
 #~ msgstr ""
-#~ "你想通过母语来使用wger吗?\n"
-#~ "你认为现在wger的翻译有待提高吗?\n"
+#~ "你想通过母语来使用tiger-减脂吗?\n"
+#~ "你认为现在tiger-减脂的翻译有待提高吗?\n"
 #~ "翻译过程是很容易在线管理和编辑的,如果你感兴趣,请访问transifex网站,\n"
 #~ "发出翻译请求,然后我们会搞定一切."
 
@@ -4660,19 +4557,14 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "\n"
-#~ "No software is perfect. For some severe errors, an email will be "
-#~ "automatically sent, but\n"
-#~ "not always, so I depend on you reporting everything that didn't behave as "
-#~ "expected.\n"
-#~ "Please describe in as much detail as you can what you were doing when the "
-#~ "error\n"
+#~ "No software is perfect. For some severe errors, an email will be automatically sent, but\n"
+#~ "not always, so I depend on you reporting everything that didn't behave as expected.\n"
+#~ "Please describe in as much detail as you can what you were doing when the error\n"
 #~ "happened.\n"
 #~ msgstr ""
 #~ "\n"
-#~ "没有软件是完美的.电子邮件会报告一些严重的错误,但是邮件并不总是可靠的,所以,"
-#~ "如果该软件\n"
-#~ "出现任何非预期的错误,请报告给我,我将感激不尽.当然,在错误发生的时候,你在执"
-#~ "行什么\n"
+#~ "没有软件是完美的.电子邮件会报告一些严重的错误,但是邮件并不总是可靠的,所以,如果该软件\n"
+#~ "出现任何非预期的错误,请报告给我,我将感激不尽.当然,在错误发生的时候,你在执行什么\n"
 #~ "操作,基于什么样的步骤等,这些信息越是详细,对于我排查问题越是有\n"
 #~ "帮助.\n"
 
@@ -4684,11 +4576,9 @@ msgstr "重新提交"
 
 #~ msgid ""
 #~ "\n"
-#~ "The issue tracker can also be used to document enhancements to the "
-#~ "software.\n"
+#~ "The issue tracker can also be used to document enhancements to the software.\n"
 #~ "If you have some suggestions or think a feature is missing, feel\n"
-#~ "free to open a ticket. This can be anything from a slight change to a "
-#~ "whole\n"
+#~ "free to open a ticket. This can be anything from a slight change to a whole\n"
 #~ "new section of the site. Please keep in mind that not all wishes can be\n"
 #~ "implemented."
 #~ msgstr ""
@@ -4717,18 +4607,16 @@ msgstr "重新提交"
 #~ "wger Workout Manager is Free/Libre Open Source\n"
 #~ "Software (FLOSS)."
 #~ msgstr ""
-#~ "wger 健身经理是免费/自由 开源\n"
+#~ "tiger-减脂 健身经理是免费/自由 开源\n"
 #~ "软件(FLOSS)."
 
 #~ msgid ""
 #~ "wger Workout Manager is released under the <strong>Affero GNU\n"
-#~ "General Public License (AGPL)  Version 3+</strong> and can (under the "
-#~ "conditions\n"
-#~ "of the license) be used, modified and distributed (also with "
-#~ "modifications)\n"
+#~ "General Public License (AGPL)  Version 3+</strong> and can (under the conditions\n"
+#~ "of the license) be used, modified and distributed (also with modifications)\n"
 #~ "without restrictions."
 #~ msgstr ""
-#~ "wger 健身经理是以 <strong>Affero GNU General Public License\n"
+#~ "tiger-减脂 健身经理是以 <strong>Affero GNU General Public License\n"
 #~ " (AGPL) Version 3+</strong>发行的,并且(在该软件条款下)\n"
 #~ "可以无限制地使用,修改和发行(当然包括修改再发行)"
 

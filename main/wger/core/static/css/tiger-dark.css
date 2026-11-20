@@ -1,0 +1,623 @@
+/*
+ * tiger-减脂 black theme overrides + cartoon tiger background watermark.
+ *
+ * Loaded after bootstrap-compiled.css and the app css files so it wins
+ * over the remaining light-colored custom classes (landing page, footer,
+ * react components, ...).
+ *
+ * Tiger artwork: Twemoji (https://github.com/twitter/twemoji),
+ * graphics licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+ */
+
+:root {
+    color-scheme: dark;
+    /* landing_page.css palette */
+    --bg-blue: #161616;
+    --bg-light-blue: #0d0d0d;
+}
+
+html {
+    background-color: #000;
+}
+
+body {
+    background-color: transparent;
+    color: #e6e6e6;
+}
+
+/* Cartoon tiger watermark, fixed behind all page content */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("../images/tiger/tiger-cartoon.svg") no-repeat right -3rem bottom -3rem;
+    background-size: min(55vh, 460px) auto;
+    opacity: 0.16;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* ---------- left sidebar layout ---------- */
+
+.app-sidebar {
+    --bs-offcanvas-width: 250px;
+    width: 250px;
+    background-color: #0a0a0a !important;
+    border-right: 1px solid #222;
+    scrollbar-color: #333 #0a0a0a;
+    scrollbar-width: thin;
+}
+
+@media (min-width: 768px) {
+    .app-sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        flex-shrink: 0;
+    }
+}
+
+.app-sidebar .nav-link {
+    color: #cfcfcf;
+    border-radius: 8px;
+    padding: 0.4rem 0.75rem;
+}
+
+.app-sidebar .nav-link:hover {
+    background: #1a1a1a;
+    color: #fff;
+}
+
+.app-sidebar .nav-link.active {
+    background: #242424;
+    color: #fff;
+}
+
+.app-sidebar .sidebar-heading {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    color: #777;
+    margin: 0.9rem 0 0.3rem 0.75rem;
+    list-style: none;
+}
+
+.app-sidebar .sidebar-userbox {
+    border-color: #222 !important;
+}
+
+.app-content {
+    min-width: 0;
+}
+
+.app-mobilebar {
+    background: #0a0a0a;
+    border-bottom: 1px solid #222;
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+}
+
+/* footer flows inside the content column instead of spanning the sidebar */
+body {
+    margin-bottom: 0 !important;
+}
+
+.app-shell footer {
+    position: static !important;
+    height: auto !important;
+}
+
+/* ---------- chrome ---------- */
+
+.navbar.bg-primary {
+    background-color: #000 !important;
+    border-bottom: 1px solid #222;
+}
+
+.navbar-brand,
+.navbar-brand:hover {
+    color: #fff;
+}
+
+#main-footer {
+    background-color: rgba(5, 5, 5, 0.9) !important;
+    border-color: #222 !important;
+}
+
+.bg-wger-light,
+.bg-light {
+    background-color: rgba(13, 13, 13, 0.6) !important;
+}
+
+/* ---------- landing page (features.html) ---------- */
+
+/* transparent so the fixed tiger watermark shows through the black body */
+header {
+    background: transparent !important;
+}
+
+main {
+    background-color: transparent !important;
+}
+
+.bg-dark-blue {
+    background-color: #161616 !important;
+}
+
+.text-dark-blue {
+    color: #e6e6e6 !important;
+}
+
+.bg-light-blue {
+    background-color: rgba(13, 13, 13, 0.6) !important;
+}
+
+.bg-bottom-menu {
+    background: linear-gradient(181.83deg, rgba(5, 5, 5, 0.92) 2.2%, rgba(20, 20, 20, 0.92) 99.11%) !important;
+}
+
+.footer-bg {
+    background-color: rgba(5, 5, 5, 0.92) !important;
+}
+
+.sign-up-bg {
+    background-image: none !important;
+    height: auto !important;
+    padding: 3rem 0;
+}
+
+.header-community span {
+    color: #8ab4f8;
+}
+
+.header-workout span {
+    color: #e08a97;
+}
+
+.header-meals span {
+    color: #e0b356;
+}
+
+.header-progress span {
+    color: #7fd1ae;
+}
+
+.btn-transparent {
+    color: #e6e6e6;
+}
+
+.btn-transparent:hover {
+    color: #fff;
+}
+
+/* light app-ui marketing screenshots: flip to dark so they fit the black page */
+img[src*="screens-"] {
+    filter: invert(0.9) hue-rotate(180deg);
+    border-radius: 12px;
+}
+
+/* ---------- surfaces & controls ---------- */
+
+.card,
+.modal-content,
+.dropdown-menu,
+.list-group-item,
+.accordion-item,
+.offcanvas {
+    background-color: #101010;
+    color: #e6e6e6;
+    border-color: #2e2e2e;
+}
+
+.card-header,
+.card-footer,
+.modal-header,
+.modal-footer,
+.accordion-button {
+    background-color: #161616;
+    color: #e6e6e6;
+    border-color: #2e2e2e;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #e6e6e6;
+    --bs-table-border-color: #333;
+    --bs-table-striped-bg: #141414;
+    --bs-table-striped-color: #e6e6e6;
+    --bs-table-hover-bg: #1c1c1c;
+    --bs-table-hover-color: #fff;
+    --bs-table-active-bg: #1c1c1c;
+    --bs-table-active-color: #fff;
+}
+
+.form-control,
+.form-select {
+    background-color: #101010;
+    color: #e6e6e6;
+    border-color: #3a3a3a;
+}
+
+.form-control:focus,
+.form-select:focus {
+    background-color: #141414;
+    color: #fff;
+    border-color: #555;
+    box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.08);
+}
+
+.form-control::placeholder {
+    color: #777;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+    background-color: #1a1a1a;
+    color: #888;
+}
+
+.input-group-text {
+    background-color: #1a1a1a;
+    color: #e6e6e6;
+    border-color: #3a3a3a;
+}
+
+.btn-primary {
+    --bs-btn-bg: #161616;
+    --bs-btn-border-color: #3a3a3a;
+    --bs-btn-color: #fff;
+    --bs-btn-hover-bg: #242424;
+    --bs-btn-hover-border-color: #555;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-active-bg: #2e2e2e;
+    --bs-btn-active-border-color: #666;
+    --bs-btn-active-color: #fff;
+    --bs-btn-disabled-bg: #161616;
+    --bs-btn-disabled-border-color: #333;
+    --bs-btn-disabled-color: #888;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #d9d9d9;
+    --bs-btn-border-color: #4a4a4a;
+    --bs-btn-hover-bg: #1c1c1c;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-border-color: #666;
+    --bs-btn-active-bg: #242424;
+    --bs-btn-active-border-color: #777;
+    --bs-btn-active-color: #fff;
+}
+
+.btn-light {
+    --bs-btn-bg: #1c1c1c;
+    --bs-btn-color: #e6e6e6;
+    --bs-btn-border-color: #333;
+    --bs-btn-hover-bg: #2a2a2a;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-border-color: #444;
+    --bs-btn-active-bg: #333;
+    --bs-btn-active-color: #fff;
+}
+
+.btn-secondary {
+    --bs-btn-bg: #262626;
+    --bs-btn-border-color: #3a3a3a;
+    --bs-btn-color: #e6e6e6;
+    --bs-btn-hover-bg: #333;
+    --bs-btn-hover-color: #fff;
+}
+
+a {
+    color: #d9d9d9;
+}
+
+a:hover {
+    color: #fff;
+}
+
+.dropdown-item {
+    color: #e6e6e6;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.dropdown-divider {
+    border-color: #333;
+}
+
+.text-muted {
+    color: #9a9a9a !important;
+}
+
+hr {
+    border-color: #333;
+    opacity: 1;
+}
+
+.nav-tabs {
+    --bs-nav-tabs-border-color: #333;
+    --bs-nav-tabs-link-active-bg: #101010;
+    --bs-nav-tabs-link-active-color: #fff;
+    --bs-nav-tabs-link-active-border-color: #333 #333 #101010;
+    --bs-nav-tabs-link-hover-border-color: #222 #222 #333;
+}
+
+.nav-pills {
+    --bs-nav-pills-link-active-bg: #2e2e2e;
+    --bs-nav-pills-link-active-color: #fff;
+}
+
+.pagination {
+    --bs-pagination-bg: #101010;
+    --bs-pagination-border-color: #333;
+    --bs-pagination-color: #d9d9d9;
+    --bs-pagination-hover-bg: #1c1c1c;
+    --bs-pagination-hover-color: #fff;
+    --bs-pagination-hover-border-color: #444;
+    --bs-pagination-active-bg: #2e2e2e;
+    --bs-pagination-active-border-color: #444;
+    --bs-pagination-disabled-bg: #101010;
+    --bs-pagination-disabled-color: #666;
+    --bs-pagination-disabled-border-color: #333;
+}
+
+.breadcrumb {
+    --bs-breadcrumb-divider-color: #777;
+    --bs-breadcrumb-item-active-color: #9a9a9a;
+}
+
+.progress {
+    --bs-progress-bg: #1c1c1c;
+}
+
+.alert-warning {
+    --bs-alert-bg: #2b2100;
+    --bs-alert-color: #e0c060;
+    --bs-alert-border-color: #4d3b00;
+}
+
+.alert-info {
+    --bs-alert-bg: #062b33;
+    --bs-alert-color: #7fd4e6;
+    --bs-alert-border-color: #0d4754;
+}
+
+.alert-success {
+    --bs-alert-bg: #0d2b12;
+    --bs-alert-color: #8fd49a;
+    --bs-alert-border-color: #1a4d24;
+}
+
+.alert-danger {
+    --bs-alert-bg: #331114;
+    --bs-alert-color: #e69aa2;
+    --bs-alert-border-color: #54202a;
+}
+
+/* react components mount points inherit the dark scheme */
+#root,
+[id^="react"] {
+    color-scheme: dark;
+}
+
+/* ---------- MUI (react components, emotion styles injected at runtime) ---------- */
+
+.MuiPaper-root,
+.MuiDialog-paper,
+.MuiPopover-paper,
+.MuiMenu-paper,
+.MuiAutocomplete-paper {
+    background-color: #101010 !important;
+    color: #e6e6e6 !important;
+}
+
+.MuiCard-root {
+    border: 1px solid #2e2e2e;
+}
+
+.MuiTypography-root {
+    color: #e6e6e6 !important;
+}
+
+.MuiLink-root {
+    color: #d9d9d9 !important;
+}
+
+.MuiButton-contained,
+.MuiButton-containedPrimary {
+    background-color: #161616 !important;
+    color: #fff !important;
+    box-shadow: none !important;
+}
+
+.MuiButton-contained:hover,
+.MuiButton-containedPrimary:hover {
+    background-color: #242424 !important;
+}
+
+.MuiButton-outlined,
+.MuiButton-outlinedPrimary {
+    color: #d9d9d9 !important;
+    border-color: #4a4a4a !important;
+}
+
+.MuiButton-outlined:hover,
+.MuiButton-outlinedPrimary:hover {
+    background-color: #1c1c1c !important;
+    border-color: #666 !important;
+}
+
+.MuiButton-text,
+.MuiButton-textPrimary {
+    color: #d9d9d9 !important;
+}
+
+.MuiIconButton-root {
+    color: #d9d9d9 !important;
+}
+
+.MuiSvgIcon-colorPrimary {
+    color: #d9d9d9 !important;
+}
+
+.MuiInputBase-root {
+    color: #e6e6e6 !important;
+}
+
+.MuiInputBase-input::placeholder {
+    color: #777 !important;
+    opacity: 1;
+}
+
+.MuiOutlinedInput-notchedOutline {
+    border-color: #3a3a3a !important;
+}
+
+.MuiInputLabel-root,
+.MuiFormLabel-root,
+.MuiSelect-icon {
+    color: #9a9a9a !important;
+}
+
+.MuiMenuItem-root {
+    color: #e6e6e6;
+}
+
+.MuiMenuItem-root:hover {
+    background-color: #1e1e1e;
+}
+
+.MuiTableCell-root {
+    color: #e6e6e6 !important;
+    border-color: #333 !important;
+}
+
+.MuiTableCell-head {
+    color: #f2f2f2 !important;
+    background-color: #161616 !important;
+}
+
+.MuiTableRow-root:hover {
+    background-color: #1c1c1c !important;
+}
+
+.MuiDataGrid-root,
+.MuiDataGrid-main,
+.MuiDataGrid-virtualScroller,
+.MuiDataGrid-columnHeaders,
+.MuiDataGrid-footerContainer,
+.MuiDataGrid-row,
+.MuiDataGrid-cell {
+    background-color: #101010 !important;
+    color: #e6e6e6 !important;
+    border-color: #2e2e2e !important;
+}
+
+.MuiDataGrid-columnHeader {
+    background-color: #161616 !important;
+    color: #f2f2f2 !important;
+}
+
+.MuiDataGrid-row:hover {
+    background-color: #1c1c1c !important;
+}
+
+.MuiChip-root {
+    background-color: #262626 !important;
+    color: #e6e6e6 !important;
+}
+
+.MuiChip-outlined {
+    border-color: #3a3a3a !important;
+}
+
+.MuiDivider-root {
+    border-color: #333 !important;
+}
+
+.MuiAlert-standardSuccess {
+    background-color: #0d2b12 !important;
+    color: #8fd49a !important;
+}
+
+.MuiAlert-standardError {
+    background-color: #331114 !important;
+    color: #e69aa2 !important;
+}
+
+.MuiAlert-standardWarning {
+    background-color: #2b2100 !important;
+    color: #e0c060 !important;
+}
+
+.MuiAlert-standardInfo {
+    background-color: #062b33 !important;
+    color: #7fd4e6 !important;
+}
+
+.MuiAlert-icon {
+    color: inherit !important;
+}
+
+.MuiLinearProgress-root {
+    background-color: #1c1c1c !important;
+}
+
+.MuiSwitch-track {
+    background-color: #333 !important;
+}
+
+.MuiCheckbox-root,
+.MuiRadio-root {
+    color: #9a9a9a !important;
+}
+
+.MuiCheckbox-root.Mui-checked,
+.MuiRadio-root.Mui-checked {
+    color: #d9d9d9 !important;
+}
+
+.MuiTab-root {
+    color: #9a9a9a !important;
+}
+
+.MuiTab-root.Mui-selected {
+    color: #fff !important;
+}
+
+.MuiTabs-indicator {
+    background-color: #d9d9d9 !important;
+}
+
+.MuiTooltip-tooltip {
+    background-color: #1c1c1c !important;
+    color: #e6e6e6 !important;
+}
+
+.MuiBackdrop-root {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.MuiPickersDay-root {
+    color: #e6e6e6 !important;
+}
+
+.MuiPickersDay-root.Mui-selected {
+    background-color: #2e2e2e !important;
+    color: #fff !important;
+}
+
+.MuiDayCalendar-weekDayLabel,
+.MuiPickersCalendarHeader-label {
+    color: #9a9a9a !important;
+}
