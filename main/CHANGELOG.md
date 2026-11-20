@@ -28,6 +28,26 @@ Three MIT libraries are vendored under `core/static/vendor/` (AOS, countUp.js,
 vanilla-tilt.js) and wired by `core/static/js/tiger-fx.js`; all motion respects
 `prefers-reduced-motion` and degrades gracefully when a library is absent.
 
+### Landing page motion, round 2 (tiger-减脂)
+A second additive pass on the same black/starfield/tiger base: a typewriter
+line under the hero headline cycles Chinese slogans (typewriter-effect, MIT),
+the hero tiger column gets gentle scroll parallax (rellax, MIT), and buttons
+site-wide gain a material ripple (Waves, MIT). All three are vendored under
+`core/static/vendor/` with their licenses and wired by `tiger-fx.js`; each is
+feature-detected and skipped under `prefers-reduced-motion` (parallax/tilt also
+skip touch devices), and the typewriter line keeps a static fallback when JS
+is unavailable.
+
+### Deep-space background, round 3 (tiger-减脂)
+The black base gains two additive, very dark background layers beneath the
+existing starfield and tiger watermark: a slow drifting radial nebula gradient
+(granim.js, MIT) cycling deep ember / teal / maroon tints, and a sparse field of
+floating tiger-orange embers (particles.js, MIT) that gently repulse from the
+cursor. Layer order is nebula < embers < starfield < watermark < content, and
+both layers stay low-opacity so text legibility and the black theme are
+preserved. Vendored under `core/static/vendor/`, wired by `tiger-fx.js`, and
+skipped entirely under `prefers-reduced-motion`.
+
 ### Food photo scan (拍照识餐)
 Upload a food photo and a local Food-101 ConvNeXt-Tiny ONNX model recognizes the
 dish and estimates its calories, without sending the image to any external

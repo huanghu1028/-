@@ -107,5 +107,63 @@
             window.Waves.attach('.btn', 'waves-light');
             window.Waves.init();
         }
+
+        /* ---------- 7. drifting nebula gradient (background) ---------- */
+        var nebula = document.getElementById('tigerNebula');
+        if (nebula && window.Granim && !reduceMotion) {
+            new window.Granim({
+                element: '#tigerNebula',
+                direction: 'radial',
+                isPausedWhenNotInView: true,
+                states: {
+                    'default-state': {
+                        gradients: [
+                            ['#2b1600', '#000000'],
+                            ['#001c28', '#000000'],
+                            ['#241019', '#000000']
+                        ],
+                        transitionSpeed: 7000,
+                        loop: true
+                    }
+                }
+            });
+        }
+
+        /* ---------- 8. floating tiger-orange embers (background) ---------- */
+        var embers = document.getElementById('tigerEmbers');
+        if (embers && window.particlesJS && !reduceMotion) {
+            window.particlesJS('tigerEmbers', {
+                particles: {
+                    number: { value: 40, density: { enable: true, value_area: 900 } },
+                    color: { value: ['#ff9f43', '#ffc46b', '#ffffff'] },
+                    shape: { type: 'circle' },
+                    opacity: {
+                        value: 0.55,
+                        random: true,
+                        anim: { enable: true, speed: 0.6, opacity_min: 0.18, sync: false }
+                    },
+                    size: { value: 2.6, random: true },
+                    line_linked: { enable: false },
+                    move: {
+                        enable: true,
+                        speed: 0.7,
+                        direction: 'none',
+                        random: true,
+                        straight: false,
+                        out_mode: 'out'
+                    }
+                },
+                interactivity: {
+                    detect_on: 'window',
+                    events: {
+                        onhover: { enable: true, mode: 'repulse' },
+                        onclick: { enable: false },
+                        resize: true
+                    },
+                    modes: { repulse: { distance: 70, duration: 0.4 } }
+                },
+                retina_detect: true
+            });
+        }
     });
 })();

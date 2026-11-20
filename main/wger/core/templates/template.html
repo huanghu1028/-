@@ -58,6 +58,8 @@
     <script src="{% static 'vendor/countup/countUp.umd.js' %}" defer></script>
     <script src="{% static 'vendor/vanilla-tilt/vanilla-tilt.min.js' %}" defer></script>
     <script src="{% static 'vendor/waves/waves.min.js' %}" defer></script>
+    <script src="{% static 'vendor/granim/granim.min.js' %}" defer></script>
+    <script src="{% static 'vendor/particles/particles.min.js' %}" defer></script>
     <script src="{% static 'js/tiger-fx.js' %}" defer></script>
     <script>window.WGER_I18N_PATHS = {% react_translation_paths %};</script>
     <script src="{% static 'node/@wger-project/react-components/build/main.js' %}" type="module" defer="defer"></script>
@@ -68,6 +70,8 @@
 </head>
 <body>
 
+<canvas id="tigerNebula" class="tiger-nebula" aria-hidden="true"></canvas>
+<div id="tigerEmbers" class="tiger-embers" aria-hidden="true"></div>
 <night-sky id="tigerNightSky" layers="3" density="30" velocity-x="45" velocity-y="30"
            star-shape="circle" star-color="#ffffff" background-color="transparent"></night-sky>
 <script src="{% static 'js/night-sky.bundle.min.js' %}"></script>
