@@ -149,7 +149,7 @@
                                     <span class="text-secondary">· {{ item.serving_kcal }} 千卡/份</span>
                                 </div>
                                 <div class="small text-secondary">
-                                    {{ item.photo.created|date:"m-d H:i" }} · 置信度 {{ item.photo.confidence|floatformat:0 }}%
+                                    {{ item.photo.created|date:"m-d H:i" }} · 置信度 {{ item.confidence_pct }}%
                                 </div>
                                 {% if item.photo.log_item %}
                                     <span class="badge text-bg-success mt-1">

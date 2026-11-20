@@ -138,6 +138,7 @@ def build_page_context(request, form=None, result=None) -> dict:
                 'photo': photo,
                 'food': food,
                 'serving_kcal': food.kcal_for(food.serving) if food else 0,
+                'confidence_pct': round(photo.confidence * 100),
             }
         )
 
