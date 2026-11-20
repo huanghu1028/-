@@ -5,6 +5,17 @@
 
 ## New features
 
+### Landing page visual polish (tiger-减脂)
+The black/starfield/tiger landing page gains an additive layer of motion and
+depth without changing its structure: scroll-reveal on the hero, feature
+sections and FAQ, a glassmorphism stat band with animated counters (real local
+counts: exercises, exercise photos, interface languages, free/open-source), a
+warm glow behind the hero tiger, tiger-orange gradient headings, 3D tilt on the
+hero image, button shine sweep, card lift and an accent scrollbar/focus ring.
+Three MIT libraries are vendored under `core/static/vendor/` (AOS, countUp.js,
+vanilla-tilt.js) and wired by `core/static/js/tiger-fx.js`; all motion respects
+`prefers-reduced-motion` and degrades gracefully when a library is absent.
+
 ### Food photo scan (拍照识餐)
 Upload a food photo and a local Food-101 ConvNeXt-Tiny ONNX model recognizes the
 dish and estimates its calories, without sending the image to any external

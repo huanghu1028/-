@@ -32,12 +32,16 @@
             <section
                 class="row px-3 mb-5 d-flex align-items-center justify-content-center gap-2 flex-row-reverse">
                 <div class="col-lg-7 col-sm-6 col-12 d-flex px-5 flex-column align-items-center">
-                    <img src="{% static 'images/tiger/tiger-hero.png' %}"
-                         alt="tiger-减脂 卡通老虎健身形象"
-                         class="header-hero-image">
+                    <div class="tiger-hero-wrap">
+                        <img src="{% static 'images/tiger/tiger-hero.png' %}"
+                             alt="tiger-减脂 卡通老虎健身形象"
+                             class="header-hero-image"
+                             data-tilt>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-sm-5 col-11 d-flex py-3 flex-column align-items-start">
-                    <h1 class="font-bebas-neue display-3 uppercase">
+                <div class="col-lg-3 col-sm-5 col-11 d-flex py-3 flex-column align-items-start"
+                     data-aos="fade-up">
+                    <h1 class="font-bebas-neue display-3 uppercase header-hero-glow">
                         {% translate "Track your <br> way to your <br> ideal body" %}
                     </h1>
                     <p>
@@ -63,12 +67,43 @@
     <main>
         <div class="container-xl">
 
+            <!-- stat band (animated counters, real local database counts) -->
+            <section class="main-section pb-4">
+                <div class="tiger-stats px-3">
+                    <div class="tiger-glass tiger-stat" data-aos="zoom-in" data-aos-delay="0">
+                        <div class="num font-bebas-neue tiger-gradient-text">
+                            <span data-countup="979">0</span>
+                        </div>
+                        <div class="label">训练动作</div>
+                    </div>
+                    <div class="tiger-glass tiger-stat" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="num font-bebas-neue tiger-gradient-text">
+                            <span data-countup="660">0</span>
+                        </div>
+                        <div class="label">动作配图</div>
+                    </div>
+                    <div class="tiger-glass tiger-stat" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="num font-bebas-neue tiger-gradient-text">
+                            <span data-countup="33">0</span>
+                        </div>
+                        <div class="label">界面语言</div>
+                    </div>
+                    <div class="tiger-glass tiger-stat" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="num font-bebas-neue tiger-gradient-text">
+                            <span data-countup="100">0</span><span class="suffix">%</span>
+                        </div>
+                        <div class="label">免费开源</div>
+                    </div>
+                </div>
+            </section>
+
             <!-- section 1 - workout regimen -->
             <section class="main-section">
                 <div
                     class="row row-cols row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center flex-reverse gy-3">
                     <div
-                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2">
+                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2"
+                        data-aos="fade-up">
                         <h2 class="w-100 font-bebas-neue display-4 uppercase header-workout">
                             {% translate "Craft your perfect <span>workout routines</span>" %}
                         </h2>
@@ -95,7 +130,8 @@
                 <div
                     class="row row-cols row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center gy-3">
                     <div
-                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center">
+                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center"
+                        data-aos="fade-up">
                         <h2 class="w-100 font-bebas-neue display-4 uppercase header-meals">
                             {% translate "Plan your <span>daily meals</span>" %}
                         </h2>
@@ -124,7 +160,8 @@
                 <div
                     class="row row-cols-lg-2 row-cols-sm-1 px-3 w-100 justify-content-center flex-reverse gy-3">
                     <div
-                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2">
+                        class="col-lg-8 col-sm-12 d-flex flex-column align-items-start justify-content-center py-2"
+                        data-aos="fade-up">
                         <h2 class="w-100 font-bebas-neue display-4 uppercase w-100 header-progress">
                             {% translate "Keep track of <span>your progress</span>" %}
                         </h2>
@@ -169,7 +206,8 @@
         <!-- sign up section -->
         {% if allow_registration %}
             <section class="main-section">
-                <div class="container d-flex align-items-center justify-content-center sign-up-bg">
+                <div class="container d-flex align-items-center justify-content-center sign-up-bg"
+                     data-aos="fade-up">
                     <!-- form -->
                     <form method="post"
                           action="{% url 'core:user:registration' %}"
@@ -192,27 +230,27 @@
             <div class="container-xl px-3">
                 <h2 id="faq-title" class="font-bebas-neue display-4 uppercase mb-4">常见问题</h2>
                 <div class="faq-list">
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>如何开始使用 tiger-减脂？</summary>
                         <p>注册并登录后，从左侧「训练」入手：在「训练计划」里挑一个适合自己的计划，或到「练习」库浏览动作、组建自己的计划，然后跟着页面指引逐步完成每次训练即可。</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>tiger-减脂 是免费的吗？</summary>
                         <p>是的，完全免费。本站是基于开源项目 wger 定制的免费开源网页版，注册后即可使用训练、营养、体重记录等全部功能，没有付费订阅。</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>需要下载 App 吗？</summary>
                         <p>不需要。tiger-减脂 是网页版应用，电脑或手机浏览器打开本站就能用，无需下载安装任何应用，也不占用手机存储。</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>我的数据保存在哪里？</summary>
                         <p>训练、饮食、体重等记录都保存在本站服务器上，登录同一账号即可随时查看。本站程序开源，你也可以自行部署一套，把数据完全掌握在自己手中。</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>新手友好吗？没有健身基础能用吗？</summary>
                         <p>友好。「练习」库中的动作配有中文说明，训练计划可以循序渐进地安排；建议新手从低强度计划或公共模板开始，先熟悉动作，再逐步增加重量和组数。</p>
                     </details>
-                    <details class="faq-item">
+                    <details class="faq-item" data-aos="fade-up">
                         <summary>饮食怎么记录？</summary>
                         <p>在「营养」中创建营养计划，按餐次添加食物，系统会自动计算热量、蛋白质等营养值；配合「食谱总览」查询食材，就能把一周的饮食安排清楚。</p>
                     </details>
@@ -331,6 +369,13 @@
                 动作图片来自 wger 贡献者（CC BY-SA）与
                 <a href="https://github.com/yuhonas/free-exercise-db" class="text-light"
                    target="_blank" rel="noopener noreferrer">free-exercise-db</a>（公共领域）。
+                动效与交互:
+                <a href="https://github.com/michalsnik/aos" class="text-light"
+                   target="_blank" rel="noopener noreferrer">AOS</a> ·
+                <a href="https://github.com/inorganik/countUp.js" class="text-light"
+                   target="_blank" rel="noopener noreferrer">countUp.js</a> ·
+                <a href="https://github.com/micku7zu/vanilla-tilt.js" class="text-light"
+                   target="_blank" rel="noopener noreferrer">vanilla-tilt.js</a>（MIT）。
             </p>
         </div>
     </footer>
