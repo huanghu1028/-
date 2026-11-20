@@ -5,6 +5,15 @@
 
 ## New features
 
+### Food photo scan (拍照识餐)
+Upload a food photo and a local Food-101 ConvNeXt-Tiny ONNX model recognizes the
+dish and estimates its calories, without sending the image to any external
+service. The result is confirmed against the top-5 candidates and a portion size,
+then written to the nutrition diary as a `LogItem` (creating the ingredient and a
+logging-only plan on first use). The page also shows today's intake against the
+daily calorie goal and gives concrete next-meal suggestions sized to the remaining
+energy budget. Reachable at `/nutrition/food-scan/` and from the sidebar.
+
 ### Double progression
 Progression requirements can now reference the top of the prescribed range via the new rules `max_repetitions` and `max_weight`, and the new `all_sets` flag requires every prescribed set to qualify. Together they enable classic double progression schemes ("work from 8 to 12 reps at a fixed weight, add weight only once all sets reach 12"), e.g. `{"rules": ["max_repetitions"], "all_sets": true}`.
 

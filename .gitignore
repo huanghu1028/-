@@ -9,3 +9,4 @@ __pycache__/
 *.pyc
 main/wger/core/static/bootstrap-compiled.css.map
 vibe_images/
+.tmp_research/

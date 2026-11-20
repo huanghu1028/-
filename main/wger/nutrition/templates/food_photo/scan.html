@@ -1,0 +1,300 @@
+{% extends "base.html" %}
+{% load i18n static wger_extras %}
+
+{% block title %}拍照识餐 · AI 食物热量识别{% endblock %}
+
+{% block options %}
+    {% if diary_url %}
+        <a href="{{ diary_url }}" class="btn btn-outline-light">
+            <span class="{% fa_class 'book-open' %} me-1"></span>饮食日记
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <p class="text-secondary">
+        上传食物照片，本地 AI 模型识别食物并估算热量，一键记入饮食日记，
+        右侧根据今日摄入与热量目标给出下一餐建议。识别在服务器本地完成，照片不会发送到外部服务。
+    </p>
+
+    {# ---------- upload ---------- #}
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'camera' %}"></span>
+            <strong>第一步 · 上传食物照片</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data" id="food-upload-form">
+                {% csrf_token %}
+                <div id="food-dropzone" class="food-dropzone mb-3">
+                    <img id="food-preview" class="food-preview d-none" alt="食物照片预览">
+                    <div id="food-dropzone-hint" class="text-center py-4">
+                        <span class="{% fa_class 'image' %} fa-2x d-block mb-2 text-secondary"></span>
+                        <span class="d-block">点击选择或拖拽照片到此处</span>
+                        <small class="text-secondary">支持 JPG / PNG · 建议拍摄整份食物，光线充足</small>
+                    </div>
+                    {{ form.image }}
+                </div>
+                {% if form.image.errors %}
+                    <div class="alert alert-danger py-2">{{ form.image.errors.0 }}</div>
+                {% endif %}
+                <button type="submit" class="btn btn-primary" id="food-upload-btn">
+                    <span class="{% fa_class 'wand-magic-sparkles' %} me-1"></span>开始识别
+                </button>
+            </form>
+        </div>
+    </div>
+
+    {# ---------- recognition result ---------- #}
+    {% if result %}
+        <div class="card mb-4 food-result-card">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span class="{% fa_class 'wand-magic-sparkles' %}"></span>
+                <strong>第二步 · 确认食物与份量</strong>
+                <span class="badge text-bg-secondary ms-auto">Top {{ result.candidates|length }} 候选</span>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-sm-4">
+                        <img src="{{ result.photo.image.url }}" class="img-fluid rounded food-result-photo"
+                             alt="上传的食物照片">
+                        <div class="small text-secondary mt-2">
+                            最可能：{{ result.candidates.0.zh }}
+                            （置信度 {{ result.candidates.0.prob }}%）
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <form method="post" action="{% url 'nutrition:food_ai:log' %}" id="food-log-form">
+                            {% csrf_token %}
+                            <input type="hidden" name="photo_id" value="{{ result.photo.pk }}">
+                            <div class="list-group mb-3" id="food-candidates">
+                                {% for c in result.candidates %}
+                                    <label class="list-group-item list-group-item-action food-candidate d-flex align-items-center gap-2">
+                                        <input class="form-check-input flex-shrink-0 mt-0" type="radio"
+                                               name="food_key" value="{{ c.key }}"
+                                               {% if c.key == result.default_key %}checked{% endif %}>
+                                        <span class="flex-grow-1">
+                                            <span class="fw-bold">{{ c.zh }}</span>
+                                            <small class="text-secondary ms-1">{{ c.en }}</small>
+                                            <span class="d-block small text-secondary">
+                                                {{ c.energy }} 千卡/100克 · 蛋白 {{ c.protein }}g ·
+                                                脂肪 {{ c.fat }}g · 碳水 {{ c.carbs }}g
+                                            </span>
+                                        </span>
+                                        <span class="food-prob badge {% if forloop.first %}text-bg-primary{% else %}text-bg-secondary{% endif %}">
+                                            {{ c.prob }}%
+                                        </span>
+                                    </label>
+                                {% endfor %}
+                            </div>
+
+                            <div class="row g-2 align-items-end mb-3">
+                                <div class="col-auto">
+                                    <label for="portion-grams" class="form-label mb-1 small">份量（克）</label>
+                                    <input type="number" class="form-control" id="portion-grams" name="grams"
+                                           min="1" max="1000" step="5" value="{{ result.default_grams }}"
+                                           style="width: 110px;">
+                                </div>
+                                <div class="col-auto">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="快捷份量">
+                                        <button type="button" class="btn btn-outline-secondary food-portion-btn"
+                                                data-factor="0.5">半份</button>
+                                        <button type="button" class="btn btn-outline-secondary food-portion-btn"
+                                                data-factor="1">常用份量</button>
+                                        <button type="button" class="btn btn-outline-secondary food-portion-btn"
+                                                data-factor="1.5">大份</button>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-auto ms-sm-auto">
+                                    <div class="food-calc text-sm-end">
+                                        <span class="fs-4 fw-bold text-warning" id="calc-kcal">0</span>
+                                        <span class="text-secondary">千卡</span>
+                                        <span class="d-block small text-secondary">
+                                            蛋白 <span id="calc-protein">0</span>g ·
+                                            脂肪 <span id="calc-fat">0</span>g ·
+                                            碳水 <span id="calc-carbs">0</span>g
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-success">
+                                <span class="{% fa_class 'book-open' %} me-1"></span>记入饮食日记
+                            </button>
+                            <span class="small text-secondary ms-2">记录后可在饮食日记与首页仪表盘中查看</span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ result.candidates|json_script:"food-candidates-data" }}
+    {% endif %}
+
+    {# ---------- recent scans ---------- #}
+    {% if recent_photos %}
+        <div class="card mb-4">
+            <div class="card-header d-flex align-items-center gap-2">
+                <span class="{% fa_class 'clock-rotate-left' %}"></span>
+                <strong>最近识别</strong>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for item in recent_photos %}
+                        <div class="col-6 col-md-4 col-lg-3">
+                            <div class="food-history-item h-100">
+                                <img src="{{ item.photo.image.url }}" class="food-history-photo"
+                                     alt="{{ item.food.zh|default:'食物照片' }}">
+                                <div class="small mt-1">
+                                    <span class="fw-bold">{{ item.food.zh|default:item.photo.label }}</span>
+                                    <span class="text-secondary">· {{ item.serving_kcal }} 千卡/份</span>
+                                </div>
+                                <div class="small text-secondary">
+                                    {{ item.photo.created|date:"m-d H:i" }} · 置信度 {{ item.photo.confidence|floatformat:0 }}%
+                                </div>
+                                {% if item.photo.log_item %}
+                                    <span class="badge text-bg-success mt-1">
+                                        <span class="{% fa_class 'check' %} me-1"></span>已记录
+                                    </span>
+                                {% elif item.food %}
+                                    <form method="post" action="{% url 'nutrition:food_ai:log' %}" class="mt-1">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="photo_id" value="{{ item.photo.pk }}">
+                                        <input type="hidden" name="food_key" value="{{ item.photo.label }}">
+                                        <input type="hidden" name="grams" value="{{ item.food.serving }}">
+                                        <button type="submit" class="btn btn-sm btn-outline-success py-0">
+                                            再记一份（{{ item.food.serving }}g）
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <p class="small text-secondary">
+        识别模型：ConvNeXt-Tiny · Food-101（Apache-2.0，juan1211/pratos-convnext-tiny-food101，
+        测试集 Top-1 87.3% / Top-5 97.8%）· 热量数据为每 100 克参考值（USDA/CIQUAL），
+        实际热量因做法与份量而异，建议以常用份量为基准微调。
+    </p>
+
+    <script src="{% static 'js/tiger-food-scan.js' %}" defer></script>
+{% endblock %}
+
+{% block sidebar %}
+    {# ---------- today summary ---------- #}
+    <div class="card mb-4">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'chart-pie' %}"></span>
+            <strong>今日摄入</strong>
+            <span class="ms-auto small text-secondary">{{ now|date:"m月d日" }}</span>
+        </div>
+        <div class="card-body">
+            <div class="d-flex align-items-baseline gap-2 mb-1">
+                <span class="fs-3 fw-bold {% if advice.status == 'over' %}text-danger{% else %}text-white{% endif %}">
+                    {{ consumed }}
+                </span>
+                <span class="text-secondary">/ {{ goal }} 千卡</span>
+            </div>
+            <div class="progress mb-2" style="height: 10px;" role="progressbar"
+                 aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar {% if advice.status == 'over' %}bg-danger{% elif advice.status == 'tight' %}bg-warning{% else %}bg-success{% endif %}"
+                     style="width: {{ percent }}%;"></div>
+            </div>
+            <div class="small text-secondary mb-3">
+                {% if remaining >= 0 %}
+                    今日还可摄入 <strong class="text-white">{{ remaining }}</strong> 千卡
+                {% else %}
+                    已超出目标 <strong class="text-danger">{{ remaining|cut:"-" }}</strong> 千卡
+                {% endif %}
+            </div>
+            <div class="row g-2 text-center small">
+                <div class="col-4">
+                    <div class="food-macro-box">
+                        <span class="d-block fw-bold text-white">{{ protein }}g</span>
+                        <span class="text-secondary">蛋白质</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="food-macro-box">
+                        <span class="d-block fw-bold text-white">{{ carbohydrates }}g</span>
+                        <span class="text-secondary">碳水</span>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="food-macro-box">
+                        <span class="d-block fw-bold text-white">{{ fat }}g</span>
+                        <span class="text-secondary">脂肪</span>
+                    </div>
+                </div>
+            </div>
+            {% if diary_url %}
+                <a href="{{ diary_url }}" class="btn btn-sm btn-outline-light w-100 mt-3">
+                    <span class="{% fa_class 'book-open' %} me-1"></span>查看完整饮食日记
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# ---------- next meal advice ---------- #}
+    <div class="card mb-4 food-advice-card">
+        <div class="card-header d-flex align-items-center gap-2">
+            <span class="{% fa_class 'lightbulb' %}"></span>
+            <strong>下一餐建议</strong>
+            {% if advice.slot_name %}
+                <span class="badge ms-auto
+                    {% if advice.status == 'over' %}text-bg-danger
+                    {% elif advice.status == 'tight' %}text-bg-warning
+                    {% else %}text-bg-success{% endif %}">
+                    {{ advice.slot_name }}
+                    {% if advice.status == 'over' %}· 超标{% elif advice.status == 'tight' %}· 余额紧张{% else %}· 正常{% endif %}
+                </span>
+            {% else %}
+                <span class="badge text-bg-secondary ms-auto">今日三餐已完成</span>
+            {% endif %}
+        </div>
+        <div class="card-body">
+            <p class="small mb-3">{{ advice.message }}</p>
+            {% if advice.meal_budget %}
+                <p class="small text-secondary mb-2">
+                    建议热量预算：<strong class="text-warning">{{ advice.meal_budget }}</strong> 千卡
+                </p>
+            {% endif %}
+            {% if advice.suggestions %}
+                <ul class="list-unstyled mb-2">
+                    {% for s in advice.suggestions %}
+                        <li class="food-suggestion d-flex align-items-start gap-2 mb-2">
+                            <span class="{% fa_class 'utensils' %} mt-1 text-secondary"></span>
+                            <span class="flex-grow-1">
+                                <span class="fw-bold">{{ s.zh }}</span>
+                                <span class="text-secondary">{{ s.grams }}g</span>
+                                <span class="badge text-bg-secondary ms-1">{{ s.kcal }} 千卡</span>
+                                <span class="d-block small text-secondary">{{ s.note }}</span>
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if advice.protein_hint %}
+                <div class="alert alert-info py-2 small mb-0">
+                    <span class="{% fa_class 'circle-info' %} me-1"></span>{{ advice.protein_hint }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body small text-secondary">
+            <span class="{% fa_class 'link' %} me-1"></span>
+            热量目标来自
+            {% if plan and plan.goal_energy %}
+                当前营养计划（{{ plan.goal_energy }} 千卡）。
+            {% else %}
+                个人资料中的每日热量设置（{{ goal }} 千卡），可在
+                <a href="{% url 'nutrition:calories:view' %}">每日热量计算器</a> 中调整。
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

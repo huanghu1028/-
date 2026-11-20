@@ -27,6 +27,7 @@ from django.urls import (
 from wger.core.views.react import ReactView
 from wger.nutrition.views import (
     calculator,
+    food_photo,
     ingredient,
     plan,
     unit_ingredient,
@@ -150,12 +151,33 @@ patterns_calories = [
     ),  # JS
 ]
 
+# sub patterns for the food photo scan (AI recognition + diary logging)
+patterns_food_ai = [
+    path(
+        '',
+        food_photo.scan,
+        name='scan',
+    ),
+    path(
+        'log/',
+        food_photo.log,
+        name='log',
+    ),
+]
+
 urlpatterns = [
     path(
         '',
         include(
             (patterns_plan, 'plan'),
             namespace='plan',
+        ),
+    ),
+    path(
+        'food-scan/',
+        include(
+            (patterns_food_ai, 'food_ai'),
+            namespace='food_ai',
         ),
     ),
     path(

@@ -78,11 +78,19 @@
 
             <li class="sidebar-heading">{% translate "Nutrition" %}</li>
             <li class="nav-item">
-                <a class="nav-link {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path %}active{% endif %}"
-                   {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path %}aria-current="page"{% endif %}
+                <a class="nav-link {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path and '/nutrition/food-scan/' not in request.path %}active{% endif %}"
+                   {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path and '/nutrition/food-scan/' not in request.path %}aria-current="page"{% endif %}
                    href="{% url 'nutrition:plan:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'utensils' %} me-2"></span>{% endif %}
                     {% translate "Nutrition plans" %}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if '/nutrition/food-scan/' in request.path %}active{% endif %}"
+                   {% if '/nutrition/food-scan/' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'nutrition:food_ai:scan' %}" rel="nofollow">
+                    {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'camera' %} me-2"></span>{% endif %}
+                    拍照识餐
                 </a>
             </li>
             <li class="nav-item">

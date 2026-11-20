@@ -679,3 +679,97 @@ hr {
     border-color: #555;
     color: #fff;
 }
+
+/* ---------- food photo scan (拍照识餐, logic in js/tiger-food-scan.js) ---------- */
+
+.food-dropzone {
+    position: relative;
+    border: 2px dashed #3a3a3a;
+    border-radius: 12px;
+    background-color: #141414;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.food-dropzone:hover,
+.food-dropzone.is-dragover {
+    border-color: #0d6efd;
+    background-color: #181c22;
+}
+
+.food-dropzone input[type="file"] {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.food-preview {
+    display: block;
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    background-color: #0c0c0c;
+}
+
+.food-result-photo {
+    width: 100%;
+    max-height: 240px;
+    object-fit: cover;
+    border: 1px solid #2e2e2e;
+}
+
+.food-candidate {
+    cursor: pointer;
+    background-color: #141414;
+    border-color: #2e2e2e;
+    color: #e6e6e6;
+}
+
+.food-candidate:hover {
+    background-color: #1a1a1a;
+    color: #fff;
+}
+
+.food-candidate.active {
+    background-color: #16233a;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+.food-prob {
+    min-width: 4.2em;
+}
+
+.food-macro-box {
+    background-color: #161616;
+    border: 1px solid #2e2e2e;
+    border-radius: 8px;
+    padding: 0.4rem 0.25rem;
+}
+
+.food-history-item {
+    background-color: #141414;
+    border: 1px solid #2e2e2e;
+    border-radius: 10px;
+    padding: 0.5rem;
+}
+
+.food-history-photo {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #2e2e2e;
+}
+
+.food-advice-card {
+    border-left: 3px solid #0d6efd;
+}
+
+.food-suggestion .badge {
+    font-weight: 500;
+}
