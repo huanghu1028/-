@@ -203,8 +203,9 @@
             </a>
         </div>
 
-        <!-- sign up section -->
-        {% if allow_registration %}
+        <!-- sign up section: only for visitors / temporary guests, never for
+             already-registered logged-in users -->
+        {% if allow_registration and not user.is_authenticated or allow_registration and user.userprofile.is_temporary %}
             <section class="main-section">
                 <div class="container d-flex align-items-center justify-content-center sign-up-bg"
                      data-aos="fade-up">
