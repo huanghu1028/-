@@ -36,7 +36,58 @@ from django.core.management.base import BaseCommand, CommandError
 from wger.exercises.models import Exercise, ExerciseImage, Translation
 
 # Dataset name -> local exercise name, for entries whose wording differs.
-ALIASES = {}
+# Curated synonyms: same movement, different name in the two databases.
+ALIASES = {
+    'Ab Crunch Machine': 'Crunches on Machine',
+    'Air Bike': 'bicycle crunches',
+    'Barbell Lunge': 'Barbell Lunges Standing',
+    'Battling Ropes': 'Battle Ropes',
+    'Bench Dips': 'Bench Dips On Floor HD',
+    'Bench Press - Powerlifting': 'Pause Bench',
+    'Bent-Knee Hip Raise': 'Hip Raise, Lying',
+    'Bodyweight Squat': 'Bodyweight Squat HD',
+    'Bodyweight Walking Lunge': 'Bodyweight lunge HD',
+    'Concentration Curls': 'Dumbbell Concentration Curl',
+    'Cross-Body Crunch': 'bicycle crunches',
+    'Crunch - Legs On Exercise Ball': 'Crunches With Legs Up',
+    'Crunches': 'Abdominal Crunch',
+    'Decline Crunch': 'Roman Chair Crunch',
+    'Dumbbell Bicep Curl': 'Dumbbell Curl',
+    'Dumbbell Lunges': 'Dumbbell Lunges Standing',
+    'Dumbbell Rear Lunge': 'Alternate back lunges',
+    'Dumbbell Seated One-Leg Calf Raise': 'Calf raises, one legged',
+    'Jackknife Sit-Up': 'V-Up',
+    'Kettlebell One-Legged Deadlift': 'Single Leg RDL',
+    'Kettlebell Turkish Get-Up (Squat style)': 'Turkish Get-Up',
+    'Machine Triceps Extension': 'Triceps on Machine',
+    'Natural Glute Ham Raise': 'Nordic Curl',
+    'One-Arm Kettlebell Swings': 'Kettlebell Swings',
+    'Palms-Down Wrist Curl Over A Bench': 'Barbell Reverse Wrist Curl',
+    'Palms-Up Barbell Wrist Curl Over A Bench': 'Barbell Wrist Curl',
+    'Pin Presses': 'Pin Bench Press BB',
+    'Plie Dumbbell Squat': 'Sumo Squats',
+    'Push-Up Wide': 'Wide Push-Up',
+    'Push-Ups - Close Triceps Position': 'Diamond push ups',
+    'Reverse Barbell Curl': 'Reverse Bar Curl',
+    'Reverse Cable Curl': 'Reverse EZ Bar Cable Curls',
+    'Romanian Deadlift': 'Barbell Romanian Deadlift (RDL)',
+    'Rope Jumping': 'Jump rope: basic jumps',
+    'Rowing, Stationary': 'Rowing Machine',
+    'Seated Calf Raise': 'Sitting Calf Raises',
+    'Side Bridge': 'Side Plank',
+    'Smith Machine Behind the Back Shrug': 'Shrugs on Multipress',
+    'Smith Machine Overhead Shoulder Press': 'Shoulder Press, on Multi Press',
+    'Smith Machine Squat': 'Squats on Multipress',
+    'Standing Biceps Cable Curl': 'Cable Curls',
+    'Standing Cable Wood Chop': 'Cable Woodchoppers',
+    'Standing Dumbbell Reverse Curl': 'Reverse Curl',
+    'Star Jump': 'Jumping Jack HD',
+    'Stiff-Legged Dumbbell Deadlift': 'Dumbbell Deadlift',
+    'Triceps Pushdown - V-Bar Attachment': 'Triceps Extensions on Cable With Bar',
+    'V-Bar Pullup': 'Pull-Ups (Neutral Grip)',
+    'Weighted Bench Dip': 'Chair dips',
+    'Wide-Grip Rear Pull-Up': 'Pull-Ups (Wide Grip)',
+}
 
 # Words that describe equipment, posture or execution details instead of the
 # movement itself. Two names match when their remaining "core" words agree
@@ -45,7 +96,7 @@ EQUIPMENT_WORDS = {
     'barbell', 'dumbbell', 'kettlebell', 'cable', 'machine', 'smith', 'band',
     'ez', 'bar', 'rope', 'trx', 'ring', 'ball', 'bosu', 'box', 'board',
     'fingerboard', 'hex', 'trap', 'v', 'handle', 'strap', 'belt', 'wheel',
-    'roller', 'sled', 'platform',
+    'roller', 'sled', 'platform', 'wall',
 }
 POSTURE_WORDS = {
     'seated', 'standing', 'lying', 'kneeling', 'incline', 'decline', 'flat',
@@ -236,6 +287,7 @@ class Command(BaseCommand):
                 self.stdout.write(
                     f'would import {len(files)} image(s) for {name} -> {en_names.get(exercise_id)}'
                 )
+                imported_images += len(files)
             else:
                 for i, src in enumerate(files):
                     image = ExerciseImage(
