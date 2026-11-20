@@ -1,5 +1,9 @@
 {% load static i18n wger_extras %}
 {# Left sidebar: all features visible at a glance (desktop fixed, mobile drawer) #}
+{# Current-page highlight: exact match or section prefix on request.path #}
+{% url 'core:index' as nav_url_index %}
+{% url 'core:dashboard' as nav_url_dashboard %}
+{% url 'core:user:list' as nav_url_user_list %}
 <aside class="app-sidebar offcanvas-md offcanvas-start" tabindex="-1" id="appSidebar"
        aria-label="{% translate 'Main navigation' %}">
     <div class="offcanvas-header d-md-none">
@@ -21,7 +25,8 @@
 
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link {% if active_tab == 'dashboard' %}active{% endif %}"
+                <a class="nav-link {% if request.path == nav_url_index or request.path == nav_url_dashboard %}active{% endif %}"
+                   {% if request.path == nav_url_index or request.path == nav_url_dashboard %}aria-current="page"{% endif %}
                    href="{% url 'core:index' %}">
                     <span class="{% fa_class 'house' %} me-2"></span>{% translate "Dashboard" %}
                 </a>
@@ -29,7 +34,8 @@
 
             <li class="sidebar-heading">{% translate "Training" %}</li>
             <li class="nav-item">
-                <a class="nav-link {% if active_tab == 'workout' %}active{% endif %}"
+                <a class="nav-link {% if '/routine/' in request.path and '/routine/templates/' not in request.path and '/routine/calendar' not in request.path %}active{% endif %}"
+                   {% if '/routine/' in request.path and '/routine/templates/' not in request.path and '/routine/calendar' not in request.path %}aria-current="page"{% endif %}
                    href="{% url 'manager:routine:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'dumbbell' %} me-2"></span>{% endif %}
                     {% translate "Routines" %}
@@ -37,19 +43,25 @@
             </li>
             {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'manager:routine:calendar' %}" rel="nofollow">
+                    <a class="nav-link {% if '/routine/calendar' in request.path %}active{% endif %}"
+                       {% if '/routine/calendar' in request.path %}aria-current="page"{% endif %}
+                       href="{% url 'manager:routine:calendar' %}" rel="nofollow">
                         <span class="{% fa_class 'calendar-days' %} me-2"></span>{% translate "Calendar" %}
                     </a>
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manager:template:overview' %}" rel="nofollow">
+                <a class="nav-link {% if '/routine/templates/' in request.path and '/routine/templates/overview/public' not in request.path %}active{% endif %}"
+                   {% if '/routine/templates/' in request.path and '/routine/templates/overview/public' not in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'manager:template:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'copy' %} me-2"></span>{% endif %}
                     {% translate "Your templates" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manager:template:public' %}" rel="nofollow">
+                <a class="nav-link {% if '/routine/templates/overview/public' in request.path %}active{% endif %}"
+                   {% if '/routine/templates/overview/public' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'manager:template:public' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'globe' %} me-2"></span>{% endif %}
                     {% translate "Public templates" %}
                 </a>
@@ -57,53 +69,67 @@
 
             <li class="sidebar-heading">{% translate "Exercises" %}</li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'exercise:exercise:overview' %}">
+                <a class="nav-link {% if '/exercise/' in request.path and '/exercise/history/' not in request.path %}active{% endif %}"
+                   {% if '/exercise/' in request.path and '/exercise/history/' not in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'exercise:exercise:overview' %}">
                     <span class="{% fa_class 'list' %} me-2"></span>{% translate "Exercises" %}
                 </a>
             </li>
 
             <li class="sidebar-heading">{% translate "Nutrition" %}</li>
             <li class="nav-item">
-                <a class="nav-link {% if active_tab == 'nutrition' %}active{% endif %}"
+                <a class="nav-link {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path %}active{% endif %}"
+                   {% if '/nutrition/' in request.path and '/nutrition/ingredient/' not in request.path and '/nutrition/calculator/' not in request.path and '/nutrition/unit-to-ingredient/' not in request.path %}aria-current="page"{% endif %}
                    href="{% url 'nutrition:plan:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'utensils' %} me-2"></span>{% endif %}
                     {% translate "Nutrition plans" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'nutrition:bmi:view' %}" rel="nofollow">
+                <a class="nav-link {% if '/nutrition/calculator/bmi' in request.path %}active{% endif %}"
+                   {% if '/nutrition/calculator/bmi' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'nutrition:bmi:view' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'calculator' %} me-2"></span>{% endif %}
                     {% translate "BMI calculator" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'nutrition:calories:view' %}" rel="nofollow">
+                <a class="nav-link {% if '/nutrition/calculator/calories' in request.path %}active{% endif %}"
+                   {% if '/nutrition/calculator/calories' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'nutrition:calories:view' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'fire' %} me-2"></span>{% endif %}
                     {% translate "Daily calories calculator" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'nutrition:ingredient:list' %}">
+                <a class="nav-link {% if '/nutrition/ingredient/' in request.path %}active{% endif %}"
+                   {% if '/nutrition/ingredient/' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'nutrition:ingredient:list' %}">
                     <span class="{% fa_class 'carrot' %} me-2"></span>{% translate "Ingredient overview" %}
                 </a>
             </li>
 
             <li class="sidebar-heading">{% translate "Body weight" %}</li>
             <li class="nav-item">
-                <a class="nav-link {% if active_tab == 'weight' %}active{% endif %}"
+                <a class="nav-link {% if '/weight/' in request.path %}active{% endif %}"
+                   {% if '/weight/' in request.path %}aria-current="page"{% endif %}
                    href="{% url 'weight:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'weight-scale' %} me-2"></span>{% endif %}
                     {% translate "Weight overview" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'measurements:overview' %}" rel="nofollow">
+                <a class="nav-link {% if '/measurement/' in request.path %}active{% endif %}"
+                   {% if '/measurement/' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'measurements:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'ruler' %} me-2"></span>{% endif %}
                     {% translate "Measurements" %}
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'gallery:images:overview' %}" rel="nofollow">
+                <a class="nav-link {% if '/gallery/' in request.path %}active{% endif %}"
+                   {% if '/gallery/' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'gallery:images:overview' %}" rel="nofollow">
                     {% if not user.is_authenticated %}<span class="{% fa_class 'lock' %} me-2"></span>{% else %}<span class="{% fa_class 'images' %} me-2"></span>{% endif %}
                     {% translate "Gallery" %}
                 </a>
@@ -113,19 +139,25 @@
                 <li class="sidebar-heading">{% translate "Administration" %}</li>
                 {% if perms.gym.manage_gyms %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'core:user:list' %}">
+                        <a class="nav-link {% if request.path == nav_url_user_list %}active{% endif %}"
+                           {% if request.path == nav_url_user_list %}aria-current="page"{% endif %}
+                           href="{% url 'core:user:list' %}">
                             <span class="{% fa_class 'users' %} me-2"></span>{% translate "User list" %}
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'gym:gym:list' %}">
+                        <a class="nav-link {% if '/gym/' in request.path %}active{% endif %}"
+                           {% if '/gym/' in request.path %}aria-current="page"{% endif %}
+                           href="{% url 'gym:gym:list' %}">
                             <span class="{% fa_class 'building' %} me-2"></span>{% translate "Gyms" %}
                         </a>
                     </li>
                 {% endif %}
                 {% if perms.exercises.change_exercise %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'exercise:history:overview' %}">
+                        <a class="nav-link {% if '/exercise/history/' in request.path %}active{% endif %}"
+                           {% if '/exercise/history/' in request.path %}aria-current="page"{% endif %}
+                           href="{% url 'exercise:history:overview' %}">
                             <span class="{% fa_class 'clock-rotate-left' %} me-2"></span>{% translate "Exercise edit history" %}
                         </a>
                     </li>
@@ -147,7 +179,9 @@
                 <div class="text-white fw-bold mb-2">
                     <span class="{% fa_class 'user' %} me-2"></span>{{ user|format_username }}
                 </div>
-                <a class="nav-link px-0" href="{% url 'core:user:preferences' %}">
+                <a class="nav-link px-0 {% if '/user/preferences' in request.path %}active{% endif %}"
+                   {% if '/user/preferences' in request.path %}aria-current="page"{% endif %}
+                   href="{% url 'core:user:preferences' %}">
                     <span class="{% fa_class 'gear' %} me-2"></span>{% translate "My preferences" %}
                 </a>
                 {% if not trainer_identity %}
