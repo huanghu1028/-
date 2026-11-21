@@ -1,14 +1,35 @@
 // 应用外壳：桌面左侧分组导航 + 移动端底部横滑标签栏；老虎品牌 + 深色主题。
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+// 功能页已按路由拆包，这里负责两件事：chunk 到达前显示骨架（外壳不闪），
+// 以及鼠标悬停/键盘聚焦导航项时预热对应页面，点击时基本瞬时打开。
+import { useEffect, Suspense, type FocusEvent, type PointerEvent } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Dumbbell, LayoutDashboard, CalendarCheck, CalendarDays, ClipboardList, LayoutTemplate, Scale, Ruler, Images, UtensilsCrossed, Salad, Apple, Calculator, Bot, Settings2, LogOut, LogIn, UserPlus,
 } from "lucide-react";
 import { useAuth } from "@/src/lib/auth";
+import { prefetchRoute } from "@/src/lib/pages";
 import { Button } from "@/components/ui/button";
 import Background from "@/src/components/Background";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { errText } from "@/src/lib/api";
+
+const WARM = {
+  onPointerEnter: (e: React.PointerEvent<HTMLElement>) => prefetchRoute(e.currentTarget.getAttribute("href") || ""),
+  onFocus: (e: React.FocusEvent<HTMLElement>) => prefetchRoute(e.currentTarget.getAttribute("href") || ""),
+};
+
+// 切页骨架：与页面节奏一致，避免内容跳变（CLS）。
+function PageSkeleton() {
+  return (
+    <div className="space-y-4 py-4" aria-busy="true" aria-live="polite">
+      <div className="h-7 w-40 animate-pulse rounded-lg bg-card" />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {[0, 1, 2, 3, 4, 5].map((i) => <div key={i} className="h-28 animate-pulse rounded-xl bg-card" />)}
+      </div>
+    </div>
+  );
+}
 
 const NAV_GROUPS = [
   {
@@ -59,6 +80,12 @@ function Brand() {
 export default function Layout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // 登录/注册后是程序化跳转，没有悬停可以预热：一进这两个页面就先把总览 chunk 拉好。
+  useEffect(() => {
+    if (pathname === "/login" || pathname === "/register") prefetchRoute("/dashboard");
+  }, [pathname]);
 
   const onLogout = async () => {
     try {
@@ -86,6 +113,7 @@ export default function Layout() {
                     key={to}
                     to={to}
                     end={end}
+                    {...WARM}
                     className={({ isActive }) => cn(
                       "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
                       isActive ? "tiger-nav-active bg-primary/15 text-primary" : "text-muted-foreground hover:bg-accent hover:text-foreground",
@@ -137,7 +165,9 @@ export default function Layout() {
       {/* 主内容 */}
       <main className="px-4 pb-24 pt-5 md:ml-60 md:px-8 md:pb-10 md:pt-7">
         <div className="mx-auto w-full max-w-6xl tiger-rise">
-          <Outlet />
+          <Suspense fallback={<PageSkeleton />}>
+            <Outlet />
+          </Suspense>
         </div>
       </main>
 
@@ -148,6 +178,7 @@ export default function Layout() {
             key={to}
             to={to}
             end={end}
+            {...WARM}
             className={({ isActive }) => cn(
               "flex shrink-0 flex-col items-center gap-0.5 px-3.5 py-2 text-[10px]",
               isActive ? "text-primary" : "text-muted-foreground",

@@ -1,9 +1,16 @@
 // 全局深空背景：星云(Granim) + 火星(particles.js) + 星空(NightSky) 三层 canvas，
 // 极光带与老虎水印由 globals.css 提供。另含「回到顶部」按钮。
 // 移植自原站 tiger-fx.js / tiger-ui.js，遵循 prefers-reduced-motion 与降分辨率性能策略。
-import { createElement, useEffect, useState } from "react";
+// 性能：滚动中与标签页隐藏时暂停三层动画（canvas 保留最后一帧，视觉无跳变），停手后立即恢复。
+import { createElement, useEffect, useRef, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { loadScript, prefersReducedMotion } from "@/src/lib/loadScript";
+
+type GranimLike = { pause?: () => void; play?: () => void };
+type PjsLike = {
+  particles: { move: { enable: boolean } };
+  fn: { particlesDraw?: () => void; vendors?: { checkBeforeDraw?: () => void } };
+};
 
 const EMBERS_CONFIG = {
   particles: {
@@ -23,14 +30,45 @@ const EMBERS_CONFIG = {
   retina_detect: false,
 };
 
+/** 取回当前所有 particles.js 实例（2.0.0 直接存实例；老版本存 {pJS} 包装，两种都兼容）。 */
+function pjsInstances(): PjsLike[] {
+  const doms = (window as unknown as { pJSDom?: unknown[] }).pJSDom;
+  if (!Array.isArray(doms)) return [];
+  return doms.map((d) => ((d as { pJS?: PjsLike })?.pJS ?? (d as PjsLike))).filter(Boolean);
+}
+
 export default function Background() {
   const reduce = prefersReducedMotion();
   const [showTop, setShowTop] = useState(false);
+  // 动画控制器：脚本加载完成后写入，供滚动/可见性监听调用。
+  const ctl = useRef<{ pause: () => void; resume: () => void } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
-    let granim: { pause?: () => void } | null = null;
+    let granim: GranimLike | null = null;
     let removeResize: (() => void) | undefined;
+
+    ctl.current = {
+      pause: () => {
+        try { granim?.pause?.(); } catch { /* ignore */ }
+        for (const p of pjsInstances()) {
+          try {
+            p.particles.move.enable = false;
+            p.fn.particlesDraw?.(); // 画最后一帧；move.enable=false 时库内部会自行取消 rAF
+          } catch { /* ignore */ }
+        }
+      },
+      resume: () => {
+        try { granim?.play?.(); } catch { /* ignore */ }
+        for (const p of pjsInstances()) {
+          try {
+            if (p.particles.move.enable) continue;
+            p.particles.move.enable = true;
+            p.fn.vendors?.checkBeforeDraw?.();
+          } catch { /* ignore */ }
+        }
+      },
+    };
 
     (async () => {
       // 星空 web component：始终加载（减弱动效时速度为 0，呈静态星空）
@@ -42,7 +80,7 @@ export default function Background() {
       } catch { return; }
       if (cancelled) return;
 
-      const w = window as unknown as { Granim?: new (o: unknown) => { pause?: () => void }; particlesJS?: (id: string, c: unknown) => void };
+      const w = window as unknown as { Granim?: new (o: unknown) => GranimLike; particlesJS?: (id: string, c: unknown) => void };
       const nebula = document.getElementById("tigerNebula") as HTMLCanvasElement | null;
       if (nebula && w.Granim) {
         granim = new w.Granim({
@@ -69,6 +107,35 @@ export default function Background() {
       cancelled = true;
       removeResize?.();
       try { granim?.pause?.(); } catch { /* ignore */ }
+      ctl.current = null;
+    };
+  }, [reduce]);
+
+  // 滚动 / 标签页隐藏时暂停背景动画，停手 260ms 后恢复。
+  useEffect(() => {
+    if (reduce) return;
+    let paused = false;
+    let timer = 0;
+    const setPaused = (v: boolean) => {
+      if (v === paused) return;
+      paused = v;
+      if (v) ctl.current?.pause();
+      else ctl.current?.resume();
+    };
+    const onScroll = () => {
+      setPaused(true);
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => setPaused(false), 260);
+    };
+    const onVisibility = () => setPaused(document.visibilityState !== "visible");
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("visibilitychange", onVisibility);
+    onVisibility();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.clearTimeout(timer);
+      setPaused(false);
     };
   }, [reduce]);
 
@@ -90,7 +157,8 @@ export default function Background() {
       {createElement("night-sky", {
         id: "tigerNightSky",
         layers: "3",
-        density: "30",
+        // 星星是用超大 box-shadow 画的，数量直接决定光栅化成本：30 → 18 观感几乎不变、开销减半。
+        density: "18",
         "velocity-x": reduce ? "0" : "45",
         "velocity-y": reduce ? "0" : "30",
         "star-shape": "circle",

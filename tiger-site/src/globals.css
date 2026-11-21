@@ -352,11 +352,38 @@ html::after {
 /* 侧边栏当前项橙色内嵌条 */
 .tiger-nav-active { box-shadow: inset 3px 0 0 var(--site-accent); }
 
-/* 打字机行 / 视差 */
+/* 打字机行 */
 .tiger-typed-line { color: var(--site-accent); min-height: 1.6em; letter-spacing: 0.04em; }
 .tiger-typed-line .Typewriter__cursor { color: var(--site-accent); font-weight: 400; }
 [data-tilt] { transform-style: preserve-3d; will-change: transform; }
-[data-rellax-speed] { will-change: transform; }
+
+/* ===== AOS 滚动揭示：只保留本站用到的两个动画 =====
+   原先整份 aos.css 有 26KB，而且挂在 index.html 上是阻塞渲染的外部请求，
+   落地页首屏要等它下载完才画第一笔。这里用等价的最小规则替代：
+   AOS 的 JS 只负责加 .aos-animate，隐藏初态和过渡由本文件提供（随主 CSS 一次到达）。
+   disable（减弱动效）时 AOS 会摘掉 data-aos 属性，因此不会留下不可见内容。 */
+[data-aos="fade-up"] {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  transition-property: opacity, transform;
+}
+[data-aos="zoom-in"] {
+  opacity: 0;
+  transform: scale3d(0.92, 0.92, 1);
+  transition-property: opacity, transform;
+}
+[data-aos].aos-animate { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  [data-aos] {
+    transition-duration: 500ms;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1); /* AOS ease-out-cubic */
+  }
+  [data-aos][data-aos-delay="100"] { transition-delay: 100ms; }
+  [data-aos][data-aos-delay="200"] { transition-delay: 200ms; }
+  [data-aos][data-aos-delay="300"] { transition-delay: 300ms; }
+}
+/* 脚本没到位（离线/加载失败）时也不能让内容永远藏着 */
+html[data-aos-fallback] [data-aos] { opacity: 1 !important; transform: none !important; }
 
 /* 回到顶部按钮（逻辑见 Background 组件） */
 .tiger-back-top {

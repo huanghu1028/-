@@ -1,5 +1,5 @@
 // 公开落地页：品牌宣传 + 功能特色 + 常见问题，无需登录。
-// 视觉特效（AOS / countUp / vanilla-tilt / typewriter / rellax / Waves）由 useTigerEffects 驱动，
+// 视觉特效（AOS / countUp / vanilla-tilt / typewriter / Waves）由 useTigerEffects 驱动，
 // 样式全部复用 globals.css 中的 tiger-* 助手类，不新增全局 CSS。
 import { Link } from "react-router-dom";
 import {
@@ -107,10 +107,9 @@ export default function Landing() {
       <main>
         {/* Hero */}
         <section className="tiger-hero-wrap relative overflow-hidden px-4 pb-16 pt-14 sm:pt-20" aria-labelledby="hero-title">
-          {/* 装饰光斑（视差） */}
+          {/* 装饰光斑 */}
           <div
             aria-hidden="true"
-            data-rellax-speed="2"
             className="pointer-events-none absolute -right-24 top-10 size-72 rounded-full opacity-40 blur-3xl"
             style={{ background: "radial-gradient(closest-side, rgba(255,159,67,0.5), transparent 70%)" }}
           />
@@ -142,13 +141,23 @@ export default function Landing() {
               </div>
               <p className="mt-3 text-xs text-muted-foreground">已有账号？登录后即可同步全部训练记录。</p>
             </div>
-            <div className="tiger-hero-wrap mx-auto w-full max-w-sm lg:max-w-md" data-rellax-speed="-1.5">
-              <img
-                src="/img/brand/tiger-hero.png"
-                alt="tiger-减脂 卡通老虎健身形象"
-                data-tilt
-                className="w-full rounded-2xl"
-              />
+            <div className="tiger-hero-wrap mx-auto w-full max-w-sm lg:max-w-md">
+              {/* 首屏最大的一张图：原 PNG 有 577KB，是落地页最慢的资源。
+                  这里出 900px WebP（41KB，显示尺寸本来就是 ~448px，2x 屏也够清晰），
+                  老浏览器回落 PNG；宽高写死，避免图片到位时把 hero 文案顶下去（CLS）。 */}
+              <picture>
+                <source srcSet="/img/brand/tiger-hero-900.webp" type="image/webp" />
+                <img
+                  src="/img/brand/tiger-hero.png"
+                  alt="tiger-减脂 卡通老虎健身形象"
+                  width={900}
+                  height={900}
+                  decoding="async"
+                  fetchPriority="high"
+                  data-tilt
+                  className="w-full rounded-2xl"
+                />
+              </picture>
             </div>
           </div>
         </section>
@@ -260,7 +269,7 @@ export default function Landing() {
             <p>
               老虎图形来自 Twemoji（Twitter），依 CC BY 4.0 许可使用。动作图片来自 wger 贡献者（CC BY-SA）与
               free-exercise-db（公共领域）。肌肉示意图来自 Wikimedia Commons 贡献者。
-              动效与交互：AOS · countUp.js · vanilla-tilt.js · Typewriter · Rellax · Waves（MIT）。
+              动效与交互：AOS · countUp.js · vanilla-tilt.js · Typewriter · Waves（MIT）。
             </p>
             <p className="mt-2">© {new Date().getFullYear()} tiger-减脂 · 基于开源项目 wger 定制 · 网页版</p>
           </div>
